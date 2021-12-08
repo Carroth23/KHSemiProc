@@ -12,6 +12,7 @@
     .container{
       height:100%;
       width:70%;
+      margin-bottom: 10px;
     }
 
     img {
@@ -20,127 +21,125 @@
     }
 
     /* 헤더부분 시작 */
-    #header {
-      margin-bottom: 10px;
-      height:100px;
-    }
-
-    /* 헤더 로고 */
-    .top_logo {
-      width: 6rem;
-      height: 6rem;
-      margin-top:10px;
-    }
-
-    /* 검색박스 */
-    .searchInput {
-      margin-top: 30px;
-      padding-left: 40px;
-      width:75%;
-      height: 50%;
-      border: 1px solid #0054FF;
-      background-color: #f8f8f8;
-      border-radius: 5px;
-      font-size: 12px;
-      max-height: 60px;
-      background-image: url(/image/search.png);
-      background-position: 5px center;
-      background-repeat: no-repeat;
-    }
-
-    .searchInput:focus {
-      background-color: white;
-      place-content: none;
-    }
+    /* header */
 
 
-    /* 햄버거메뉴 */
-    .navar-up {
+  .header{
+    margin-bottom:30px;
+    margin-top:20px;
+  }
+  #logo {
+      width: 100px;
+      height: 60px;
+  }
+
+  #sidebtn {
+      height: 50px;
+  }
+
+
+  .navar-up {
       margin-top: 30px;
       right: 5%;
-    }
+  }
 
-    #offcanvasNavbarLabel{
+  #offcanvasNavbarLabel {
       font-size: 34px;
-    }
+  }
 
-    .signBox{
-      height:200px;
+  .signBox {
+      height: 200px;
       text-align: center;
-    }
-    .signBox div a{
-      color:gray;
-      width:50%;
-      height:100%;
+  }
+
+  .signBox div a {
+      color: gray;
+      width: 50%;
+      height: 100%;
       text-decoration: none;
-    }
-    
-    /* 로그인 */
-    .signInput input{
-      margin-top:12px;
-      width:90%;
-      height:40px;
+  }
+.top-search{
+  width:40px;
+  height:40px;
+  border-radius: 10px;
+  background-color: #c6e2ff;
+  border:none;
+  transition:all 0.3s;
+}
+.top-search:hover{
+  border:1px solid #c6e2ff;
+}
+
+  /* 로그인 */
+  .signInput input {
+      margin-top: 12px;
+      width: 90%;
+      height: 40px;
       border-radius: 5px;
-      border:2px solid #b6fcd5;
-      padding-left:10px;
+      border: 2px solid #b6fcd5;
+      padding-left: 10px;
       box-shadow: 2px 2px 1px 1px #e0e0e0;
-    }
-    .signBtns{
-      width:120px;
-      height:40px;
-      margin-top:15px;
-      border:none;
-      font-weight:bold;
+  }
+
+  .signBtns {
+      width: 120px;
+      height: 40px;
+      margin-top: 15px;
+      border: none;
+      font-weight: bold;
       border-radius: 5px;
-      background-color:#b6fcd5;
+      background-color: #b6fcd5;
       box-shadow: 1px 2px 3px 1px #e0e0e0;
       transition: all 0.5s;
-    }
+  }
 
-    .signBtns:hover{
-      border:1px solid #b6fcd5;
+  .signBtns:hover {
+      border: 1px solid #b6fcd5;
       box-shadow: none;
-    }
+  }
 
-    /* 로그인 밑 이벤트배너 */
-    .sideBanner{
+  /* 로그인 밑 이벤트배너 */
+  .sideBanner {
       font-weight: bold;
-      width:100%;
-      height:50px;
-      font-size:18px;
+      width: 100%;
+      height: 50px;
+      font-size: 18px;
       background-color: #c6e2ff;
       border-radius: 5px;
-      color:#323232;
-      border:none;
+      color: #323232;
+      border: none;
       transition: all 1s;
       box-shadow: 1px 2px 3px 1px #e0e0e0;
       text-shadow: 1px 1px 3px white;
       text-align: left;
       padding-left: 10px;
       margin-bottom: 7px;
-    }
-    .sideBanner:hover{
+  }
+
+  .sideBanner:hover {
       opacity: 0.8;
-    }
+  }
 
 
-    /* 로그인 후 바뀔 css */
-    #loginAcc{
-      width:100%;
-      height:200px;
-    }
-    .loginAcc{
-      margin:auto;
-      width:150px;
-      height:150px;
-      background-image: url(/image/face.jpg);
+  /* 로그인 후 바뀔 css */
+  #loginAcc {
+      width: 100%;
+      height: 200px;
+  }
+
+  .loginAcc {
+      margin: auto;
+      width: 150px;
+      height: 150px;
+      background-image: url(/semi-img/face.jpg);
       background-size: cover;
       border-radius: 50%;
-    }
-    .loginMent{
+  }
+
+  .loginMent {
       text-align: center;
-      margin-top:10px;
-    }
+      margin-top: 10px;
+  }
     
 
     /* 콘텐츠 시작 */
@@ -151,6 +150,7 @@
       position: relative;
       transition: all 0.5s;
       padding:0;
+
       margin-bottom: 1px;
       background-size: 100% 100%;
     }
@@ -161,6 +161,7 @@
     .contentAll:hover .conBack{
       opacity: 0;
     }
+    
     .conBack{
       width:100%;
       height:100%;
@@ -170,19 +171,19 @@
     }
 
     #content1{
-      background-image: url(/image/index_hotel1.jpg);
+      background-image: url(/semi-img/index_hotel1.jpg);
     }
 
     #content2{
-      background-image: url(/image/index_partyroom1.jpg);
+      background-image: url(/semi-img/index_partyroom1.jpg);
     }
 
     #content3{
-      background-image: url(/image/index_studyroom1.jpg);
+      background-image: url(/semi-img/index_studyroom1.jpg);
     }
 
     #content4{
-      background-image: url(/image/index_studio1.jpg);
+      background-image: url(/semi-img/index_studio1.jpg);
     }
 
 
@@ -245,9 +246,9 @@
     .fot_logo {
       margin: 20px;
       margin-left: 50px;
-      width: 70px;
-      height: 70px;
-      background-image: url(/image/logo.png);
+      width: 140px;
+      height: 84px;
+      background-image: url(/semi-img/logos.png);
       display: block;
       background-size: cover;
       top: 50px;
@@ -282,7 +283,7 @@
     .nblog {
       width: 30px;
       height: 30px;
-      background-image: url(/image/nblog.png);
+      background-image: url(/semi-img/nblog.png);
       background-size: cover;
       display: block;
     }
@@ -290,7 +291,7 @@
     .twitter {
       width: 30px;
       height: 30px;
-      background-image: url(/image/twitter.png);
+      background-image: url(/semi-img/twitter.png);
       background-size: cover;
       display: block;
     }
@@ -298,7 +299,7 @@
     .instargram {
       width: 30px;
       height: 30px;
-      background-image: url(/image/instargram.png);
+      background-image: url(/semi-img/instargram.png);
       background-size: cover;
       display: block;
     }
@@ -306,7 +307,7 @@
     .facebook {
       width: 30px;
       height: 30px;
-      background-image: url(/image/facebook.png);
+      background-image: url(/semi-img/facebook.png);
       background-size: cover;
       display: block;
     }
@@ -327,3 +328,13 @@
     .foot_caution {
       font-size: 9px;
     }
+
+    @media screen and (max-width: 800px) { /* 모바일 전용 */
+      body {
+          
+      }
+      .form-control{
+        width:150px;
+        margin-left:30px;
+      }
+  }

@@ -242,12 +242,13 @@
     }
 
     #footerIn {
-
+      margin: auto;
     }
 
     /* 푸터 placeholder 로고 */
     .fot_logo {
       margin: 20px;
+      margin-left: 50px;
       width: 140px;
       height: 84px;
       background-image: url(/semi-img/logos.png);

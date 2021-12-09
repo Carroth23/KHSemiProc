@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,14 +28,14 @@
   <!-- 슬라이드CDN -->
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
   <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-  <link rel="stylesheet" href="/css/detailIn.css">
+  <link rel="stylesheet" href="/semi-css/detailIn.css">
 </head>
 
 <body>
   <div class="container">
     <div class="row header">
       <div class="col-3 align-self-center">
-        <a href=""><img src="/semi-img/logos.png" id="logo"></a>
+        <a href="index.jsp"><img src="/semi-img/logos.png" id="logo"></a>
       </div>
       <div class="col-8 align-self-center" id="head2">
         <form class="d-flex">
@@ -132,7 +135,7 @@
     <!-- 호텔설명칸 -->
     <div class="row">
       <div class="col-6 mainPhoto">
-        <img src="/semi-img/hotel2.jpg">
+        <img src="/semi-img/hotel-list2.jpg">
       </div>
       <div class="col-6 mainInfo">
         <div class="row">
@@ -269,11 +272,6 @@
     </div>
 
 
-
-
-
-
-
     <!-- 푸터 -->
     <div class="container-fluid footBack">
       <div class="container">
@@ -282,7 +280,7 @@
             <div class="row">
               <div class="col-3 footer-left">
 
-                <a href="index.html" class="fot_logo"></a>
+                <a href="index.jsp" class="fot_logo"></a>
 
               </div>
               <div class="col-3 footer-center">
@@ -290,7 +288,7 @@
               </div>
               <div class="col-6 footer-right">
                 <ul class="foot-ul-blog">
-                  <li><a href="">블로그</a></li>
+                  <li><a href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0" target='_blank'>블로그</a></li>
                   <li><a href="">이용약관</a></li>
                   <li><a href="">개인정보처리방침</a></li>
                   <li><a href="">운영 정책</a></li>
@@ -303,7 +301,7 @@
 
               <div class="col-4">
                 <ul class="foot-sangho">
-                  <li>상호명 : <a href="index.html" class="foot-sangho-a">PlaceHolder</a></li>
+                  <li>상호명 : <a href="index.jsp" class="foot-sangho-a">PlaceHolder</a></li>
                   <li>공동대표 : 기억해조</li>
                   <li>사업자등록번호 : 230-00-12345</li>
                   <li>동신판매업신고번호 : 2021-서울종로-05000</li>
@@ -322,10 +320,10 @@
               <div class="col-3">
                 <ul class="foot-logos">
 
-                  <li><a href="" class="nblog"></a></li>
-                  <li><a href="" class="twitter"></a></li>
-                  <li><a href="" class="instargram"></a></li>
-                  <li><a href="" class="facebook"></a></li>
+                  <li><a href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0" target='_blank' class="nblog"></a></li>
+                  <li><a href="https://twitter.com/" target='_blank' class="twitter"></a></li>
+                  <li><a href="https://www.instagram.com/" target='_blank' class="instargram"></a></li>
+                  <li><a href="https://www.facebook.com/" target='_blank' class="facebook"></a></li>
 
                 </ul>
               </div>

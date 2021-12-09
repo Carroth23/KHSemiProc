@@ -17,7 +17,7 @@ public class UserController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//기본세팅
-		request.setCharacterEncoding("urf8");
+		request.setCharacterEncoding("utf8");
 		String requestURI = request.getRequestURI();
 		String ctxPath = request.getContextPath();
 		String cmd = requestURI.substring(ctxPath.length());
@@ -40,6 +40,7 @@ public class UserController extends HttpServlet {
 
 				//회원가입
 			}else if(cmd.equals("/signup.user")) {
+				System.out.println("회원가입 버튼 감지");
 				String userId = request.getParameter("id");
 				String userName = request.getParameter("name");
 				String userPw = request.getParameter("pw");
@@ -62,8 +63,11 @@ public class UserController extends HttpServlet {
 
 				//로그인
 			}else if(cmd.equals("/login.user")) {
+				System.out.println("로그인 버튼 감지");
 				String User_id = request.getParameter("id");
 				String User_pw = request.getParameter("pw");
+				System.out.println(User_id);
+				System.out.println(User_pw);
 				boolean result = dao.login(User_id, User_pw);
 				if(result) {
 					HttpSession session = request.getSession();

@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="/css/detailOut.css">
+  <link rel="stylesheet" href="/semi-css/detailOut.css">
 </head>
 
 <body>
@@ -34,7 +37,7 @@
 
         <div class="row header">
           <div class="col-3 align-self-center">
-            <a href=""><img src="/semi-img/logos.png" id="logo"></a>
+            <a href="index.jsp"><img src="/semi-img/logos.png" id="logo"></a>
           </div>
           <div class="col-8 align-self-center" id="head2">
             <form class="d-flex">
@@ -151,7 +154,7 @@
         <div class="row detailBox">
           <div class="col-3">
             <div class="hotelDetailPhoto">
-              <img src="/semi-img/hotel2.jpg">
+              <img src="/semi-img/hotel-list2.jpg">
             </div>
           </div>
           <div class="col-9">
@@ -207,7 +210,7 @@
         <div class="row detailBox">
           <div class="col-3">
             <div class="hotelDetailPhoto">
-              <img src="/semi-img/hotel3.jpg">
+              <img src="/semi-img/hotel-list3.jpg">
             </div>
           </div>
           <div class="col-9">
@@ -261,7 +264,7 @@
         <div class="row detailBox">
           <div class="col-3">
             <div class="hotelDetailPhoto">
-              <img src="/semi-img/hotel4.jpg">
+              <img src="/semi-img/hotel-list4.jpg">
             </div>
           </div>
           <div class="col-9">
@@ -312,7 +315,7 @@
         <div class="row detailBox">
           <div class="col-3">
             <div class="hotelDetailPhoto">
-              <img src="/semi-img/hotel1.jpg">
+              <img src="/semi-img/hotel-list1.jpg">
             </div>
           </div>
           <div class="col-9">
@@ -361,7 +364,7 @@
         <div class="row detailBox">
           <div class="col-3">
             <div class="hotelDetailPhoto">
-              <img src="/semi-img/hotel5.jpg">
+              <img src="/semi-img/hotel-list5.jpg">
             </div>
           </div>
           <div class="col-9">
@@ -417,7 +420,7 @@
               <div class="row">
                 <div class="col-3 footer-left">
 
-                  <a href="index.html" class="fot_logo"></a>
+                  <a href="index.jsp" class="fot_logo"></a>
 
                 </div>
                 <div class="col-3 footer-center">
@@ -425,7 +428,7 @@
                 </div>
                 <div class="col-6 footer-right">
                   <ul class="foot-ul-blog">
-                    <li><a href="">블로그</a></li>
+                    <li><a href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0">블로그</a></li>
                     <li><a href="">이용약관</a></li>
                     <li><a href="">개인정보처리방침</a></li>
                     <li><a href="">운영 정책</a></li>
@@ -438,7 +441,7 @@
 
                 <div class="col-4">
                   <ul class="foot-sangho">
-                    <li>상호명 : <a href="index.html" class="foot-sangho-a">PlaceHolder</a></li>
+                    <li>상호명 : <a href="index.jsp" class="foot-sangho-a">PlaceHolder</a></li>
                     <li>공동대표 : 기억해조</li>
                     <li>사업자등록번호 : 230-00-12345</li>
                     <li>동신판매업신고번호 : 2021-서울종로-05000</li>
@@ -457,10 +460,10 @@
                 <div class="col-3">
                   <ul class="foot-logos">
 
-                    <li><a href="" class="nblog"></a></li>
-                    <li><a href="" class="twitter"></a></li>
-                    <li><a href="" class="instargram"></a></li>
-                    <li><a href="" class="facebook"></a></li>
+                    <li><a href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0" target='_blank' class="nblog"></a></li>
+                    <li><a href="https://twitter.com/" target='_blank' class="twitter"></a></li>
+                    <li><a href="https://www.instagram.com/" target='_blank' class="instargram"></a></li>
+                    <li><a href="https://www.facebook.com/" target='_blank' class="facebook"></a></li>
 
                   </ul>
                 </div>

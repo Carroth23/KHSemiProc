@@ -17,7 +17,7 @@ import dto.ImgFileDTO;
 public class HotelController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//기본세팅
-		request.setCharacterEncoding("urf8");
+		request.setCharacterEncoding("utf8");
 		String requestURI = request.getRequestURI();
 		String ctxPath = request.getContextPath();
 		String cmd = requestURI.substring(ctxPath.length());

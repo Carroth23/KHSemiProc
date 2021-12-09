@@ -22,8 +22,8 @@
         margin-top:20px;
       }
       #logo {
-          width: 100px;
-          height: 60px;
+          width: 140px;
+          height: 80px;
       }
     
       #sidebtn {
@@ -207,19 +207,22 @@
         margin-bottom:10px;
       }
 
+      /* 호텔사진 */
       .hotelDetailPhoto{
         width:280px;
         height:250px;
         margin-top:30px;
       }
 
+      /* 호텔설명칸 */
       .detailCaption{
         width:600px;
         height:300px;
         margin-left:70px;
         margin-top:10px;
       }
-
+      
+      /* 별점 */
       .star{
         padding-top:20px;
       }
@@ -228,7 +231,7 @@
         height:20px;
       }
 
-      /* 찜 구현해야됨 */
+      /* 좋아요 */
       #heart {
         width: 30px;
         height: 30px;
@@ -245,22 +248,30 @@
       }  
 
 
-
-      .hotelName p{
+      /* 호텔이름 */
+      .hotelName p:first-child{
         font-size:20px;
       }
       .hotelName{
         margin-top:20px;
       }
+      hr{
+        margin:0;
+      }
+      .detailBox{
+        margin-top:30px;
+      }
 
+      /* 호텔옵션창 */
       .hotelOption{
         margin-top:10px;
         width:80%;
         height:40px;
         border:1px solid #E6E6FA;
+        background-color: white;
         transition:all 0.3s;
         border-radius: 3px;
-        box-shadow: 1px 1px 3px 1px #DDDDDD;
+        box-shadow: 1px 1px 1px 1px white;
         margin-bottom: 10px;
       }
       .hotelOption:hover{
@@ -268,24 +279,33 @@
         cursor:pointer;
       }
 
+      /* 호텔설명 */
       .detailtxt{
         width:100%;
-        height:70px;
+        height:120px;
         font-size:13px;
-        overflow:auto;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 6;
+        -webkit-box-orient: vertical; 
       }
 
       .resBtn{
         text-align: right;
       }
+      .zzimUp{position:relative;}
+      /* 예약하기버튼 */
       .reservationGo{
         border-radius: 8px;
-        width:100px;
-        height:50px;
+        width:80px;
+        height:35px;
         background-color: #fbefdf;
         border:1px solid white;
         box-shadow: 1px 1px 2px 1px #DDDDDD;
         transition: all 0.3s;
+        position:absolute;
+        top: 17px;
+        right:0;
       }
 
       .reservationGo:hover{
@@ -388,8 +408,63 @@
       font-size: 9px;
     }
 
+    .bottomHr{
+      margin:10px;
+    }
 
+    @media screen and (max-width: 1200px){
 
+      .detailBox{
+        width:100%;
+        height:270px;
+        position:relative;
+      }
+      hr{
+        width:70%;
+      }
+      /* 호텔사진 */
+      .hotelDetailPhoto{
+        width:200px;
+        height:200px;
+        margin-top:30px;
+      }
+
+      /* 호텔설명칸 */
+      .detailCaption{
+        width:450px;
+        height:250px;
+      }
+
+      /* 좋아요 */
+      #heart {
+        text-align: left;
+      }
+
+      /* 호텔이름 */
+      .hotelName p{
+        font-size:20px;
+      }
+      .hotelName{
+        margin-top:20px;
+      }
+
+      /* 호텔옵션창 */
+      .hotelOption{
+        width:80%;
+      }
+
+      /* 호텔설명 */
+      .detailtxt{
+        width:90%;
+      }
+
+      .resBtn{
+        position:absolute;
+        top:100px;
+        right:0px;
+      }
+      /* 예약하기버튼 */
+    }
 
 @media screen and (max-width: 800px) { /* 모바일 전용 */
     body {
@@ -405,6 +480,47 @@
 
       width:100%;
 
+    }
+
+    .detailBox{
+      width:100%;
+    }
+
+    /* 호텔사진 */
+    .hotelDetailPhoto{
+      width:200px;
+      height:200px;
+      margin-top:30px;
+    }
+
+     /* 호텔옵션창 */
+     .hotelOption{
+      width:60%;
+    }
+
+    /* 좋아요 */
+    #heart {
+      position:absolute;
+      right:30px;
+    }
+
+
+    /* 호텔설명 */
+    .detailtxt{
+      width:90%;
+      display:none;
+    }
+
+    .resBtn{
+      position:absolute;
+      bottom:10px;
+      right:0px;
+    }
+    /* 예약하기버튼 */
+    .reservationGo{
+      position: absolute;
+      bottom:10px;
+      right:80px;
     }
 
 

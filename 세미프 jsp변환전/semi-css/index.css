@@ -11,7 +11,7 @@
 
     .container{
       height:100%;
-      width:70%;
+      width:60%;
       margin-bottom: 10px;
     }
 
@@ -29,8 +29,8 @@
     margin-top:20px;
   }
   #logo {
-      width: 100px;
-      height: 60px;
+      width: 140px;
+      height: 80px;
   }
 
   #sidebtn {
@@ -58,16 +58,19 @@
       height: 100%;
       text-decoration: none;
   }
+  .form-control{
+    width:80%;
+  }
 .top-search{
   width:40px;
   height:40px;
   border-radius: 10px;
-  background-color: #c6e2ff;
+  background-color: #e8f3ff;
   border:none;
   transition:all 0.3s;
 }
 .top-search:hover{
-  border:1px solid #c6e2ff;
+  border:1px solid #e8f3ff;
 }
 
   /* 로그인 */
@@ -175,15 +178,15 @@
     }
 
     #content2{
-      background-image: url(/semi-img/index_partyroom1.jpg);
+      background-image: url(/semi-img/index_hotel2.jpg);
     }
 
     #content3{
-      background-image: url(/semi-img/index_studyroom1.jpg);
+      background-image: url(/semi-img/index_hotel3.jpg);
     }
 
     #content4{
-      background-image: url(/semi-img/index_studio1.jpg);
+      background-image: url(/semi-img/index_hotel4.jpg);
     }
 
 

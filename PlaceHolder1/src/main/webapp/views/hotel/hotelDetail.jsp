@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,76 +44,95 @@
         </form>
       </div>
       <!-- 햄버거메뉴 -->
-      <div class="col-1  align-self-center justify-content-end">
-        <nav class="navbar navbar-light">
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
-            aria-labelledby="offcanvasNavbarLabel">
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">PlaceHolder</h5>
+				<div class="col-1  align-self-center justify-content-end">
+					<nav class="navbar navbar-light">
+						<button class="navbar-toggler" type="button"
+							data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						<div class="offcanvas offcanvas-end" tabindex="-1"
+							id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+							<div class="offcanvas-header">
+								<h5 class="offcanvas-title" id="offcanvasNavbarLabel">PlaceHolder</h5>
 
-              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                aria-label="Close"></button>
-            </div>
-            <hr>
-            <div class="offcanvas-body">
+								<button type="button" class="btn-close text-reset"
+									data-bs-dismiss="offcanvas" aria-label="Close"></button>
+							</div>
+							<hr>
+							<div class="offcanvas-body">
 
-              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+								<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+									<c:choose>
+										<c:when test="${loginId != null}">
+											<!-- 로그인 이후 보일 내용 -->
+											<li class="nav-item" id="loginAcc">
+												<div class="row">
+													<div class="col-12 loginAcc"></div>
+												</div>
+												<div class="row">
+													<div class="col-8 loginMent">${loginId}님안녕하세요.</div>
+													<div class="col-4"><a href="/logout.user"><button class="logOut">로그아웃</button></a></div>
+												</div>
+												<div class="row loginAccBannerH">
+													<div class="col-3">
+														<a href=""><button class="loginAccBanner">예약</button></a>
+													</div>
+													<div class="col-3">
+														<a href=""><button class="loginAccBanner">후기</button></a>
+													</div>
+													<div class="col-3">
+														<a href=""><button class="loginAccBanner">찜목록</button></a>
+													</div>
+													<div class="col-3">
+														<a href=""><button class="loginAccBanner">MyPage</button></a>
+													</div>
+												</div>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<!-- 로그인 폼 -->
+											<li class="nav-item">
+												<div class="row signBox">
+													<form action="/login.user" method="post">
+														<div class="col-12 signInput">
+															<input type="text" placeholder="Input ID" class="inputId"
+																name="id"> <input type="password"
+																placeholder="Input PW" class="inputPw" name="pw">
+														</div>
+														<div class="row">
+															<div class="col-6 sign">
+																<button class="signBtns">로그인</button>
+															</div>
+															<div class="col-6 sign">
+																<button type="button" class="signBtns signUp">회원가입</button>
+															</div>
+														</div>
+													</form>
+												</div>
+												
 
-                <!-- 로그인 이후 보일 내용 -->
-                <li class="nav-item" id="loginAcc">
-                  <div class="row">
-                    <div class="col-12 loginAcc">
-
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-12 loginMent">
-                      Test03님 안녕하세요.
-                    </div>
-                  </div>
-                </li>
-
-                <!-- 로그인 폼 -->
-                <li class="nav-item">
-                  <div class="row signBox">
-                    <form action="" method="post">
-                      <div class="col-12 signInput">
-                        <input type="text" placeholder="Input ID" class="inputId">
-                        <input type="password" placeholder="Input PW" class="inputPw">
-                      </div>
-                      <div class="row">
-                        <div class="col-6 sign">
-                          <button class="signBtns">로그인</button>
-                        </div>
-                        <div class="col-6 sign">
-                          <button type="button" class="signBtns">회원가입</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </li>
-
-                <li class="nav-item">
-                  <button type="button" class="sideBanner">이 달의 이벤트</button>
-                </li>
-                <li class="nav-item">
-                  <button type="button" class="sideBanner">홈으로</button>
-                </li>
-                <li class="nav-item">
-                  <button type="button" class="sideBanner">자유게시판</button>
-                </li>
-              </ul>
-              <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-              </form>
-            </div>
-          </div>
-        </nav>
-      </div>
+											</li>
+										</c:otherwise>
+									</c:choose>
+									<li class="nav-item">
+										<button type="button" class="sideBanner">이 달의 이벤트</button>
+									</li>
+									<li class="nav-item">
+										<button type="button" class="sideBanner">홈으로</button>
+									</li>
+									<li class="nav-item">
+										<button type="button" class="sideBanner">자유게시판</button>
+									</li>
+								</ul>
+								<form class="d-flex">
+									<input class="form-control me-2" type="search"
+										placeholder="Search" aria-label="Search">
+									<button class="btn btn-outline-success" type="submit">Search</button>
+								</form>
+							</div>
+						</div>
+					</nav>
+				</div>
     </div>
 
     <!-- 위 배너 -->

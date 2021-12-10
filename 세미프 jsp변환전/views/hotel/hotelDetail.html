@@ -1,6 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,41 +58,56 @@
             <div class="offcanvas-body">
 
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-
-                <!-- 로그인 이후 보일 내용 -->
-                <li class="nav-item" id="loginAcc">
-                  <div class="row">
-                    <div class="col-12 loginAcc">
-
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-12 loginMent">
-                      Test03님 안녕하세요.
-                    </div>
-                  </div>
-                </li>
-
-                <!-- 로그인 폼 -->
-                <li class="nav-item">
-                  <div class="row signBox">
-                    <form action="" method="post">
-                      <div class="col-12 signInput">
-                        <input type="text" placeholder="Input ID" class="inputId">
-                        <input type="password" placeholder="Input PW" class="inputPw">
+                <c:choose>
+                  <c:when test="${loginId != null}">
+                    <!-- 로그인 이후 보일 내용 -->
+                    <li class="nav-item" id="loginAcc">
+                      <div class="row">
+                        <div class="col-12 loginAcc"></div>
                       </div>
                       <div class="row">
-                        <div class="col-6 sign">
-                          <button class="signBtns">로그인</button>
+                        <div class="col-12 loginMent">${loginId}님안녕하세요.</div>
+                      </div>
+                      <div class="row loginAccBannerH">
+                        <div class="col-3">
+                          <a href=""><button class="loginAccBanner">예약</button></a>
                         </div>
-                        <div class="col-6 sign">
-                          <button type="button" class="signBtns">회원가입</button>
+                        <div class="col-3">
+                          <a href=""><button class="loginAccBanner">후기</button></a>
+                        </div>
+                        <div class="col-3">
+                          <a href=""><button class="loginAccBanner">찜목록</button></a>
+                        </div>
+                        <div class="col-3">
+                          <a href=""><button class="loginAccBanner">MyPage</button></a>
                         </div>
                       </div>
-                    </form>
-                  </div>
-                </li>
+                    </li>
+                  </c:when>
+                  <c:otherwise>
+                    <!-- 로그인 폼 -->
+                    <li class="nav-item">
+                      <div class="row signBox">
+                        <form action="/login.user" method="post">
+                          <div class="col-12 signInput">
+                            <input type="text" placeholder="Input ID" class="inputId" name="id"> <input type="password"
+                              placeholder="Input PW" class="inputPw" name="pw">
+                          </div>
+                          <div class="row">
+                            <div class="col-6 sign">
+                              <button class="signBtns">로그인</button>
+                            </div>
+                            <div class="col-6 sign">
+                              <button type="button" class="signBtns signUp">회원가입</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
 
+
+                    </li>
+                  </c:otherwise>
+                </c:choose>
                 <li class="nav-item">
                   <button type="button" class="sideBanner">이 달의 이벤트</button>
                 </li>
@@ -226,7 +238,9 @@
           <img src="/semi-img/silde_h1.jpg" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">카타리나 호텔</h5>
-            <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+              has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book.</p>
             <a href="#" class="cardbtn justify-content-center">보러가기</a>
           </div>
         </div>
@@ -235,7 +249,8 @@
           <img src="/semi-img/slide_h2.jpg" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">선셋 더샤인</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p>
             <a href="#" class="cardbtn">보러가기</a>
           </div>
         </div>
@@ -244,7 +259,9 @@
           <img src="/semi-img/slide_h3.jpg" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">더 힐튼</h5>
-            <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+              has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book.</p>
             <a href="#" class="cardbtn">보러가기</a>
           </div>
         </div>
@@ -253,7 +270,8 @@
           <img src="/semi-img/slide_h4.jpg" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">엠버서더 명동</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p>
             <a href="#" class="cardbtn">보러가기</a>
           </div>
         </div>
@@ -262,7 +280,8 @@
           <img src="/semi-img/slide_h5.jpg" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">롯데 시그니엘</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p>
             <a href="#" class="cardbtn">보러가기</a>
           </div>
         </div>
@@ -288,7 +307,8 @@
               </div>
               <div class="col-6 footer-right">
                 <ul class="foot-ul-blog">
-                  <li><a href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0" target='_blank'>블로그</a></li>
+                  <li><a href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0"
+                      target='_blank'>블로그</a></li>
                   <li><a href="">이용약관</a></li>
                   <li><a href="">개인정보처리방침</a></li>
                   <li><a href="">운영 정책</a></li>
@@ -320,7 +340,8 @@
               <div class="col-3">
                 <ul class="foot-logos">
 
-                  <li><a href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0" target='_blank' class="nblog"></a></li>
+                  <li><a href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0"
+                      target='_blank' class="nblog"></a></li>
                   <li><a href="https://twitter.com/" target='_blank' class="twitter"></a></li>
                   <li><a href="https://www.instagram.com/" target='_blank' class="instargram"></a></li>
                   <li><a href="https://www.facebook.com/" target='_blank' class="facebook"></a></li>

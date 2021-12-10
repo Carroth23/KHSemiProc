@@ -30,8 +30,12 @@ public class UserController extends HttpServlet {
 		try {
 			//회원가입 폼으로 이동
 			if(cmd.equals("/signupPage.user")) {
-				response.sendRedirect("/user/signup.jsp");
-
+				response.sendRedirect("/views/member/signup.jsp");
+			
+			//인덱스->메인
+			}else if(cmd.equals("/main.user")) {
+				response.sendRedirect("/views/hotel/hotelMain.jsp");
+				
 				//아이디 중복확인
 			}else if(cmd.equals("/idCheck.user")) {
 				String userId = request.getParameter("id");
@@ -40,7 +44,6 @@ public class UserController extends HttpServlet {
 
 				//회원가입
 			}else if(cmd.equals("/signup.user")) {
-				System.out.println("회원가입 버튼 감지");
 				String userId = request.getParameter("id");
 				String userName = request.getParameter("name");
 				String userPw = request.getParameter("pw");
@@ -49,44 +52,38 @@ public class UserController extends HttpServlet {
 				//생년월일은 드롭다운으로 보통 받기 때문에 이를 어떻게 처리할건지? 궁금
 				String userBirth = request.getParameter("birth");
 				//전화번호 입력칸 하나로 합치기
-				String phone1 = request.getParameter("phone1");
-				String phone2 = request.getParameter("phone2");
-				String phone3 = request.getParameter("phone3");
-				String userPhone = phone1 + phone2 + phone3;
+				String userPhone = request.getParameter("phone");
 				String userPost = request.getParameter("post");
 				String userRoadAddress = request.getParameter("roadAddress");
 				String userRoadAddress2 = request.getParameter("roadAddress2");
 				//제대로 값을 입력받았나 확인(*)
 				System.out.println(userId + " | " + userName + " | " +userPw + " | " + userNickname + " | " + userEmail + " | " + userBirth+ " | " + userPhone + " | " + userPost + " | " + userRoadAddress + " | " + userRoadAddress2);
 				dao.insert(new UserDTO(userId, userName, userPw, userNickname, userEmail, userBirth , userPhone, userPost, userRoadAddress, userRoadAddress2));
-				response.sendRedirect("/index.jsp");
+				response.sendRedirect("/views/hotel/hotelMain.jsp");
 
 				//로그인
 			}else if(cmd.equals("/login.user")) {
-				System.out.println("로그인 버튼 감지");
 				String User_id = request.getParameter("id");
 				String User_pw = request.getParameter("pw");
-				System.out.println(User_id);
-				System.out.println(User_pw);
 				boolean result = dao.login(User_id, User_pw);
 				if(result) {
 					HttpSession session = request.getSession();
 					session.setAttribute("loginId", User_id);
 					//제대로 로그인이 되었나 확인(*)
 					System.out.println(User_id + "님 로그인");
-				}response.sendRedirect("/index.jsp");
+				}response.sendRedirect("/views/hotel/hotelMain.jsp");
 
 				//로그아웃
 			}else if(cmd.equals("/logout.user")) {
 				request.getSession().removeAttribute("loginId");
-				response.sendRedirect("/index.jsp");
+				response.sendRedirect("/views/hotel/hotelMain.jsp");
 
 				//회원탈퇴
 			}else if(cmd.equals("/secession.user")) {
 				String User_id = (String)request.getSession().getAttribute("loginId");
 				dao.delete(User_id);
 				request.getSession().invalidate();
-				response.sendRedirect("/index.jsp");
+				response.sendRedirect("/views/hotel/hotelMain.jsp");
 
 				//회원정보 열람
 			}else if(cmd.equals("/userInfo.user")) {
@@ -104,10 +101,7 @@ public class UserController extends HttpServlet {
 				//생년월일은 드롭다운으로 보통 받기 때문에 이를 어떻게 처리할건지? 궁금
 				String userBirth = request.getParameter("birth");
 				//전화번호 입력칸 하나로 합치기
-				String phone1 = request.getParameter("phone1");
-				String phone2 = request.getParameter("phone2");
-				String phone3 = request.getParameter("phone3");
-				String userPhone = phone1 + phone2 + phone3;
+				String userPhone = request.getParameter("phone");
 				String userPost = request.getParameter("post");
 				String userRoadAddress = request.getParameter("roadAddress");
 				String userRoadAddress2 = request.getParameter("roadAddress2");

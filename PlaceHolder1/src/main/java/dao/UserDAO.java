@@ -27,7 +27,7 @@ public class UserDAO {
 
 	//아이디 중복확인
 	public boolean idCheck(String id)throws Exception{
-		String sql = "select * from User where userId = ?";
+		String sql = "select * from userInfo where userId = ?";
 		try(Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){
 			pstat.setString(1, id);
@@ -39,7 +39,7 @@ public class UserDAO {
 
 	//회원가입(oracle에 회원 삽입)
 	public int insert(UserDTO dto)throws Exception{
-		String sql = "insert into User values(?,?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into userInfo values(?,?,?,?,?,?,?,?,?,?)";
 		try(Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){
 			pstat.setString(1, dto.getUserId());
@@ -61,7 +61,7 @@ public class UserDAO {
 
 	//로그인(oracle에 저장된 회원정보와 일치하는지 확인)
 	public boolean login(String id, String pw) throws Exception{
-		String sql = "select * from User where userID = ? and userPw = ?";
+		String sql = "select * from userInfo where userID = ? and userPw = ?";
 		try(Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){
 			pstat.setString(1, id);
@@ -74,7 +74,7 @@ public class UserDAO {
 
 	//회원탈퇴(oracle에 저장된 회원정보를 삭제)
 	public int delete(String id)throws Exception{
-		String sql = "delete form User where userId = ?";
+		String sql = "delete form userInfo where userId = ?";
 		try(Connection con =this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){
 			pstat.setString(1, id);
@@ -86,7 +86,7 @@ public class UserDAO {
 
 	//회원정보 수정(oracle에 저장된 회원정보를 수정)
 	public int update(UserDTO dto)throws Exception{
-		String sql = "update User set userName = ?, userPw = ?, userNickname = ?, userEmail = ?, userBirth = ?, userPhone = ?, userPost = ?, userRoadAddress = ?, userRoadAddress2 = ?";
+		String sql = "update userInfo set userName = ?, userPw = ?, userNickname = ?, userEmail = ?, userBirth = ?, userPhone = ?, userPost = ?, userRoadAddress = ?, userRoadAddress2 = ?";
 		try(Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){
 			pstat.setString(1, dto.getUserName());
@@ -106,7 +106,7 @@ public class UserDAO {
 
 	//회원정보 불러오기(oracle에 저장된 회원의 정보를 불러오기)
 	public UserDTO info(String id)throws Exception {
-		String sql = "select * from User where userID = ?";
+		String sql = "select * from userInfo where userID = ?";
 		try(Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){
 			pstat.setString(1, id);

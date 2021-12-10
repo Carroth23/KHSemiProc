@@ -30,11 +30,11 @@ public class HotelController extends HttpServlet {
 			//상품 리스트로 이동(메인에서 호텔을 눌렀을 때)
 			if(cmd.equals("/list.hotel")) {
 				//호텔 정보와 이미지경로값 받아오기
-				List<HotelDTO> hotelList = dao.selectHotel();
-				List<String> hotelImgList = dao.selectHotelImg();
-				request.setAttribute("hotelList", hotelList);
-				request.setAttribute("hotelImgList", hotelImgList);
-				request.getRequestDispatcher("/hotel/list.hotel").forward(request, response);
+//				List<HotelDTO> hotelList = dao.selectHotel();
+//				List<String> hotelImgList = dao.selectHotelImg();
+//				request.setAttribute("hotelList", hotelList);
+//				request.setAttribute("hotelImgList", hotelImgList);
+				request.getRequestDispatcher("/views/hotel/hotelList.jsp").forward(request, response);
 			
 			//정렬(이름)
 			}else if(cmd.equals("/listOrderByName.hotel")) {

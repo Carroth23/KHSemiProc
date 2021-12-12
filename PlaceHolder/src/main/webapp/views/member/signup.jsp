@@ -189,7 +189,6 @@
             }
         })
 
-
         // 패스워드 검사
         rpw.on("input", function () {
             let pwRegex = /[a-z0-9]{4,12}/;
@@ -255,12 +254,12 @@
         })
         
         // 생년월일 검사
-
+		// *** 윤년 관련해 보완 필요
         $("#birth").on("input", function () {
-            let birthRegex = /^\d{6}$/;
+        	let birthRegex = /\d{2}[0,1]\d([0,1,2]\d)$|([3][0,1])$/;
             let birthResult = birthRegex.test($("#birth").val());
             if (!birthResult) {
-                $("#birthRegex").html("주민등록번호 앞자리");
+                $("#birthRegex").html("유효한 생년월일(주민번호 앞자리)을 입력해주세요");
                 $("#birthRegex").css("color", "red");
             } else {
                 $("#birthRegex").html("확인완료")
@@ -277,7 +276,7 @@
             let phoneRegex = /010[0-9]{8}$/;
             let phoneResult = phoneRegex.test(phone.val());
             if (!phoneResult) {
-                phone_Result.html("양식 : 010 - xxxx - xxxx");
+                phone_Result.html("010******** ('-'제외하고 입력, 총 11자리)");
                 phone_Result.css("color", "red");
             } else {
                 phone_Result.html("확인완료")
@@ -287,7 +286,6 @@
                 phone_Result.html("");
             }
         })
-
 
         // <FORM> 태그 페이지 이동 막기
         form.on("submit", function () {

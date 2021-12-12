@@ -36,13 +36,13 @@ public class UserController extends HttpServlet {
 			}else if(cmd.equals("/main.user")) {
 				response.sendRedirect("/views/hotel/hotelMain.jsp");
 				
-				//아이디 중복확인
+			//아이디 중복확인
 			}else if(cmd.equals("/idCheck.user")) {
 				String userId = request.getParameter("id");
 				boolean result = dao.idCheck(userId);
 				response.getWriter().append(String.valueOf(result));
 
-				//회원가입
+			//회원가입
 			}else if(cmd.equals("/signup.user")) {
 				String userId = request.getParameter("id");
 				String userName = request.getParameter("name");
@@ -61,7 +61,7 @@ public class UserController extends HttpServlet {
 				dao.insert(new UserDTO(userId, userName, userPw, userNickname, userEmail, userBirth , userPhone, userPost, userRoadAddress, userRoadAddress2));
 				response.sendRedirect("/views/hotel/hotelMain.jsp");
 
-				//로그인
+			//로그인
 			}else if(cmd.equals("/login.user")) {
 				String User_id = request.getParameter("id");
 				String User_pw = request.getParameter("pw");
@@ -74,26 +74,26 @@ public class UserController extends HttpServlet {
 				}
 				response.sendRedirect("/views/hotel/hotelMain.jsp");
 
-				//로그아웃
+			//로그아웃
 			}else if(cmd.equals("/logout.user")) {
 				request.getSession().removeAttribute("loginId");
 				response.sendRedirect("/views/hotel/hotelMain.jsp");
 
-				//회원탈퇴
+			//회원탈퇴
 			}else if(cmd.equals("/secession.user")) {
 				String User_id = (String)request.getSession().getAttribute("loginId");
 				dao.delete(User_id);
 				request.getSession().invalidate();
 				response.sendRedirect("/views/hotel/hotelMain.jsp");
 
-				//회원정보 열람
+			//회원정보 열람
 			}else if(cmd.equals("/userInfo.user")) {
 				String User_id = (String)request.getSession().getAttribute("loginId");
 				UserDTO dto = dao.info(User_id);
 				request.setAttribute("dto", dto);
 				request.getRequestDispatcher("/views/member/userInfo.jsp").forward(request, response);
 
-				//회원정보 수정
+			//회원정보 수정
 			}else if(cmd.equals("/update.user")) {
 				String userName = request.getParameter("name");
 				String userPw = request.getParameter("pw");
@@ -118,10 +118,8 @@ public class UserController extends HttpServlet {
 		}
 	}
 
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }

@@ -105,7 +105,7 @@
 																<button class="signBtns">로그인</button>
 															</div>
 															<div class="col-6 sign">
-																<button type="button" class="signBtns signUp">회원가입</button>
+																<a href="/signupPage.user"><button type="button" class="signBtns signUp">회원가입</button></a>
 															</div>
 														</div>
 													</form>

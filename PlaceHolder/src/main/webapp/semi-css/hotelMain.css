@@ -3,7 +3,6 @@
  /* header */
  #head {
     height: 150px;
-    line-height: 50px;
     margin-top: 50px;
 }
 
@@ -47,7 +46,6 @@
       border: 2px solid #b6fcd5;
       padding-left: 10px;
       box-shadow: 2px 2px 1px 1px #e0e0e0;
-
   }
 
   .signBtns {
@@ -77,7 +75,7 @@
   }
   /* 예약 후기 찜목록 버튼 */
   .loginAccBannerH{
-    height:90px;
+    height:120px;
     width:100%;
   }
   .loginAccBanner{

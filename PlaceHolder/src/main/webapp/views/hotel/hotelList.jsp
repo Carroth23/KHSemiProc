@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -156,7 +157,10 @@
         <!-- 배너 밑 검색바 -->
         <div class="row bannerSearch">
           <div class="col-2">
-            정렬기능
+            <select id="searchOption">
+              <option>이름</option>
+              <option>위치</option>
+            </select>
           </div>
           <div class="col-8">
             <input type="text" placeholder="상세검색어를 입력해주세요." class="detailSearch">
@@ -430,7 +434,15 @@
         </div>
         
 
-
+        <div class="row">
+          <div class="col-5">
+            
+          </div>
+          <div class="col-2">
+            <button id="readMore">더보기</button>
+          </div>
+          <div class="col-5"></div>
+        </div>
       </div>
       <!-- 푸터 -->
       <div class="container-fluid footBack">
@@ -508,9 +520,22 @@
   </div>
 
   <script>
-    
+    let searchBtn = document.querySelector(".detailSearchBtn"); 
+    searchBtn.addEventListener("click", function(){ // 검색버튼을 누를때 option의 값을 빼냄
 
+      let searchTxt = document.querySelector(".detailSearch").value; // 검색창 value값 추출
 
+      let searchBox = document.querySelector("#searchOption");
+      let searchOption = searchBox.options[searchBox.selectedIndex].value; // 검색 옵션값 추출
+
+      if(searchOption == "이름"){
+        console.log(`${searchOption} 설정되어 있습니다.`);
+        location.href="/listOrderByName.hotel?Keyword="+searchTxt; // get으로 검색값 전달
+      } else if (searchOption == "위치"){
+        console.log(`${searchOption} 설정되어 있습니다.`);
+        location.href="/listOrderByLocation.hotel?Keyword="+searchTxt; // get으로 검색값 전달
+      }
+    })
   </script>
 
 </body>

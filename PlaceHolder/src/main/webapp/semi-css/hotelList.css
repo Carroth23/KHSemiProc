@@ -363,6 +363,21 @@
       }
 
 
+
+      /* 더보기 버튼 */
+      #readMore{
+        width:80px;
+        height:40px;
+        border:none;
+        border-radius: 5px;
+        background-color: white;
+        transition: all 0.3s;
+      }
+      #readMore:hover{
+        background-color:whitesmoke;
+      }
+
+
       /* 푸터 시작 */
     #footerIn {
       margin: auto;

@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.HotelDAO;
+import dao.ImgFileDAO;
+import dao.RoomDAO;
 import dto.HotelDTO;
-import dto.ImgFileDTO;
 
 @WebServlet("*.hotel")
 public class HotelController extends HttpServlet {
@@ -24,61 +25,70 @@ public class HotelController extends HttpServlet {
 		System.out.println(cmd); //경로 잘 들어오나 확인용
 
 		//미리 세팅
-		HotelDAO dao = HotelDAO.getInstance();
+		HotelDAO hdao = HotelDAO.getInstance();
+		RoomDAO rdao = RoomDAO.getInstance();
+		ImgFileDAO idao = ImgFileDAO.getInstance();
 		
 		try {
-			//상품 리스트로 이동(메인에서 호텔을 눌렀을 때)
+			//1.상품 리스트로 이동(메인에서 호텔을 눌렀을 때 1-10페이지만 보여줌)
 			if(cmd.equals("/list.hotel")) {
+				int start = 1;
+				int end = start + 9;
 				//호텔 정보와 이미지경로값 받아오기
-//				List<HotelDTO> hotelList = dao.selectHotel();
-//				List<String> hotelImgList = dao.selectHotelImg();
-//				request.setAttribute("hotelList", hotelList);
-//				request.setAttribute("hotelImgList", hotelImgList);
+				List<HotelDTO> hotelList = hdao.selectHotelB(start, end);
+				List<String> hotelImgList = idao.selectHotelImgB(start,end);
+				request.setAttribute("hotelList", hotelList);
+				request.setAttribute("hotelImgList", hotelImgList);
 				request.getRequestDispatcher("/views/hotel/hotelList.jsp").forward(request, response);
-			
-			//정렬(이름)
-			}else if(cmd.equals("/listOrderByName.hotel")) {
+				
+			//2.리스트에서 더보기 버튼 누름(다음 10개를 더 가져옴)
+			}else if(cmd.equals("/listPlus.hotel")) {
+				//더보기 버튼의 value값을 받아옴
+				int start = Integer.parseInt(request.getParameter("btn"));
+				int end = start + 9;
+				if(end > hdao.getHotelCount()) {
+					end = hdao.getHotelCount();
+				}
+				//호텔 정보와 이미지경로값 받아오기
+				List<HotelDTO> hotelList = hdao.selectHotelB(start, end);
+				List<String> hotelImgList = idao.selectHotelImgB(start,end);
+				request.setAttribute("hotelList", hotelList);
+				request.setAttribute("hotelImgList", hotelImgList);
+				request.getRequestDispatcher("/views/hotel/hotelList.jsp").forward(request, response);
+				
+			//이름을 검색
+			}else if(cmd.equals("/listSearch.hotel")) {
+				//키워드 값을 받아옴(검색 옵션과 검색어)
+				String option = request.getParameter("option");
 				String keyword = request.getParameter("Keyword");
-				List<HotelDTO> hotelListName = dao.searchName(keyword);
-				List<String> hotelImgListName = dao.searchNameHotelImg(keyword);
-				request.setAttribute("hotelListName", hotelListName);
-				request.setAttribute("hotelImgListName", hotelImgListName);
-				request.getRequestDispatcher("/hotel/list.hotel").forward(request, response);
-			
-			//정렬(위치)
-			}else if(cmd.equals("/listOrderByLocation.hotel")) {
-				String keyword = request.getParameter("Keyword");
-				List<HotelDTO> hotelListLocation = dao.searchName(keyword);
-				List<String> hotelImgListLocation = dao.searchNameHotelImg(keyword);
-				request.setAttribute("hotelListLocation", hotelListLocation);
-				request.setAttribute("hotelImgListLocation", hotelImgListLocation);
-				request.getRequestDispatcher("/hotel/list.hotel").forward(request, response);
+				System.out.println(option);
+				System.out.println(keyword);
+				//검색 옵션에 따라 찾는 값이 달라지므로 나눔
+				if(option.equals("이름")) {
+					System.out.println("이름까지 오나?");
+					List<HotelDTO> hotelListName = hdao.searchHotelName(keyword);
+//					List<String> hotelImgListName = idao.searchHotelNameImg(keyword);
+					System.out.println(hotelListName);
+					request.setAttribute("hotelList", hotelListName);
+//					request.setAttribute("hotelImgList", hotelImgListName);
+					System.out.println("여기까지 오나?");
+					request.getRequestDispatcher("/views/hotel/hotelList.jsp").forward(request, response);
+				}else if(option.equals("위치")) {
+					List<HotelDTO> hotelListSite = hdao.searchHotelSite(keyword);
+//					List<String> hotelImgListSite = idao.searchHotelSiteImg(keyword);
+					request.setAttribute("hotelList", hotelListSite);
+//					request.setAttribute("hotelImgList", hotelImgListSite);
+					request.getRequestDispatcher("/views/hotel/hotelList.jsp").forward(request, response);
+				}
+				
+			}else if(cmd.equals("/delete.hotel")) {
+				String hotelId = request.getParameter("hotelId");
+				hdao.deleteHotel(hotelId);
+				rdao.deleteRoom(hotelId);
+				idao.deleteImg(hotelId);
+				response.sendRedirect("/hotel/list.jsp");
 			}
-//			//상품 페이지(예약과 QnA, 리뷰 등을 볼 수 있는 페이지)
-//			}else if(cmd.equals("/goods.hotel")) {
-//				//호텔-룸-이미지정보
-//				String name = request.getParameter("name");
-//				//dao.selectByName(name);
-//			//상품 페이지 탭(상품설명_방이미지 뽑아오기)-ajax
-//			}else if(cmd.equals("/desc.hotel")) {
-//				//이하동문
-//				String name = request.getParameter("name");
-//				dao.selectRoomImg(name);
-//				
-//			//상품 페이지 탭(리뷰)-ajax
-//			}else if(cmd.equals("/review.hotel")) {
-//				
-//			//상품 페이지 탭(QnA)-ajax
-//			}else if(cmd.equals("/qna.hotel")) {
-//				
-//			//상품 페이지 탭(정보)-ajax	
-//			}else if(cmd.equals("/info.hotel")) {
-//				String name = request.getParameter("name");
-//				dao.selectByName(name);
-//			//상품 페이지 예약
-//			}else if(cmd.equals("/reser.hotel")) {
-//				
-//			}
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			response.sendRedirect("error.jsp");

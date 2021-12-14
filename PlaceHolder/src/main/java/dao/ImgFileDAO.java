@@ -59,10 +59,10 @@ public class ImgFileDAO {
 		
 		//검색(이름)에 맞는 호텔이미지 불러오기
 		public List<String> searchHotelNameImg(String keyword)throws Exception{
-			String sql = "select i.hotelImg from hotel h, imgFile i where h.hotelid = i.hotelid and h.hotelname like '%?%'";
+			String sql = "select i.hotelImg from hotel h, imgFile i where h.hotelid = i.hotelid and h.hotelname like ?";
 			try(Connection con = this.getConnection();
 					PreparedStatement pstat = con.prepareStatement(sql);){
-				pstat.setString(1, keyword );
+				pstat.setString(1, "%"+keyword+"%" );
 				try(ResultSet rs = pstat.executeQuery();){
 					ArrayList<String> list = new ArrayList();
 					while(rs.next()) {
@@ -72,14 +72,14 @@ public class ImgFileDAO {
 			}
 		}
 		
-		//검색(이름)에 맞는 호텔이미지 불러오는데 범위 값만(안쓸거같음)
+		//검색(이름)에 맞는 호텔이미지 불러오는데 범위 값
 		public List<String> searchHotelNameImgB(int start, int end, String keyword)throws Exception{
-			String sql = "select hotelImg from (select imgFile.*, row_number() over(order by hotelId asc)rn from imgFile) where rn between ? and ? and nake like '%?%'";
+			String sql = "select i.hotelImg from (select imgFile.*, row_number() over(order by hotelId asc)rn from imgFile where h.hotelname like ?) where rn between ? and ?";
 			try(Connection con = this.getConnection();
 					PreparedStatement pstat = con.prepareStatement(sql);){
 				pstat.setInt(1, start);
 				pstat.setInt(2, end);
-				pstat.setString(3, keyword );
+				pstat.setString(3, "%"+keyword+"%" );
 				try(ResultSet rs = pstat.executeQuery();){
 					ArrayList<String> list = new ArrayList();
 					while(rs.next()) {
@@ -91,10 +91,10 @@ public class ImgFileDAO {
 		
 		//키워드(위치)에 맞는 호텔이미지 불러오기
 		public List<String> searchHotelSiteImg(String keyword)throws Exception{
-			String sql = "select i.hotelImg from hotel h, imgFile i where h.hotelid = i.hotelid and h.hotelRoadAddress like '%?%'";
+			String sql = "select i.hotelImg from hotel h, imgFile i where h.hotelid = i.hotelid and h.hotelRoadAddress like ?";
 			try(Connection con = this.getConnection();
 					PreparedStatement pstat = con.prepareStatement(sql);){
-				pstat.setString(1, keyword );					
+				pstat.setString(1, "%"+keyword+"%" );					
 				try(ResultSet rs = pstat.executeQuery();){
 					List<String> list = new ArrayList();
 					while(rs.next()) {
@@ -104,13 +104,30 @@ public class ImgFileDAO {
 			}
 		}
 		
+		//검색(위치)에 맞는 호텔이미지 불러오는데 범위 값
+				public List<String> searchHotelSiteImgB(int start, int end, String keyword)throws Exception{
+					String sql = "select i.hotelImg from (select imgFile.*, row_number() over(order by hotelId asc)rn from imgFile where i.roadAddress like ?) where rn between ? and ?";
+					try(Connection con = this.getConnection();
+							PreparedStatement pstat = con.prepareStatement(sql);){
+						pstat.setInt(1, start);
+						pstat.setInt(2, end);
+						pstat.setString(3, "%"+keyword+"%" );
+						try(ResultSet rs = pstat.executeQuery();){
+							ArrayList<String> list = new ArrayList();
+							while(rs.next()) {
+								list.add(rs.getString("hotelImg"));
+							}return list;
+						}
+					}
+				}
+		
 		//룸컨트롤러에서 쓰일 것
 		//호텔 아이디 값에 맞는 호텔 이미지
-		public String selectHotelImgById(String id)throws Exception{
+		public String selectHotelImgById(String hotelId)throws Exception{
 			String sql = "select hotelImg from imgFile where hotelId = ?";
 			try(Connection con = this.getConnection();
 					PreparedStatement pstat = con.prepareStatement(sql);){
-				pstat.setString(1, id );					
+				pstat.setString(1, hotelId );					
 				try(ResultSet rs = pstat.executeQuery();){
 					if(rs.next()) {
 						String result = rs.getString("hotelImg");

@@ -1,6 +1,7 @@
 package dto;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class QnADTO {
 	private int inquiry;
@@ -10,17 +11,6 @@ public class QnADTO {
 	private String inquiryContent;
 	private Date inquiryCreated;
 	
-	public QnADTO(int inquiry, String hotelId, String userId, String inquiryStat, String inquiryContent,
-			Date inquiryCreated) {
-		super();
-		this.inquiry = inquiry;
-		this.hotelId = hotelId;
-		this.userId = userId;
-		this.inquiryStat = inquiryStat;
-		this.inquiryContent = inquiryContent;
-		this.inquiryCreated = inquiryCreated;
-	}
-	public QnADTO() {}
 	public int getInquiry() {
 		return inquiry;
 	}
@@ -58,5 +48,41 @@ public class QnADTO {
 		this.inquiryCreated = inquiryCreated;
 	}
 	
+	public QnADTO(int inquiry, String hotelId, String userId, String inquiryStat, String inquiryContent,
+			Date inquiryCreated) {
+		super();
+		this.inquiry = inquiry;
+		this.hotelId = hotelId;
+		this.userId = userId;
+		this.inquiryStat = inquiryStat;
+		this.inquiryContent = inquiryContent;
+		this.inquiryCreated = inquiryCreated;
+	}
 	
+	public QnADTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public String getFormedDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
+		return sdf.format(this.inquiryCreated.getTime());
+	}
+	public String getDetailDate() {
+		long current_time = System.currentTimeMillis();	//�쁽�옱�쓽 Timestamp
+		long write_time = this.inquiryCreated.getTime();	//湲��씠 �옉�꽦�맂 �떆�젏�쓽 Timestamp
+		
+		long time_gap = current_time - write_time;
+		if(time_gap < 60000) {
+			return "1遺� �씠�궡";
+		}else if(time_gap < 300000) {
+			return "5遺� �씠�궡";
+		}else if(time_gap < 3600000) {
+			return "1�떆媛� �씠�궡";
+		}else if(time_gap < 86400000) {
+			return "�삤�뒛";
+		}else {
+			return getFormedDate();
+		}
+		
+	}
 }

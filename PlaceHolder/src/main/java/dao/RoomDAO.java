@@ -33,7 +33,7 @@ public class RoomDAO {
 				PreparedStatement pstat = con.prepareStatement(sql);){
 			pstat.setString(1, hotelid);
 			try(ResultSet rs = pstat.executeQuery();){
-				List<RoomDTO> list = new ArrayList();
+				List<RoomDTO> list = new ArrayList<>();
 				while(rs.next()) {
 					RoomDTO dto = new RoomDTO();
 					dto.setHotelId(rs.getString("hotelId"));

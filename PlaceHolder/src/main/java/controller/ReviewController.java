@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.ReviewDAO;
+import dto.ArticleDTO;
 import dto.ReviewDTO;
 
 @WebServlet("*.review")
@@ -20,12 +21,13 @@ public class ReviewController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Encoding utf-8로 설정하기
 		request.setCharacterEncoding("utf8");
+		response.setContentType("text/html;charset=UTF-8");
 
 		// 경로값 받아오기
 		String cmd = request.getServletPath();
 
 		// Import ReviewDAO
-		ReviewDAO reviewDao = ReviewDAO.getInstance();
+		ReviewDAO vdao = ReviewDAO.getInstance();
 		
 		// Import SimpleDateFormat
 		SimpleDateFormat sdf = new SimpleDateFormat();
@@ -44,56 +46,48 @@ public class ReviewController extends HttpServlet {
 			if(cmd.equals("/write.review")) {
 				
 				// loginId, 예약코드, 유저아이디, 호텔 아이디, 리뷰내용, 리뷰점수, 리뷰 작성날짜 받아오기
-				String reviewId = request.getParameter("reviewId");
 				String revId = request.getParameter("revId");
 				String userId = loginId; // session 값
 				String hotelId = request.getParameter("hotelId");
 				String reviewContent = request.getParameter("hotelContent");
 				int reviewScore = Integer.parseInt(request.getParameter("reviewScore"));
-				Date reviewCreated = (Date)sdf.parse(request.getParameter("reviewCreated"));
 				
 				// ReviewDTO 객체에 파라미터 값 담기
-				ReviewDTO dto = new ReviewDTO(reviewId, revId, userId, hotelId, reviewContent, reviewScore, reviewCreated);
 				
-				// Review DB에 저장하기
-				int result = reviewDao.writeReview(dto);
-				
+				vdao.writeReview(new ReviewDTO(0,revId,userId,hotelId,reviewContent,reviewScore,null));
+				request.getRequestDispatcher("/views/hotel/detaul.jsp");
 			}
 			// 2. User의 리뷰 조회하기 기능 (내가 쓴 글)
 			else if(cmd.equals("/viewMyReview.review")) {
 				
 				// 해당 userId로 작성된 리뷰 목록 모두 조회하기
-				List<ReviewDTO> myReview = reviewDao.selectMyReview(loginId);
+				List<ReviewDTO> myReview = vdao.selectMyReview(loginId);
 				
-				// myPage로 requet 값 포워드
+				// myPage로 request 값 포워드
 				request.setAttribute("myReview", myReview);
 				request.getRequestDispatcher("/myReviewPage.jsp").forward(request, response);
 			}
 			// 3. User의 리뷰 수정하기 기능
 			else if(cmd.equals("/modifyReview.review")) {
-				
-				// 리뷰 리스트에서 선택한 리뷰 아이디, 예약코드, 유저아이디, 호텔아이디, 내용, 점수 값 불러오기
-				String reviewId = request.getParameter("reviewId");
-				String revId = request.getParameter("revId");
-				String userId = loginId; // session 값
-				String hotelId = request.getParameter("hotelId");
-				String reviewContent = request.getParameter("hotelContent");
+				String reviewContent = request.getParameter("reviewContent");
 				int reviewScore = Integer.parseInt(request.getParameter("reviewScore"));
-				Date reviewCreated = (Date)sdf.parse(request.getParameter("reviewCreated"));
 				
-				ReviewDTO reviewDto = new ReviewDTO(reviewId, revId, userId, hotelId, reviewContent, reviewScore, reviewCreated);
+				ReviewDTO reviewDto = new ReviewDTO(0, null, null, null, reviewContent, reviewScore, null);
 				
-				 reviewDao.modifyReview(reviewDto);
+				 vdao.modifyReview(reviewDto);
+				 //JSP 나오면 추가
 				 response.sendRedirect("");
 			}
 			// 4. User의 리뷰 삭제하기 기능
 			else if(cmd.equals("/deleteReview.review")) {
 				
-				// User의 예약코드를 받아온다.
-				int revId = Integer.parseInt(request.getParameter("revId"));
+				// User의 리뷰코드를 받아온다.
+				int reviewId = Integer.parseInt(request.getParameter("reviewId"));
 				
 				// 예약코드에 해당하는 review를 DB에서 삭제한다.
-				int result = reviewDao.deleteReview(revId);
+				int result = vdao.deleteReview(reviewId);
+				//JSP 나오면 추가
+				 response.sendRedirect("");
 			}
 			// 5. Hotel 상세페이지에서 ReviewList 출력할 수 있게 리스트 forward
 			else if(cmd.equals("/viewAllReviews.review")){

@@ -78,7 +78,6 @@ public class HotelDAO {
 		String sql = "select * from hotel where hotelName like ?";
 		try(Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){
-			System.out.println(keyword);
 			pstat.setString(1, "%"+keyword+"%");
 			try(ResultSet rs = pstat.executeQuery();){
 				List<HotelDTO> list = new ArrayList();
@@ -99,14 +98,14 @@ public class HotelDAO {
 
 	//호텔 테이블에서 키워드(이름)을 포함한 범위 내의 값을 불러오기
 	public List<HotelDTO> searchHotelNameB(int start, int end, String keyword)throws Exception{
-		String sql = "select * from (select hotel.*, row_number() over(order by hotelId asc)rn from hotel) where rn between ? and ? and name like '%?%'";
+		String sql = "select * from (select hotel.*, row_number() over(order by hotelId asc)rn from hotel where name like ?) where rn between ? and ?'";
 		try(Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){
 			pstat.setInt(1, start);
 			pstat.setInt(2, end);
-			pstat.setString(3, keyword);
+			pstat.setString(3, "%"+keyword+"%");
 			try(ResultSet rs = pstat.executeQuery();){
-				ArrayList<HotelDTO> list = new ArrayList();
+				List<HotelDTO> list = new ArrayList();
 				while(rs.next()) {
 					HotelDTO dto = new HotelDTO();
 					dto.setHotelId(rs.getString("hotelID"));

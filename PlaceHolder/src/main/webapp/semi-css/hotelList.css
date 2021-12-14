@@ -245,6 +245,8 @@
       }
 
       /* 리스트 콘텐츠 시작 */
+      #hotelId{display:none;} /* 호텔아이디는 안보이게 */
+
       .detailBox{
         width:90%;
         height:320px;
@@ -372,6 +374,7 @@
         border-radius: 5px;
         background-color: white;
         transition: all 0.3s;
+        margin-top:10px;
       }
       #readMore:hover{
         background-color:whitesmoke;

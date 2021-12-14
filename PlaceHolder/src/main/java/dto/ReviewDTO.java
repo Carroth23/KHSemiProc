@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class ReviewDTO {
 	
-	private String reviewId;
+	private int reviewId;
 	private String revId;
 	private String userId;
 	private String hotelId;
@@ -17,7 +17,7 @@ public class ReviewDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ReviewDTO(String reviewId, String revId, String userId, String hotelId, String reviewContent,
+	public ReviewDTO(int reviewId, String revId, String userId, String hotelId, String reviewContent,
 			int reviewScore, Date reviewCreated) {
 		super();
 		this.reviewId = reviewId;
@@ -29,12 +29,12 @@ public class ReviewDTO {
 		this.reviewCreated = reviewCreated;
 	}
 	
-	public String getReviewId() {
+	public int getReviewId() {
 		return reviewId;
 	}
 
 
-	public void setReviewId(String reviewId) {
+	public void setReviewId(int reviewId) {
 		this.reviewId = reviewId;
 	}
 

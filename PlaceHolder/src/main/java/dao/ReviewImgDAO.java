@@ -10,6 +10,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import dto.HotelDTO;
+
 public class ReviewImgDAO {
 	//인스턴스와 커넥션
 	public static ReviewImgDAO instance = null;
@@ -33,12 +35,28 @@ public class ReviewImgDAO {
 				PreparedStatement pstat = con.prepareStatement(sql);){
 			pstat.setString(1, hotelId);
 			try(ResultSet rs = pstat.executeQuery();){
-				List<String> list = new ArrayList();
+				List<String> list = new ArrayList<>();
 				while(rs.next()) {
 					list.add(rs.getString("reviewImage"));
 				}return list;
 			}
 		}
+	}
+	//호텔아이디 값에 맞는 리뷰 이미지 뽑아오는데 범위 내의 값만 가져오기
+	public List<String> selectReviewImgByHotelIdB(int start, int end, String hotelId)throws Exception{
+		String sql = "select * from(select review.*, row_number() over(order by reviewId asc)rn from reviewImg) where rn between ? and ? and hotelId = ?";
+		try(Connection con = this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql);){
+			pstat.setInt(1, start);
+			pstat.setInt(2, end);
+			pstat.setString(3, hotelId);
+			try(ResultSet rs = pstat.executeQuery();){
+				List<String> list = new ArrayList();
+				while(rs.next()) {
+					list.add(rs.getString("reviewImage"));
+				}return list;
+				}
+			}
 	}
 	
 	//리뷰 컨트롤러 에서 쓸 것

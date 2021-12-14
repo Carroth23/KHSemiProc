@@ -52,7 +52,6 @@ public class ReservationDAO {
 			}
 		}
 	}
-
 	// 1. 확정된 예약 정보를 받아 DB에 저장하는 기능
 	public int confirmReservation(ReservationDTO dto) throws Exception{
 
@@ -86,7 +85,7 @@ public class ReservationDAO {
 	public List<ReservationDTO> viewCurrentReservation(String loginId) throws Exception {
 
 		// 불러올 때 checkIn 날짜가 sysdate 까지의 경우만 조회
-		String sql = "select * from reservation where id = ? and checkIn >= sysdate";
+		String sql = "select * from reservation where id = ? order by checkIn desc";
 
 		try(Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){
@@ -150,8 +149,6 @@ public class ReservationDAO {
 			return result;
 		}
 	}
-
-
 	// 4. 예약 삭제하기 기능(Hotel Controller와 통신)	
 
 	public int cancelReservation(String revId) throws Exception {

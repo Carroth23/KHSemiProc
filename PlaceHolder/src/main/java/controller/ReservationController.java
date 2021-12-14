@@ -52,22 +52,28 @@ public class ReservationController extends HttpServlet {
 
 			// 1. 상품 상세페이지에서 확정된 예약 정보를 받아 DB에 저장하는 기능
 			if(cmd.equals("/confirm.book")) {
-
+				
+				String hotelId = request.getParameter("hotelId");
+				// 이부분 수정
+				Date checkIn = (Date)sdf.parse(sdf.format(request.getParameter("checkIn")));
+				System.out.println(checkIn);
+				Date checkOut = (Date)sdf.parse(request.getParameter("checkOut"));
+				String revRoomType = request.getParameter("revRoomType");
+				int revQuantity = Integer.parseInt(request.getParameter("revQuantity"));
+				
+				
+				// 호텔 이름만 있으면 
 				String revId = "0";
 				String userId = loginId;
-				String hotelId = request.getParameter("hotelId");
 				String hotelName = request.getParameter("hotelName");
 				String hotelRoadAddress = request.getParameter("hotelRoadAddress");
 				String hotelPhone = request.getParameter("hotelPhone");
-				Date checkIn = (Date)sdf.parse(request.getParameter("checkIn"));
-				Date checkOut = (Date)sdf.parse(request.getParameter("checkOut"));
-				Date revDay = (Date)sdf.parse(request.getParameter("revDay"));
-				String revRoomType = request.getParameter("revRoomType");
-				int revQuantity = Integer.parseInt(request.getParameter("revQuantity"));
+				
 				String revRoomInfo = request.getParameter("revRoomInfo");
 				String revStat = request.getParameter("revStat");
 				String revPrice = request.getParameter("revPrice");
-
+				Date revDay = (Date)sdf.parse(request.getParameter("revDay"));
+				
 				// ** 해당 옵션의 방이 예약 가능한지 확인해야 함!
 				// 호텔 측에 문의했을 때 예약이 가능한 경우
 				// 조건1. : quantity >= revQuantity;
@@ -102,7 +108,7 @@ public class ReservationController extends HttpServlet {
 				// 마이페이지로 request를 전송
 				request.getRequestDispatcher("/myReservation.jsp").forward(request, response);
 
-				// 3. 예약 수정하기 기능(Hotel Controller와 통신)
+				// 3. 예약 수정하기 기능(Hotel Controller와 통신)	
 			}else if(cmd.equals("/modifyReservation.book")) {
 
 				// 수정할 예약 내용 데이터 받아오기(어디서, 어떤 방식으로?)

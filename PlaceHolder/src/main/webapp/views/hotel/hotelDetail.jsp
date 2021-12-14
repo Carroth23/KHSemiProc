@@ -135,16 +135,16 @@
     <!-- 위 배너 -->
     <div class="row" id="banner">
       <div class="col-3 reservation bannerIn">
-        <p id="reservationBtn">예약</p>
+        <p id="listGoBar">호텔 리스트</p>
       </div>
       <div class="col-3 community bannerIn">
-        <p>커뮤니티</p>
+        <p id="commuGobar">커뮤니티</p>
       </div>
       <div class="col-3 qna bannerIn">
-        <p>고객센터</p>
+        <p id="gogakGobar">고객센터</p>
       </div>
       <div class="col-3 mypage bannerIn">
-        <p>마이페이지</p>
+        <p id="mypageGobar">마이페이지</p>
       </div>
     </div>
 
@@ -156,7 +156,7 @@
       <div class="col-6 mainInfo">
         <div class="row">
           <div class="col-6">
-            <p class="hotelName">아르카나 호텔</p>
+            <p class="hotelName">${hotelList.hotelName}</p> <!-- 호텔 이름 -->
           </div>
           <div class="col-6">
             <div class="star">
@@ -170,8 +170,8 @@
         <hr>
         <div class="row">
           <div class="col-12 options">
-            <span>위치 : </span><span>서울시 강남구</span><br>
-            <span>옵션 : </span>
+            <span>위치 : </span><span>${hotelList.hotelRoadAddress}</span><br> <!-- 호텔 주소 -->
+            <span>룸 옵션 : </span>
             <select>
               <option>스탠다드룸</option>
               <option>더블룸</option>
@@ -180,8 +180,8 @@
               <option>스위트룸</option>
             </select>
             <br>
-            <span>전화 번호 : </span><span>02-1234-4321</span><br><br>
-            <span>기본 가격 : </span><span>139,000원</span>
+            <span>전화 번호 : </span><span>${hotelList.hotelPhone}</span><br><br>
+            <span>1박당 가격 : </span><span>${RoomList[0].roomPrice}~</span>
             <a href="#banner1"><button class="reservationGo">룸 선택</button></a>
           </div>
         </div>
@@ -208,110 +208,30 @@
 
     <!-- 각각의 배너에 해당하는 html -->
     <div class="row" id="banner1">
-
       <div class="col-12 detail">
 
         <!-- 각 방의 form -->
-        <form action="sd" method="get">
+        <c:forEach var="room" items="${RoomList}">
+        <form action="/confirm.book" method="get">
           <div class="row roomInfoBox">
             <div class="col-3 roomImg">
               <img src="/semi-img/detailRoom1.jpg" alt="룸1입니다">
             </div>
             <div class="col-5 roomInfo">
-              <p name="roomName">스탠다드 룸</p>
+              <p>${room.roomType}</p>
               <p>옵션: 드라이, 샤워가운, 조식, 룸서비스 등등..</p>
-              <p>1박당 가격 : 100,000원</p>
-              <p>1인 추가시 +30,000</p>
+              <p>1박당 가격 : ${room.roomPrice}원</p>
+              <p>1인 추가시 +${room.addPrice}원</p>
             </div>
             <div class="col-4 roomDate">
               <p>예약 날짜 입력</p>
-              <input type="date" name="checkInDate"> 부터<br>
+              <input type="date" name="checkIn"> 부터<br>
               <input type="date" class="roomDateEnd" name="checkOutDate"> 까지<br>
               <button class="roomSubmit justify-content-end">예약</button>
             </div>
           </div>
         </form>
-
-
-        <form action="sd" method="get">
-          <div class="row roomInfoBox">
-            <div class="col-3 roomImg">
-              <img src="/semi-img/detailRoom1.jpg" alt="룸1입니다">
-            </div>
-            <div class="col-5 roomInfo">
-              <p>스탠다드 룸</p>
-              <p>옵션: 드라이, 샤워가운, 조식, 룸서비스 등등..</p>
-              <p>1박당 가격 : 100,000원</p>
-              <p>1인 추가시 +30,000</p>
-            </div>
-            <div class="col-4 roomDate">
-              <p>예약 날짜 입력</p>
-              <input type="date" name="checkInDate"> 부터<br>
-              <input type="date" class="roomDateEnd" name="checkOutDate"> 까지<br>
-              <button class="roomSubmit justify-content-end">예약</button>
-            </div>
-          </div>
-        </form>
-
-        <form action="sd" method="get">
-          <div class="row roomInfoBox">
-            <div class="col-3 roomImg">
-              <img src="/semi-img/detailRoom1.jpg" alt="룸1입니다">
-            </div>
-            <div class="col-5 roomInfo">
-              <p>스탠다드 룸</p>
-              <p>옵션: 드라이, 샤워가운, 조식, 룸서비스 등등..</p>
-              <p>1박당 가격 : 100,000원</p>
-              <p>1인 추가시 +30,000</p>
-            </div>
-            <div class="col-4 roomDate">
-              <p>예약 날짜 입력</p>
-              <input type="date" name="checkInDate"> 부터<br>
-              <input type="date" class="roomDateEnd" name="checkOutDate"> 까지<br>
-              <button class="roomSubmit justify-content-end">예약</button>
-            </div>
-          </div>
-        </form>
-
-        <form action="sd" method="get">
-          <div class="row roomInfoBox">
-            <div class="col-3 roomImg">
-              <img src="/semi-img/detailRoom1.jpg" alt="룸1입니다">
-            </div>
-            <div class="col-5 roomInfo">
-              <p>스탠다드 룸</p>
-              <p>옵션: 드라이, 샤워가운, 조식, 룸서비스 등등..</p>
-              <p>1박당 가격 : 100,000원</p>
-              <p>1인 추가시 +30,000</p>
-            </div>
-            <div class="col-4 roomDate">
-              <p>예약 날짜 입력</p>
-              <input type="date" name="checkInDate"> 부터<br>
-              <input type="date" class="roomDateEnd" name="checkOutDate"> 까지<br>
-              <button class="roomSubmit justify-content-end">예약</button>
-            </div>
-          </div>
-        </form>
-
-        <form action="sd" method="get">
-          <div class="row roomInfoBox">
-            <div class="col-3 roomImg">
-              <img src="/semi-img/detailRoom1.jpg" alt="룸1입니다">
-            </div>
-            <div class="col-5 roomInfo">
-              <p>스탠다드 룸</p>
-              <p>옵션: 드라이, 샤워가운, 조식, 룸서비스 등등..</p>
-              <p>1박당 가격 : 100,000원</p>
-              <p>1인 추가시 +30,000</p>
-            </div>
-            <div class="col-4 roomDate">
-              <p>예약 날짜 입력</p>
-              <input type="date" name="checkInDate"> 부터<br>
-              <input type="date" class="roomDateEnd" name="checkOutDate"> 까지<br>
-              <button class="roomSubmit justify-content-end">예약</button>
-            </div>
-          </div>
-        </form>
+        </c:forEach>
 
       </div>
     </div>
@@ -396,15 +316,15 @@
 
     <div class="row" id="banner4">
       <div class="col-12 hotelInfo">
-        <h3>아르카나 호텔</h3>
+        <h3>${hotelList.hotelName}</h3>
         <br>
         <p>대표 : 이태용</p>
-        <p>주소 : 서울특별시 강남구</p>
-        <p>전화번호 : 02 - 280 - 7947</p>
+        <p>주소 : ${hotelList.hotelRoadAddress}</p>
+        <p>전화번호 : ${hotelList.hotelPhone}</p>
         <p>E-mail : arcana @ gmail.com</p>
         <br>
         <p>제휴 문의는 아래의 전화번호로 연락 바랍니다.</p>
-        <p>:02 - 280 - 7948</p>
+        <p>:${hotelList.hotelPhone}</p>
       </div>
     </div>
 
@@ -547,6 +467,7 @@
     </div>
 
     <script>
+    window.onload = function(){
       $(function () {
         $('.slideBox').slick({
           slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
@@ -584,11 +505,32 @@
 
         });
       })
-
-      // 페이지 새로고침
-      document.querySelector("#reservationBtn").addEventListener("click", function(){
-        location.reload();
+    
+      // 상단배너 바로가기 버튼
+      document.getElementById("listGoBar").addEventListener("click", () => {
+        location.href="/list.hotel";
       })
+      // document.getElementById("commuGobar").addEventListener("click", () => {
+      //   location.href="/";
+      // })
+      // document.getElementById("gogakGobar").addEventListener("click", () => {
+      //   location.href="/";
+      // })
+      document.getElementById("mypageGobar").addEventListener("click", () => {
+        location.href="/userInfo.user";
+      })
+
+
+      // 공유하기 버튼 크롬에서 아직 지원 안되는듯.
+      // document.getElementById("share").addEventListener("click", function(){
+      //   console.log("눌렸나요?");
+      //   navigator.share({
+      //     title : '공유하기입니다.',
+      //     text : '플레이스홀더',
+      //     url : ''
+      //   })
+      // })
+    }
     </script>
 
 </body>

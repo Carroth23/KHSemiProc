@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -85,7 +87,7 @@
                               <a href=""><button class="loginAccBanner">찜목록</button></a>
                             </div>
                             <div class="col-3">
-                              <a href=""><button class="loginAccBanner">MyPage</button></a>
+                              <a href="/userInfo.user"><button class="loginAccBanner">MyPage</button></a>
                             </div>
                           </div>
                         </li>
@@ -116,19 +118,12 @@
                       </c:otherwise>
                     </c:choose>
                     <li class="nav-item">
-                      <button type="button" class="sideBanner">이 달의 이벤트</button>
-                    </li>
-                    <li class="nav-item">
-                      <a href="/main.user"><button type="button" class="sideBanner">홈으로</button></a>
+                      <a href="/main.user"><button type="button" class="sideBanner">메인으로</button></a>
                     </li>
                     <li class="nav-item">
                       <button type="button" class="sideBanner">자유게시판</button>
                     </li>
                   </ul>
-                  <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                  </form>
                 </div>
               </div>
             </nav>
@@ -137,22 +132,19 @@
         </div>
 
         <div class="row" id="banner">
-          <div class="col-3 reservation bannerIn">
-
-              <p id="pagereload">새로고침</p>
-
+          <div class="col-2 goHome bannerIn">
+              <p id="goHome">메인으로</p>
           </div>
-          <div class="col-3 community bannerIn">
-            <a href="">
+          <div class="col-2 reservation bannerIn">
+              <p id="pagereload">목록다시보기</p>
+          </div>
+          <div class="col-2 community bannerIn">
               <p>커뮤니티</p>
-            </a>
           </div>
-          <div class="col-3 qna bannerIn">
-            <a href="">
+          <div class="col-2 qna bannerIn">
               <p>고객센터</p>
-            </a>
           </div>
-          <div class="col-3 mypage bannerIn">
+          <div class="col-2 mypage bannerIn">
             <a href="/userInfo.user">
               <p>마이페이지</p>
             </a>
@@ -324,6 +316,15 @@
   </div>
 
   <script>
+    // 검색하여 페이지 새로고침 될 시 더보기 없애기
+    $(function(){
+      let link = document.location.search;
+      if(link != ''){
+        readMore.style.display = "none";
+      }
+    });
+
+
     let searchBtn = document.querySelector(".detailSearchBtn");
     searchBtn.addEventListener("click", function () { // 검색버튼을 누를때 option의 값을 빼냄
 
@@ -331,11 +332,8 @@
 
       let searchBox = document.querySelector("#searchOption");
       let searchOption = searchBox.options[searchBox.selectedIndex].value; // 검색 옵션값 추출
-      console.log(searchOption);
       location.href = "/listSearch.hotel?option=" + searchOption + "&Keyword=" + searchTxt; // get으로 검색값 전달
-
-    }
-    )
+    })
 
     // 더보기 버튼 ajax 
     let readMore = document.getElementById("readMore");
@@ -423,8 +421,14 @@
 
     // 페이지 새로고침
     document.querySelector("#pagereload").addEventListener("click", function(){
-      location.reload();
+      location.href="/list.hotel";
     })
+
+    // 홈으로
+    document.querySelector("#goHome").addEventListener("click", function(){
+      location.href="/index.jsp";
+    })
+
 
   </script>
 

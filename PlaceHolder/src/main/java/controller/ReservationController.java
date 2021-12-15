@@ -52,28 +52,27 @@ public class ReservationController extends HttpServlet {
 
 			// 1. 상품 상세페이지에서 확정된 예약 정보를 받아 DB에 저장하는 기능
 			if(cmd.equals("/confirm.book")) {
-				
-				String hotelId = request.getParameter("hotelId");
-				// 이부분 수정
-				Date checkIn = (Date)sdf.parse(sdf.format(request.getParameter("checkIn")));
-				System.out.println(checkIn);
-				Date checkOut = (Date)sdf.parse(request.getParameter("checkOut"));
-				String revRoomType = request.getParameter("revRoomType");
-				int revQuantity = Integer.parseInt(request.getParameter("revQuantity"));
-				
-				
-				// 호텔 이름만 있으면 
 				String revId = "0";
 				String userId = loginId;
+				String hotelId = request.getParameter("hotelId");
+				System.out.println("넘어온 호텔 id : " + hotelId);
+				String revRoomType = request.getParameter("revRoomType");
+				System.out.println("넘어온 룸 타입 : " + revRoomType);
 				String hotelName = request.getParameter("hotelName");
+				System.out.println("넘어온 호텔 name : " + hotelName);
 				String hotelRoadAddress = request.getParameter("hotelRoadAddress");
+				System.out.println("넘어온 호텔 주소 : " + hotelRoadAddress);
 				String hotelPhone = request.getParameter("hotelPhone");
+				System.out.println("넘어온 호텔 폰번호 : " + hotelPhone);
+				Date checkIn = (Date)sdf.parse(request.getParameter("checkIn"));
+				Date checkOut = (Date)sdf.parse(request.getParameter("checkOut"));
+				Date revDay = (Date)sdf.parse(request.getParameter("revDay"));
 				
+				int revQuantity = Integer.parseInt(request.getParameter("revQuantity"));
 				String revRoomInfo = request.getParameter("revRoomInfo");
 				String revStat = request.getParameter("revStat");
 				String revPrice = request.getParameter("revPrice");
-				Date revDay = (Date)sdf.parse(request.getParameter("revDay"));
-				
+
 				// ** 해당 옵션의 방이 예약 가능한지 확인해야 함!
 				// 호텔 측에 문의했을 때 예약이 가능한 경우
 				// 조건1. : quantity >= revQuantity;

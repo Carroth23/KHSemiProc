@@ -128,21 +128,13 @@
 											</li>
 										</c:otherwise>
 									</c:choose>
-									<li class="nav-item">
-										<button type="button" class="sideBanner">이 달의 이벤트</button>
+									<li class="nav-item nav-banner">
+										<a href="/main.user"><button type="button" class="sideBanner">메인으로</button></a>
 									</li>
-									<li class="nav-item">
-										<a href="/main.user"><button type="button" class="sideBanner">홈으로</button></a>
-									</li>
-									<li class="nav-item">
+									<li class="nav-item nav-banner">
 										<a href=""><button type="button" class="sideBanner">자유게시판</button></a>
 									</li>
 								</ul>
-								<form class="d-flex">
-									<input class="form-control me-2" type="search"
-										placeholder="Search" aria-label="Search">
-									<button class="btn btn-outline-success" type="submit">Search</button>
-								</form>
 							</div>
 						</div>
 					</nav>
@@ -159,7 +151,7 @@
 					<div class="conInBox conInBox1">
 						<p>인기호텔 총집합</p>
 						<p>Up to 40% 세일!</p>
-						<a href="/main.user" class="hometxt">홈</a> <a href="/list.hotel">예약</a>
+						<a href="/main.user" class="hometxt">메인</a> <a href="/list.hotel">예약</a>
 					</div>
 
 				</div>
@@ -171,7 +163,7 @@
 					<div class="conInBox conInBox2">
 						<p>세계에 있는듯한</p>
 						<p>자유로움을 느껴보세요</p>
-						<a href="/main.user" class="hometxt">홈</a> <a href="/list.hotel">예약</a>
+						<a href="/main.user" class="hometxt">메인</a> <a href="/list.hotel">예약</a>
 					</div>
 
 				</div>
@@ -183,7 +175,7 @@
 					<div class="conInBox conInBox3">
 						<p>멋진 파티와 함께</p>
 						<p>하루를 즐겨보세요</p>
-						<a href="/main.user" class="hometxt">홈</a> <a href="/list.hotel">예약</a>
+						<a href="/main.user" class="hometxt">메인</a> <a href="/list.hotel">예약</a>
 					</div>
 
 				</div>
@@ -195,7 +187,7 @@
 					<div class="conInBox conInBox4">
 						<p>어디서나</p>
 						<p>PlaceHolder</p>
-						<a href="/main.user" class="hometxt">홈</a> <a href="/list.hotel">예약</a>
+						<a href="/main.user" class="hometxt">메인</a> <a href="/list.hotel">예약</a>
 					</div>
 
 				</div>

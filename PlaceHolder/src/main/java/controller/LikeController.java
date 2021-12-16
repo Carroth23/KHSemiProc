@@ -21,6 +21,9 @@ public class LikeController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		if (cmd.equals("/on.like")) {
+			String loginId = request.getParameter("loginId");
+			String hotelId = request.getParameter("hotelId");
+			
 			
 		}
 	}

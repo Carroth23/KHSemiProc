@@ -54,7 +54,7 @@ public class RoomController extends HttpServlet {
 	            //QnA정보 불러오기
 //	            List<QnADTO> QnAList = qdao.selectQnAByHotelId(hotelid);
 	            //리뷰정보 불러오기
-//	            List<ReviewDTO> ReviewList = vdao.selectReviewByHotelId(hotelid);
+	            List<ReviewDTO> ReviewList = vdao.selectReviewByHotelId(hotelid);
 //	            List<String> reviewImgList = ridao.selectReviewImgByHotelId(hotelid);
 	            //이 값들을 전달해주기
 	            request.setAttribute("hotelList", hotelList);
@@ -62,7 +62,7 @@ public class RoomController extends HttpServlet {
 	            request.setAttribute("RoomList", RoomList);
 //	            request.setAttribute("RoomImgList", RoomImgList);
 //	            request.setAttribute("QnAList", QnAList);
-//	            request.setAttribute("ReviewList", ReviewList);
+	            request.setAttribute("ReviewList", ReviewList);
 	            request.getRequestDispatcher("/views/hotel/hotelDetail.jsp").forward(request, response);
 			
 			//리뷰 더보기 버튼을 누름

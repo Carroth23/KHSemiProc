@@ -18,8 +18,8 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
       <!-- 카카오API -->
-      <script type="text/javascript"
-          src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fea2a5099bbe6dd9a94e77ea4f131faf"></script>
+      <%-- <script type="text/javascript"
+          src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fea2a5099bbe6dd9a94e77ea4f131faf"></script> --%>
       <!-- 폰트어썸CDN -->
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
         integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
@@ -246,66 +246,27 @@
         <!-- 리뷰칸 -->
         <div class="row" id="banner2">
           <div class="col-12 review">
-
+          <c:forEach var="review" items="${ReviewList}">
             <div class="row reviewBox">
               <div class="col-3 reviewImg">
                 <img src="/semi-img/reviewImg1.jpg">
               </div>
               <div class="col-9 reviewInfo">
-                <span>qwer 님의 리뷰 </span>
+                <span>${review.userId} 님의 리뷰 </span>
                 <img src="/semi-img/star.png">
-                <span>4.9</span>
-                <span class="reviewWriteDate">작성 날짜 : 07.05</span>
-                <p class="choiceOption">선택옵션 : 디럭스</p>
+                <span>${review.reviewScore}</span>
+                <span class="reviewWriteDate">작성 날짜 : ${review.reviewCreated}</span>
+                <p class="choiceOption">선택옵션 : 디럭스(이건 빼야될수도)</p>
                 <div class="row">
                   <div class="col-12 reviewContentBox">
                     <p class="reviewContent">
-                      이 방은 아주 좋asddddddddddddddddddddddddddddddddddddddddddd아요 ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ
+                      ${review.reviewContent}
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div class="row reviewBox">
-              <div class="col-3 reviewImg">
-                <img src="/semi-img/reviewImg1.jpg">
-              </div>
-              <div class="col-9 reviewInfo">
-                <span>qwer 님의 리뷰 </span>
-                <img src="/semi-img/star.png">
-                <span>4.9</span>
-                <span class="reviewWriteDate">작성 날짜 : 07.05</span>
-                <p class="choiceOption">선택옵션 : 디럭스</p>
-                <div class="row">
-                  <div class="col-12 reviewContentBox">
-                    <p class="reviewContent">
-                      이 방은 아주 좋asddddddddddddddddddddddddddddddddddddddddddd아요 ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row reviewBox">
-              <div class="col-3 reviewImg">
-                <img src="/semi-img/reviewImg1.jpg">
-              </div>
-              <div class="col-9 reviewInfo">
-                <span>qwer 님의 리뷰 </span>
-                <img src="/semi-img/star.png">
-                <span>4.9</span>
-                <span class="reviewWriteDate">작성 날짜 : 07.05</span>
-                <p class="choiceOption">선택옵션 : 디럭스</p>
-                <div class="row">
-                  <div class="col-12 reviewContentBox">
-                    <p class="reviewContent">
-                      이 방은 아주 좋asddddddddddddddddddddddddddddddddddddddddddd아요 ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+          </c:forEach>
 
           </div>
         </div>
@@ -332,7 +293,7 @@
         </div>
 
         <%-- 카카오 지도 API --%>
-        <div class="row">
+        <%-- <div class="row">
           <div class="col-12">
             <!-- ***** RoomController에서 Hotel에 대한 좌표 값을 받아와서 지도에 표시하는 것을 기본으로 하고 있습니다.-->
             <!-- ***** 참고 링크 :https://apis.map.kakao.com/web/guide/ -->
@@ -340,7 +301,7 @@
             <!-- ***** 지도 들어갈 공간 -->
             <div id="map" style="width: 350px;height:350px;"></div>
           </div>
-        </div>
+        </div> --%>
 
 
 

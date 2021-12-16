@@ -44,24 +44,25 @@ public class RoomController extends HttpServlet {
 			if(cmd.equals("/goods.room")) {
 	            //어떤 상품에 들어간건지 알기 위해 id값 받아오기
 	            String hotelid = request.getParameter("hotelId");
+	            System.out.println("전달된 호텔id : " + hotelid);
 	            //호텔 이미지+정보 불러오기
 	            HotelDTO hotelList = hdao.selectHotelById(hotelid);
-	            String hotelImgList = idao.selectHotelImgById(hotelid);
+//	            String hotelImgList = idao.selectHotelImgById(hotelid);
 	            //방 이미지+정보 불러오기
 	            List<RoomDTO> RoomList = rdao.selectRoomById(hotelid);
-	            List<String> RoomImgList = idao.selectRoomImgById(hotelid);
+//	            List<String> RoomImgList = idao.selectRoomImgById(hotelid);
 	            //QnA정보 불러오기
-	            List<QnADTO> QnAList = qdao.selectQnAByHotelId(hotelid);
+//	            List<QnADTO> QnAList = qdao.selectQnAByHotelId(hotelid);
 	            //리뷰정보 불러오기
-	            List<ReviewDTO> ReviewList = vdao.selectReviewByHotelId(hotelid);
+//	            List<ReviewDTO> ReviewList = vdao.selectReviewByHotelId(hotelid);
 //	            List<String> reviewImgList = ridao.selectReviewImgByHotelId(hotelid);
 	            //이 값들을 전달해주기
 	            request.setAttribute("hotelList", hotelList);
-	            request.setAttribute("hotelImgList", hotelImgList);
+//	            request.setAttribute("hotelImgList", hotelImgList);
 	            request.setAttribute("RoomList", RoomList);
-	            request.setAttribute("RoomImgList", RoomImgList);
-	            request.setAttribute("QnAList", QnAList);
-	            request.setAttribute("ReviewList", ReviewList);
+//	            request.setAttribute("RoomImgList", RoomImgList);
+//	            request.setAttribute("QnAList", QnAList);
+//	            request.setAttribute("ReviewList", ReviewList);
 	            request.getRequestDispatcher("/views/hotel/hotelDetail.jsp").forward(request, response);
 			
 			//리뷰 더보기 버튼을 누름

@@ -245,7 +245,9 @@
       }
 
       /* 리스트 콘텐츠 시작 */
-      #hotelId{display:none;} /* 호텔아이디는 안보이게 */
+      /* 호텔아이디 안보이게 */
+      #hotelId{display: none;}
+      .hotelId{display: none;}
 
       .detailBox{
         width:90%;
@@ -263,8 +265,6 @@
         margin-top:30px;
       }
 
-      /* 호텔 아이디 */
-      .hotelId{display: none;}
 
       /* 호텔설명칸 */
       .detailCaption{

@@ -22,9 +22,9 @@ public class LikeDAO {
 	}
 	
 	// 우선 해당 아이디로 호텔에 좋아요가 되어있는지 확인.
-	public int likeCheck() throws Exception{
-		String sql = "select * from likey where userid = ?";
-	}
+//	public int likeCheck() throws Exception{
+//		String sql = "select * from likey where userid = ?";
+//	}
 	
 	
 	

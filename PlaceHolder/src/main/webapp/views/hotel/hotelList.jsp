@@ -184,7 +184,6 @@
                 <div class="detailCaption">
                   <div class="row">
                     <div class="col-6 hotelName">
-                      <div class="hotelId">${list.hotelId}</div>
                       <p class="hotelNameIn">${list.hotelName}</p>
                       <span>${list.hotelRoadAddress}</span>
                     </div>
@@ -193,7 +192,10 @@
                     </div>
                     <div class="col-3 zzimUp">
                       <button id="heart"></button>
-                      <button class="reservationGo">예약하기</button>
+                      <form action="/goods.room" method="get">
+                        <input type="text" class="hotelId" name="hotelId" value=${list.hotelId}>
+                        <button class="reservationGo">예약하기</button>
+                      </form>
                     </div>
                   </div>
                   <hr>
@@ -362,8 +364,8 @@
                     <div class="detailCaption">
                       <div class="row">
                         <div class="col-6 hotelName">
-                          <div class="hotelId">\${result[i].hotelId}</div>
                           <p class="hotelNameIn">\${result[i].hotelName}</p>
+                          <div class="hotelId">\${result[i].hotelId}</div>
                           <span>\${result[i].hotelRoadAddress}</span>
                         </div>
                         <div class="col-3 star">
@@ -371,7 +373,10 @@
                         </div>
                         <div class="col-3 zzimUp">
                           <button id="heart"></button>
-                          <button class="reservationGo">예약하기</button>
+                          <form action="/goods.room" method="get">
+                            <input type="text" class="hotelId" name="hotelId" value=\${result[i].hotelId}>
+                            <button class="reservationGo">예약하기</button>
+                          </form>
                         </div>
                       </div>
                       <hr>
@@ -409,14 +414,14 @@
     // 동적바인딩 시도중인 코드
 
     // 얘는 동적바인딩이 안걸림.
-    let resGo = document.getElementsByClassName("reservationGo"); // 예약하기 버튼임
-    for (let i = 0; i < resGo.length; i++) {
-      resGo[i].addEventListener("click", function(){
-        let hotelId = document.getElementsByClassName("hotelId")[i].innerHTML;
-        console.log(hotelId);
-        location.href = "/goods.room?hotelId="+hotelId;
-      })
-    }
+    // let resGo = document.getElementsByClassName("reservationGo"); // 예약하기 버튼임
+    // for (let i = 0; i < resGo.length; i++) {
+    //   resGo[i].addEventListener("click", function(){
+    //     let hotelId = document.getElementsByClassName("hotelId")[i].innerHTML;
+    //     console.log(hotelId);
+    //     location.href = "/goods.room?hotelId="+hotelId;
+    //   })
+    // }
     
     // Cannot read properties of undefined (reading 'text') 에러
     // for (let i = 0; i < $(".reservationGo").length; i++){
@@ -468,7 +473,10 @@
     //   console.log($(".reservationGo").parent());
     // })
 
-
+    // 버튼 name속성에 호텔ID를 줘보기.
+    // $(document).on("click", ".reservationGo", function(){
+    //   console.log(this.);
+    // })
 
 
     // 페이지 새로고침

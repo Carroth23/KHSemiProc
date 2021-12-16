@@ -558,71 +558,7 @@
 
           }
         </script>
-
         
-        <script>
-
-          // ***** RoomController에서 hotelList 이름으로 HotelDTO 객체 받아오기
-
-          // ***** latitute, longtitude 순으로 삽입하면 됩니다.
-
-          // let latitude = ${hotelList.latitude};
-          // let longitude = ${hotelList.longitude};
-
-          var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-            mapOption = {
-              center: new kakao.maps.LatLng(37.5582229223138, 127.111611161016), // ***** 지도의 중심좌표(latitude, longitude)
-              level: 3 // 지도의 확대 레벨
-            };
-
-          var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-          // ***** 지도에 컨트롤 올리기 : https://apis.map.kakao.com/web/sample/addMapControl/ 
-
-          // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성
-          var mapTypeControl = new kakao.maps.MapTypeControl();
-
-          // 지도에 컨트롤을 추가해야 지도위에 표시
-          // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미
-          map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-
-          // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성
-          var zoomControl = new kakao.maps.ZoomControl();
-          map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-
-          // ***** 지도에 마커 생성 : https://apis.map.kakao.com/web/documentation/#services_Geocoder
-          var marker = new kakao.maps.Marker({
-            map: map,
-            position: new kakao.maps.LatLng(37.5582229223138, 127.111611161016) // ***** 마커 위치 생성(latitude, longitude)
-          });
-
-          // ****** 마커 이미지 삽입(작은 따옴표 안에 마커 이미지 링크)
-          // ****** 필수 아니고 마커 이미지 바꾸고 싶으시면 넣어주세용!
-          // var markerImage = new kakao.maps.MarkerImage(
-          // '',
-          // new kakao.maps.Size(31, 35), new kakao.maps.Point(13, 34));
-          // marker.setImage(markerImage);
-
-          // ***** 마커에 인포윈도우 표시 : https://apis.map.kakao.com/web/sample/markerWithInfoWindow/
-
-          var iwContent =
-            // ***** RoomController에서 받은 HotelDTO 객체에서 hotelName, 좌표(latitude, longitude)을 뽑아서 삽입
-            // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능
-            '<div style="padding:5px; color: red;"> 그랜드워커힐 <br><a href="https://map.kakao.com/link/map/그랜드워커힐,37.5582229223138, 127.111611161016" style="color:black" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/그랜드워커힐,37.5582229223138, 127.111611161016" style="color:black" target="_blank">길찾기</a></div>',
-
-            iwPosition = new kakao.maps.LatLng(37.5582229223138, 127.111611161016); //인포윈도우 표시 위치(latitude, longitude)
-
-          // 인포윈도우를 생성
-          var infowindow = new kakao.maps.InfoWindow({
-            position: iwPosition,
-            content: iwContent
-          });
-
-          // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-          infowindow.open(map, marker);
-
-        </script>
 
     </body>
 

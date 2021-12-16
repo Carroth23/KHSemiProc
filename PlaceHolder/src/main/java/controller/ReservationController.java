@@ -11,12 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.HotelDAO;
 import dao.ReservationDAO;
 import dao.RoomDAO;
 import dao.UserDAO;
 import dto.HotelDTO;
 import dto.ReservationDTO;
 import dto.UserDTO;
+import tool.DateChanger;
 
 @WebServlet("*.book")
 public class ReservationController extends HttpServlet {
@@ -38,13 +40,13 @@ public class ReservationController extends HttpServlet {
 
 		// Import RoomDAO
 		RoomDAO roomDao = RoomDAO.getInstance();
-
+		
+		// Import HotelDAO
+		HotelDAO hotelDao = HotelDAO.getInstance();
+		
 		// Session 값으로 떠 다니는 ID 값 받아오기
 		String loginId = (String) request.getSession().getAttribute("loginId");
-
-		// DateType String 값으로 바꿔줄 SimpleTypeFormat import
-		SimpleDateFormat sdf = new SimpleDateFormat();
-
+		
 		// 명령어에 따라 예약 업무 처리
 		try {
 
@@ -52,36 +54,44 @@ public class ReservationController extends HttpServlet {
 
 			// 1. 상품 상세페이지에서 확정된 예약 정보를 받아 DB에 저장하는 기능
 			if(cmd.equals("/confirm.book")) {
+				
+				String hotelId = request.getParameter("hotelId");
+				Date checkIn = DateChanger.changeSqlDate(request.getParameter("checkIn"));
+				Date checkOut = DateChanger.changeSqlDate(request.getParameter("checkOut"));
+				
+//				String revRoomType = request.getParameter("revRoomType");
+				String revRoomType = "Standard";
+//				int revQuantity = Integer.parseInt(request.getParameter("revQuantity"));
+				int revQuantity = 1;
+				
+				// 호텔 이름만 있으면 
 				String revId = "0";
 				String userId = loginId;
-				String hotelId = request.getParameter("hotelId");
-				System.out.println("넘어온 호텔 id : " + hotelId);
-				String revRoomType = request.getParameter("revRoomType");
-				System.out.println("넘어온 룸 타입 : " + revRoomType);
-				String hotelName = request.getParameter("hotelName");
-				System.out.println("넘어온 호텔 name : " + hotelName);
-				String hotelRoadAddress = request.getParameter("hotelRoadAddress");
-				System.out.println("넘어온 호텔 주소 : " + hotelRoadAddress);
-				String hotelPhone = request.getParameter("hotelPhone");
-				System.out.println("넘어온 호텔 폰번호 : " + hotelPhone);
-				Date checkIn = (Date)sdf.parse(request.getParameter("checkIn"));
-				Date checkOut = (Date)sdf.parse(request.getParameter("checkOut"));
-				Date revDay = (Date)sdf.parse(request.getParameter("revDay"));
 				
-				int revQuantity = Integer.parseInt(request.getParameter("revQuantity"));
-				String revRoomInfo = request.getParameter("revRoomInfo");
-				String revStat = request.getParameter("revStat");
-				String revPrice = request.getParameter("revPrice");
-
-				// ** 해당 옵션의 방이 예약 가능한지 확인해야 함!
+				HotelDTO hDto = hotelDao.selectHotelById(hotelId); // hotelId
+				
+				String hotelName = hDto.getHotelName();
+				String hotelRoadAddress = hDto.getHotelRoadAddress();
+				String hotelPhone = hDto.getHotelPhone();
+				
+//				String revRoomInfo = request.getParameter("revRoomInfo");
+				String revRoomInfo = "누워서 편안히 쉴 수 있는 방";
+				String revStat = "N";
+//				String revPrice = request.getParameter("revPrice");
+				
+				// 기존 가격 + 추가인원 가격 더해서 해야함
+				String revPrice = "배추 10장";
+				Date revDay = DateChanger.changeCurrentTime(System.currentTimeMillis());
+				
+				// ** 해당 옵션의 방이 예약 가능한지 확인해야 함.c
 				// 호텔 측에 문의했을 때 예약이 가능한 경우
 				// 조건1. : quantity >= revQuantity;
 				// 조건2. : checkIn > sysdate;
 				// 조건3. : checkIn < checkOut; -> view에서 걸러준다.
-
+				
 				// 예약 DB 전체를 스캔하면서 다음 조건이 맞는지 확인한 후에 풀어낸다.
 				ReservationDTO reservDto = new ReservationDTO(revId, userId, hotelId, hotelName, hotelRoadAddress, hotelPhone, checkIn, checkOut, revDay, revRoomType, revQuantity, revRoomInfo, revStat, revPrice);
-
+				
 				boolean condition = reservDao.isReservationAllowed(reservDto);
 
 				if(condition) {
@@ -117,9 +127,9 @@ public class ReservationController extends HttpServlet {
 				String hotelName = request.getParameter("hotelName");
 				String hotelRoadAddress = request.getParameter("hotelRoadAddress");
 				String hotelPhone = request.getParameter("hotelPhone");
-				Date checkIn = (Date)sdf.parse(request.getParameter("checkIn"));
-				Date checkOut = (Date)sdf.parse(request.getParameter("checkOut"));
-				Date revDay = (Date)sdf.parse(request.getParameter("revDay"));
+				Date checkIn = DateChanger.changeSqlDate(request.getParameter("checkIn"));
+				Date checkOut = DateChanger.changeSqlDate(request.getParameter("checkOut"));
+				Date revDay = DateChanger.changeSqlDate(request.getParameter("revDay"));
 				String revRoomType = request.getParameter("revRoomType");
 				int revQuantity = Integer.parseInt(request.getParameter("revQuantity"));
 				String revRoomInfo = request.getParameter("revRoomInfo");

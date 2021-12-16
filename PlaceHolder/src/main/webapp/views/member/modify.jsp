@@ -193,7 +193,7 @@
 			<div class="signupBox">
 				<div class=signupName>이름</div>
 				<div class=signupVal>
-					<input type=text placeholder="이름" value="${userDTO.userName}"
+					<input type=text placeholder="이름"
 						id="name" name="name">
 				</div>
 				<span class=signupRegex id="nameRegex"></span>
@@ -346,7 +346,8 @@
         // input받는창 아래에 유효성 검사
 
         // 이름 검사
-        $("#name").on("input", function () {
+        $("#name").on("input", function () {       	
+        	$("#name").val("${userDTO.userName}");
             let nameRegex = /^[가-힣 a-z A-Z]{2,8}$/;
             let nameResult = nameRegex.test($("#name").val());
             if (!nameResult) {

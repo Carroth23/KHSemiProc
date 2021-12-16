@@ -34,7 +34,7 @@ public class ReservationDAO {
 	// 0. 예약(신규, 수정)이 가능한지 확인하는 기능
 	public boolean isReservationAllowed(ReservationDTO dto) throws Exception{
 
-		String sql = "select count(*) from reservation where hotelId = ? and roomType = ? and (checkIn = ? and checkOut <= ?)";
+		String sql = "select count(*) from reservation where hotelId = ? and revRoomType = ? and (checkIn = ? and checkOut <= ?)";
 
 		try(Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){

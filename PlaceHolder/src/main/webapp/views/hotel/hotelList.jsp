@@ -406,10 +406,9 @@
       })
     });
 
-    // 예약 누를시 상세페이지 이동 이거 컨트롤러에서 추가해야함.
-    // 동적바인딩 걸어야될듯
+    // 동적바인딩 시도중인 코드
 
-
+    // 얘는 동적바인딩이 안걸림.
     let resGo = document.getElementsByClassName("reservationGo"); // 예약하기 버튼임
     for (let i = 0; i < resGo.length; i++) {
       resGo[i].addEventListener("click", function(){
@@ -418,6 +417,59 @@
         location.href = "/goods.room?hotelId="+hotelId;
       })
     }
+    
+    // Cannot read properties of undefined (reading 'text') 에러
+    // for (let i = 0; i < $(".reservationGo").length; i++){
+    //   $(document).on("click", ".reservationGo", function(){
+    //     let hotelId = $(".hotelid")[i].text();
+    //     console.log(hotelId);
+    //   })
+    // }
+
+
+    // 갯수 동적바인딩이 안걸림
+    // for (let i = 0; i < $(".reservationGo").length; i++){
+    //   $(document).on("click", ".reservationGo", function(){
+    //     console.log(i);
+    //   })
+    // }
+
+    // 얘는 언디파인드만 불러와짐.
+    // $(document).on("click", ".reservationGo", function(){
+    //   let hotelId = this.document.getElementsByClassName("hotelId")[0].innerHTML;
+    //     let hotelId = $(".hotelId").text();
+    //     location.href = "/goods.room?hotelId="+hotelId
+    // })
+    
+    // for문 돌려서 값빼로면 break할까 생각했는데 결국 값이 처음부터 불러와짐.
+
+    // 이건 그냥 에러
+    // $(document).on("click", ".reservationGo", function(){
+    //     let hotelId = document.getElementsByClassName("hotelId")[1].innerHTML;
+    //     let par1 = $(".reservationGo").parent();
+    //     console.log(par1);
+    //     // location.href = "/goods.room?hotelId="+hotelId
+    //   })
+    
+    // 얜 Id값이 붙어서 다불러와짐
+    // $(document).on("click", ".reservationGo", function(){
+    //   console.log($(".hotelId").text());
+    // })
+
+    // 이건 차례대로 다불러와짐.
+    // $(document).on("click", ".reservationGo", function(){
+    //   for (let i = 0; i < $(".reservationGo").length; i++){
+    //     console.log($($(".hotelId")[i]).text());
+    //   }
+    // })
+
+    // 다선택됨
+    // $(document).on("click", ".reservationGo", function(){
+    //   console.log($(".reservationGo").parent());
+    // })
+
+
+
 
     // 페이지 새로고침
     document.querySelector("#pagereload").addEventListener("click", function(){

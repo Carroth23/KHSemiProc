@@ -44,7 +44,6 @@ public class RoomController extends HttpServlet {
 			if(cmd.equals("/goods.room")) {
 	            //어떤 상품에 들어간건지 알기 위해 id값 받아오기
 	            String hotelid = request.getParameter("hotelId");
-	            System.out.println(hotelid);
 	            //호텔 이미지+정보 불러오기
 	            HotelDTO hotelList = hdao.selectHotelById(hotelid);
 	            String hotelImgList = idao.selectHotelImgById(hotelid);

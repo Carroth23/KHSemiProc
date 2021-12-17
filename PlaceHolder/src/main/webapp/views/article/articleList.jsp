@@ -168,7 +168,7 @@
             </div>
             <hr class="bannerHr">
             
-        <!-- 보드 나오기 -->
+        <!-- 보드 나오기 + 내비 -->
             <div class = "container" id = "articlecontainer">
             	<div class = "row top">
             		<div class = "col-2 num">글 번호</div>
@@ -184,8 +184,13 @@
             		<div class = "col-2 date">${list.postCreated}</div>
             	</div>
             	</c:forEach>
+            	<div class = "row bottom">
+            		<div class = "col navigation">
+            			
+            		</div>
+            	</div>
             </div>
-            
+        
           <!-- 푸터 -->
           <div class="container-fluid footBack">
             <div class="container">

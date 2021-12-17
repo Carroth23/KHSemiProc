@@ -126,28 +126,19 @@
                                                 </c:otherwise>
                                             </c:choose>
                                             <li class="nav-item">
-                                                <button type="button" class="sideBanner">이 달의 이벤트</button>
-                                            </li>
-                                            <li class="nav-item">
                                                 <a href="/main.user"><button type="button"
-                                                        class="sideBanner">홈으로</button></a>
+                                                        class="sideBanner">메인으로</button></a>
                                             </li>
                                             <li class="nav-item">
                                                 <button type="button" class="sideBanner">자유게시판</button>
                                             </li>
                                         </ul>
-                                        <form class="d-flex">
-                                            <input class="form-control me-2" type="search" placeholder="Search"
-                                                aria-label="Search">
-                                            <button class="btn btn-outline-success" type="submit">Search</button>
-                                        </form>
                                     </div>
                                 </div>
                             </nav>
                         </div>
                     </div>
                 </div>
-
                 <!-- nav 바 첫번째 -->
                 <div class="container">
                     <div class="nav">
@@ -265,7 +256,7 @@
                         // ***** 현우 ajax 수정 *****// 
                         $.ajax({
                         	url:"/viewReservationList.book",
-                        	type: "post",
+                        	type: "get",
                         }).done(function (resp){
                         	// forEach문 돌려서 div로 리스트 뽑아내기
                         	let result = JSON.parse(resp);
@@ -282,8 +273,6 @@
                     })
                     
                 </script>
-
-
 
 
                 <!-- Today's Hot! -->
@@ -577,11 +566,11 @@
             </div>
 
             </div>
-            <script>
+            <!-- <script>
                 document.querySelector(".signUp").addEventListener("click", function () {
                     location.href = "/signupPage.user";
                 })
-            </script>
+            </script> -->
 
         </body>
 

@@ -42,7 +42,7 @@ public class ArticleDAO {
 				while(rs.next()) {
 					ArticleDTO dto = new ArticleDTO();
 					dto.setPostId(rs.getInt("postId"));
-					dto.setUserID(rs.getString("userId"));
+					dto.setUserId(rs.getString("userId"));
 					dto.setPostTitle(rs.getString("postTitle"));
 					dto.setPostContent(rs.getString("postContent"));
 					dto.setPostCreated(rs.getDate("postCreated"));
@@ -66,7 +66,7 @@ public class ArticleDAO {
 				while(rs.next()) {
 					ArticleDTO dto = new ArticleDTO();
 					dto.setPostId(rs.getInt("postId"));
-					dto.setUserID(rs.getString("userId"));
+					dto.setUserId(rs.getString("userId"));
 					dto.setPostTitle(rs.getString("postTitle"));
 					dto.setPostContent(rs.getString("postContent"));
 					dto.setPostCreated(rs.getDate("postCreated"));
@@ -90,7 +90,7 @@ public class ArticleDAO {
 					while(rs.next()) {
 						ArticleDTO dto = new ArticleDTO();
 						dto.setPostId(rs.getInt("postId"));
-						dto.setUserID(rs.getString("userId"));
+						dto.setUserId(rs.getString("userId"));
 						dto.setPostTitle(rs.getString("postTitle"));
 						dto.setPostContent(rs.getString("postContent"));
 						dto.setPostCreated(rs.getDate("postCreated"));
@@ -106,7 +106,7 @@ public class ArticleDAO {
 		String sql = "insert into article values(postId.nextval,?,?,?,default,default)";
 		try(Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){
-			pstat.setString(1, dto.getUserID());
+			pstat.setString(1, dto.getUserId());
 			pstat.setString(2, dto.getPostTitle());
 			pstat.setString(3, dto.getPostContent());
 			int result = pstat.executeUpdate();

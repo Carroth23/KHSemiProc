@@ -4,6 +4,18 @@ public class LikeDTO {
 	private int likeId;
 	private String hotelId;
 	private String loginId;
+	private boolean listLike;
+	public LikeDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public LikeDTO(int likeId, String hotelId, String loginId, boolean listLike) {
+		super();
+		this.likeId = likeId;
+		this.hotelId = hotelId;
+		this.loginId = loginId;
+		this.listLike = listLike;
+	}
 	public int getLikeId() {
 		return likeId;
 	}
@@ -22,15 +34,12 @@ public class LikeDTO {
 	public void setLoginId(String loginId) {
 		this.loginId = loginId;
 	}
-	public LikeDTO(int likeId, String hotelId, String loginId) {
-		super();
-		this.likeId = likeId;
-		this.hotelId = hotelId;
-		this.loginId = loginId;
+	public boolean isListLike() {
+		return listLike;
 	}
-	public LikeDTO() {
-		super();
-		// TODO Auto-generated constructor stub
+	public void setListLike(boolean listLike) {
+		this.listLike = listLike;
 	}
+	
 	
 }

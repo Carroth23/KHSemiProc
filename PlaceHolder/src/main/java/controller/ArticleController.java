@@ -29,6 +29,7 @@ public class ArticleController extends HttpServlet {
 		String userId = (String)request.getSession().getAttribute("loginId");
 		
 		try {
+			
 			//1.게시글 작성 창으로 이동
 			if(cmd.equals("/writeForm.article")) {
 				//jsp에 따라 수정
@@ -60,22 +61,23 @@ public class ArticleController extends HttpServlet {
 				
 			//5.게시글 조회(전체 글)
 			}else if(cmd.equals("/articleList.article")) {
-				String cpage = request.getParameter("cpage");
-				if(cpage == null) {cpage = "1";}
+//				String cpage = request.getParameter("cpage");
+//				if(cpage == null) {cpage = "1";}
+//				
+//				int currentPage = Integer.parseInt(cpage);
+//				int pageTotalCount = adao.getPageTotalCount();
+//				
+//				if(currentPage < 1) {currentPage = 1;}
+//				if(currentPage > pageTotalCount) {currentPage = pageTotalCount;}
+//				
+//				int start = currentPage * Statics.RECORD_COUNT_PER_PAGE - (Statics.RECORD_COUNT_PER_PAGE-1);
+//				int end = currentPage * Statics.RECORD_COUNT_PER_PAGE;
 				
-				int currentPage = Integer.parseInt(cpage);
-				int pageTotalCount = adao.getPageTotalCount();
-				
-				if(currentPage < 1) {currentPage = 1;}
-				if(currentPage > pageTotalCount) {currentPage = pageTotalCount;}
-				
-				int start = currentPage * Statics.RECORD_COUNT_PER_PAGE - (Statics.RECORD_COUNT_PER_PAGE-1);
-				int end = currentPage * Statics.RECORD_COUNT_PER_PAGE;
-				
-				List<ArticleDTO> list = adao.selectArticleB(start, end);
-				String navi = adao.getPageNavi(currentPage);
+				List<ArticleDTO> list = adao.selectArticleB(1, 3);
+				//String navi = adao.getPageNavi(currentPage);
 				request.setAttribute("list", list);
-				request.setAttribute("navi", navi);
+				
+				//request.setAttribute("navi", navi);
 				request.getRequestDispatcher("/views/article/articleList.jsp").forward(request, response);
 				
 			//6.게시글 조회(유저 글)

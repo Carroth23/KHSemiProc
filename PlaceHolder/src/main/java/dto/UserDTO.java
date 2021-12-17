@@ -87,9 +87,4 @@ public class UserDTO {
 	public void setUserRoadAddress2(String userRoadAddress2) {
 		this.userRoadAddress2 = userRoadAddress2;
 	}
-	
-	
 }
-	
-	
-	

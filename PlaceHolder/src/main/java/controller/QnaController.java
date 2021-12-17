@@ -17,25 +17,17 @@ import dao.ReviewDAO;
 import dto.QnADTO;
 import dto.ReviewDTO;
 
-
-
 @WebServlet("*.qna")
 public class QnaController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		// Import QnADAO
 		QnADAO dao = QnADAO.getInstance();
 		request.setCharacterEncoding("utf8");
-
-		String uri = request.getRequestURI();
-		System.out.println("�궗�슜�옄媛� �썝�븯�뒗 二쇱냼 : " + uri);
-
-		String ctxPath = request.getContextPath();
-		System.out.println("�봽濡쒖젥�듃 紐� : " + ctxPath);
 		response.setContentType("text/html;charset=UTF-8");
 
 		// 경로값 받아오기
 		String cmd = request.getServletPath();
-		System.out.println("�궗�슜�옄媛� �썝�븯�뒗 湲곕뒫 : " + cmd);
 		
 		// Import SimpleDateFormat
 		SimpleDateFormat sdf = new SimpleDateFormat();
@@ -100,10 +92,7 @@ public class QnaController extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

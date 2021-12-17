@@ -52,6 +52,7 @@ public class PageController extends HttpServlet {
             request.setAttribute("reviewList", reviewList);
             request.setAttribute("reviewImgList", reviewImgList);
             request.getRequestDispatcher("/views/hotel/hotelMain.jsp").forward(request, response);
+            
          }else if(cmd.equals("/mypage.home")) {
             //넘겨줘야할 정보 => 호텔 3개와 리뷰 6개
             //호텔 3개

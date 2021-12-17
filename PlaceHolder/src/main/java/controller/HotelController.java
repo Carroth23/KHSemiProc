@@ -18,6 +18,7 @@ import dao.ImgFileDAO;
 import dao.LikeDAO;
 import dao.RoomDAO;
 import dto.HotelDTO;
+import dto.LikeDTO;
 
 @WebServlet("*.hotel")
 public class HotelController extends HttpServlet {
@@ -36,6 +37,11 @@ public class HotelController extends HttpServlet {
 		ImgFileDAO idao = ImgFileDAO.getInstance();
 		
 		
+		// 진규 추가
+		LikeDAO ldao = LikeDAO.getInstance();
+		HttpSession session = request.getSession();
+		
+		
 		try {
 			//1.상품 리스트로 이동(메인에서 호텔을 눌렀을 때 1-10페이지만 보여줌)
 			if(cmd.equals("/list.hotel")) {
@@ -48,6 +54,21 @@ public class HotelController extends HttpServlet {
 //				List<String> hotelImgList = idao.selectHotelImgB(start,end);
 				request.setAttribute("hotelList", hotelList);
 //				request.setAttribute("hotelImgList", hotelImgList);
+				
+				
+				// 진규 추가한 내용
+				String loginId = (String) session.getAttribute("loginId");
+				System.out.println("로그인된 사용자의 ID : " + loginId);
+				List<LikeDTO> dto = new ArrayList<>();
+	            for (HotelDTO d : hotelList) {
+	            	String hotelId = d.getHotelId();
+	            	boolean likeCheck = ldao.likeCheck(loginId, hotelId);
+	            	System.out.println("forEach 돌린 호텔 Id와 불린값 " + hotelId + " : " + likeCheck);
+	            	dto.add(new LikeDTO(0, hotelId, loginId, likeCheck));
+	            }
+	            request.setAttribute("likeDto", dto);
+				
+	            
 				request.getRequestDispatcher("/views/hotel/hotelList.jsp").forward(request, response);
 				
 			//2.리스트에서 더보기 버튼 누름(다음 10개를 더 가져옴)

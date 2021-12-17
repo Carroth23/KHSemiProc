@@ -109,7 +109,7 @@ public class ReservationController extends HttpServlet {
 					int result = reservDao.confirmReservation(reservDto);
 
 					// 예약 확인할 수 있게 마이페이지로 이동 (협의 필요함)
-					response.sendRedirect("/view/member/mypage.jsp");
+					response.sendRedirect("/mypage.home");
 					// 예약이 불가능한 경우
 				}
 

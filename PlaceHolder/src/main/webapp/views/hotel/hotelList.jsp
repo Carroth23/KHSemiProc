@@ -122,7 +122,7 @@
                           <a href="/main.home"><button type="button" class="sideBanner">메인으로</button></a>
                         </li>
                         <li class="nav-item">
-                          <button type="button" class="sideBanner">자유게시판</button>
+                          <button type="button" class="sideBanner" class="boardGo">자유게시판</button>
                         </li>
                       </ul>
                     </div>
@@ -140,7 +140,7 @@
                 <p id="pagereload">목록다시보기</p>
               </div>
               <div class="col-2 community bannerIn">
-                <p>커뮤니티</p>
+                <p class="boardGo">커뮤니티</p>
               </div>
               <div class="col-2 qna bannerIn">
                 <p>고객센터</p>
@@ -171,8 +171,9 @@
             </div>
             <hr class="bannerHr">
             
+
             <!-- 리스트콘텐츠 시작 -->
-            <c:forEach var="list" items="${hotelList}">
+            <c:forEach var="list" items="${hotelList}" varStatus="status">
               <div id="detailBox">
                 <div class="row detailBox">
                   <div class="col-3">
@@ -192,7 +193,14 @@
                           <img src="/semi-img/star.png">${list.hotelScore}
                         </div>
                         <div class="col-3 zzimUp">
-                          <button id="heart"></button>
+                          <c:choose>
+                            <c:when test="${likeDto[status.index].listLike == false}">
+                              <div class="heartBox"><img src="/semi-img/heart.png" id="heart"></div>
+                            </c:when>
+                            <c:when test="${likeDto[status.index].listLike == true}">
+                              <div class="heartBox"><img src="/semi-img/heartOn.png" id="heart"></div>
+                            </c:when>
+                          </c:choose>
                           <form action="/goods.room" method="get">
                             <input type="text" class="hotelId" name="hotelId" value=${list.hotelId}>
                             <button class="reservationGo">예약하기</button>
@@ -203,12 +211,13 @@
 
                       <div class="row">
                         <div class="col-12">
+                          <div>선택 가능한 옵션</div>
                           <select class="hotelOption">
                             <option>스탠다드룸</option>
                             <option>더블룸</option>
                             <option>디럭스룸</option>
                             <option>패밀리룸</option>
-                            <option>스위트룸</option>
+                            <option>이그제큐티브룸</option>
                           </select>
                         </div>
                       </div>
@@ -490,6 +499,10 @@
           location.href = "/index.jsp";
         })
 
+        // 커뮤니티로
+        $(".boardGo").on("click", function () {
+          location.href = "/articleList.article";
+        })
 
       </script>
 

@@ -378,6 +378,7 @@
   }
   /* 최종 예약 버튼 */
   .roomSubmit{
+    margin-left:20px;
     width:80px;
     height:30px;
     margin-top:20px;

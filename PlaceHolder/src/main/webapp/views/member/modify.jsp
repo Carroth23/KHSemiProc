@@ -185,7 +185,7 @@
 				<div class=signupName>아이디</div>
 				<div class=signupVal>
 					<input type=text placeholder="아이디 입력" id="id" name="id"
-						value="${userDTO.userId}" disabled>
+						value="${userDTO.userId}" readonly>
 				</div>
 				<span class=signupRegex id="idRegex"></span>
 			</div>
@@ -194,7 +194,7 @@
 				<div class=signupName>이름</div>
 				<div class=signupVal>
 					<input type=text placeholder="이름"
-					value="${userDTO.userName}"	id="name" name="name" disabled>
+					value="${userDTO.userName}"	id="name" name="userName">
 				</div>
 				<span class=signupRegex id="nameRegex"></span>
 			</div>
@@ -364,6 +364,7 @@
             if (!pwResult) {
                 pw_result.html("4~12 자리로 입력바랍니다");
                 pw_result.css("color", "red");
+                return false;
             } else {
                 pw_result.html("확인완료");
                 pw_result.css("color", "green");

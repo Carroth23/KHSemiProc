@@ -117,7 +117,7 @@
                       <a href="/main.user"><button type="button" class="sideBanner">메인으로</button></a>
                     </li>
                     <li class="nav-item">
-                      <button type="button" class="sideBanner">자유게시판</button>
+                      <button type="button" class="sideBanner boardGo">자유게시판</button>
                     </li>
                   </ul>
 
@@ -136,7 +136,7 @@
             <p id="listGoBar">호텔 리스트</p>
           </div>
           <div class="col-3 community bannerIn">
-            <p id="commuGobar">커뮤니티</p>
+            <p id="commuGobar" class="boardGo">커뮤니티</p>
           </div>
           <div class="col-3 qna bannerIn">
             <p id="gogakGobar">고객센터</p>
@@ -182,11 +182,11 @@
                   <option>더블룸</option>
                   <option>디럭스룸</option>
                   <option>패밀리룸</option>
-                  <option>스위트룸</option>
+                  <option>이그제큐티브룸</option>
                 </select>
                 <br>
                 <span>전화 번호 : </span><span>${hotelList.hotelPhone}</span><br><br>
-                <span>1박당 가격 : </span><span>${RoomList[0].roomPrice}~</span>
+                <span>1박당 가격 : </span><span>${RoomList[0].roomPrice} 부터~</span>
                 <a href="#banner1"><button class="reservationGo">룸 선택</button></a>
               </div>
             </div>
@@ -229,14 +229,17 @@
                     <input type="text" name="hotelPhone" class="throwRun" value=${hotelList.hotelPhone}>
                     <input type="text" name="hotelRoadAddress" class="throwRun" value=${hotelList.hotelRoadAddress}>
                     <p>${room.roomType}</p>
-                    <p>옵션: 드라이, 샤워가운, 조식, 룸서비스 등등..</p>
+                    <p>기본제공 : 드라이, 샤워가운, 조식, 룸서비스..</p>
                     <p>1박당 가격 : ${room.roomPrice}원</p>
                     <p>1인 추가시 +${room.addPrice}원</p>
                   </div>
                   <div class="col-4 roomDate">
                     <p>예약 날짜 입력</p>
                     <input type="date" name="checkIn"> 부터<br>
-                    <input type="date" class="roomDateEnd" name="checkOutDate"> 까지<br>
+                    <input type="date" class="roomDateEnd" name="checkOut"> 까지<br>
+                    <!-- ***** 현우 : revQuantity / addPrice 시험-->
+                    객실 <input type="number" min="1" max="5" class="revQuantity" name="revQuantity"> 개,
+                    총 <input type="number" min="1" max="6" class="addPrice" name="addPrice"> 명
                     <button class="roomSubmit justify-content-end">예약</button>
                   </div>
                 </div>
@@ -348,12 +351,15 @@
 
             <c:forEach var="cardHotel" items="${hotelListAll}">
               <div class="card">
+              <form action="/goods.room" method="get">
                 <img src="/semi-img/silde_h1.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title">${cardHotel.hotelName}</h5>
                   <p class="card-text">${cardHotel.hotelDetail}</p>
-                  <a href="#" class="cardbtn justify-content-center">보러가기</a>
+                  <input type="text" name="hotelId" class="throwRun" value=${cardHotel.hotelId}>
+                  <button class="cardbtn justify-content-center">보러가기</button>
                 </div>
+                </form>
               </div>
             </c:forEach>
 
@@ -482,9 +488,9 @@
             document.getElementById("listGoBar").addEventListener("click", () => {
               location.href = "/list.hotel";
             })
-            // document.getElementById("commuGobar").addEventListener("click", () => {
-            //   location.href="/";
-            // })
+            $(".boardGo").on("click", () => {
+              location.href = "/articleList.article";
+            })
             // document.getElementById("gogakGobar").addEventListener("click", () => {
             //   location.href="/";
             // })
@@ -518,19 +524,23 @@
                     "hotelId": '${hotelList.hotelId}'
                   }
                 }).done(function (res) {
-                  if(res == 'add'){ // 추가가 오면 하트 빨간색
-                    document.getElementById("heartAjax").src="/semi-img/heartOn.png";
+                  if (res == 'add') { // 추가가 오면 하트 빨간색
+                    document.getElementById("heartAjax").src = "/semi-img/heartOn.png";
                     console.log("빨강으로 변경");
-                  } else if(res == 'del'){ // 삭제가 오면 하트 검정색
-                    document.getElementById("heartAjax").src="/semi-img/heart.png";
+                  } else if (res == 'del') { // 삭제가 오면 하트 검정색
+                    document.getElementById("heartAjax").src = "/semi-img/heart.png";
                     console.log("검정으로 변경");
                   }
                 })
               }
             })
 
-
+            $(".cardbtn").on("click", () => {
+              console.log($(this).prev().val());
+            })
           }
+
+
         </script>
 
 

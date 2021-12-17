@@ -3,10 +3,14 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+
+import dto.LikeDTO;
 
 public class LikeDAO {
 	private static LikeDAO instance = null;
@@ -35,6 +39,22 @@ public class LikeDAO {
 			}
 		}
 	}
+	
+	// 리스트에서 좋아요 체크
+//	public ? listLikeCheck(String loginId, String hotelId) throws Exception{
+//		String sql = "select likeid from likey where userid = ? and hotelid = ?";
+//		try(Connection con = this.getConnection();
+//				PreparedStatement pstat = con.prepareStatement(sql)){
+//			pstat.setString(1, loginId);
+//			pstat.setString(2, hotelId);
+//			try(ResultSet rs = pstat.executeQuery()){
+//				List<LikeDTO> dto = new ArrayList<>();
+//				for (int i = 0; i < 10; i++) {
+//					
+//				}
+//			}
+//		}
+//	}
 	
 	// 로그인한 아이디로 호텔에 좋아요값이 없을때 추가하기.
 	public int likeAdd(String loginId, String hotelId) throws Exception{

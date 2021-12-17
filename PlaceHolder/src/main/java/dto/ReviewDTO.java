@@ -97,10 +97,4 @@ public class ReviewDTO {
 	public void setReviewCreated(Date reviewCreated) {
 		this.reviewCreated = reviewCreated;
 	}
-
-
-	
-	
-	
-	
 }

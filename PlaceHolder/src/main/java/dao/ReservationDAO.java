@@ -84,7 +84,7 @@ public class ReservationDAO {
 	public List<ReservationDTO> viewCurrentReservation(String loginId) throws Exception {
 
 		// 불러올 때 checkIn 날짜가 sysdate 까지의 경우만 조회
-		String sql = "select * from reservation where id = ? order by checkIn desc";
+		String sql = "select * from reservation where userId = ? order by checkIn desc";
 
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
 			pstat.setString(1, loginId);

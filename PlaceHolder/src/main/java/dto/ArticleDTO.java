@@ -4,18 +4,22 @@ import java.sql.Date;
 
 public class ArticleDTO {
 	private int postId;
-	private String userID;
+	private String userId;
 	private String postTitle;
 	private String postContent;
 	private Date postCreated;
 	private Date postModified;
 	
-	public ArticleDTO() {}
-	public ArticleDTO(int postId, String userID, String postTitle, String postContent, Date postCreated,
+	
+	public ArticleDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public ArticleDTO(int postId, String userId, String postTitle, String postContent, Date postCreated,
 			Date postModified) {
 		super();
 		this.postId = postId;
-		this.userID = userID;
+		this.userId = userId;
 		this.postTitle = postTitle;
 		this.postContent = postContent;
 		this.postCreated = postCreated;
@@ -27,11 +31,11 @@ public class ArticleDTO {
 	public void setPostId(int postId) {
 		this.postId = postId;
 	}
-	public String getUserID() {
-		return userID;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getPostTitle() {
 		return postTitle;
@@ -57,6 +61,5 @@ public class ArticleDTO {
 	public void setPostModified(Date postModified) {
 		this.postModified = postModified;
 	}
-	
 	
 }

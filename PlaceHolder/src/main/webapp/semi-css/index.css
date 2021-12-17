@@ -309,6 +309,7 @@
       float: left;
       margin: 3px;
     }
+    .foot-logos>li a{transition: all 0.3s;}
     .foot-logos>li a:hover{
       opacity: 0.9;
     }

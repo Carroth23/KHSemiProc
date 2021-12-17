@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
     <!DOCTYPE html>
     <html lang="en">
 
@@ -17,9 +18,6 @@
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
-      <!-- 카카오API -->
-      <%-- <script type="text/javascript"
-          src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fea2a5099bbe6dd9a94e77ea4f131faf"></script> --%>
       <!-- 폰트어썸CDN -->
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
         integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
@@ -161,8 +159,15 @@
               <div class="col-6">
                 <div class="star">
                   <img src="/semi-img/star.png">
-                  <p>4.8</p>
-                  <div class="heart"></div>
+                  <p>${hotelList.hotelScore}</p>
+                  <c:choose>
+                    <c:when test="${likeCheck == false}">
+                      <div id="heart"><img src="/semi-img/heart.png" id="heartAjax"></div>
+                    </c:when>
+                    <c:when test="${likeCheck == true}">
+                      <div id="heart"><img src="/semi-img/heartOn.png" id="heartAjax"></div>
+                    </c:when>
+                  </c:choose>
                   <div id="share"></div>
                 </div>
               </div>
@@ -243,46 +248,91 @@
 
         <hr class="bannerCutLine">
 
+
         <!-- 리뷰칸 -->
         <div class="row" id="banner2">
           <div class="col-12 review">
-          <c:forEach var="review" items="${ReviewList}">
-            <div class="row reviewBox">
-              <div class="col-3 reviewImg">
-                <img src="/semi-img/reviewImg1.jpg">
-              </div>
-              <div class="col-9 reviewInfo">
-                <span>${review.userId} 님의 리뷰 </span>
-                <img src="/semi-img/star.png">
-                <span>${review.reviewScore}</span>
-                <span class="reviewWriteDate">작성 날짜 : ${review.reviewCreated}</span>
-                <p class="choiceOption">선택옵션 : 디럭스(이건 빼야될수도)</p>
-                <div class="row">
-                  <div class="col-12 reviewContentBox">
-                    <p class="reviewContent">
-                      ${review.reviewContent}
-                    </p>
+            <c:forEach var="review" items="${ReviewList}">
+              <div class="row reviewBox">
+                <div class="col-3 reviewImg">
+                  <img src="/semi-img/reviewImg1.jpg">
+                </div>
+                <div class="col-9 reviewInfo">
+                  <span>${review.userId} 님의 리뷰 </span>
+                  <img src="/semi-img/star.png">
+                  <span>${review.reviewScore}</span>
+                  <span class="reviewWriteDate">작성 날짜 : ${review.reviewCreated}</span>
+                  <p class="choiceOption">선택옵션 : 디럭스(이건 빼야될수도)</p>
+                  <div class="row">
+                    <div class="col-12 reviewContentBox">
+                      <p class="reviewContent">
+                        ${review.reviewContent}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </c:forEach>
+            </c:forEach>
 
           </div>
         </div>
 
         <hr class="bannerCutLine">
 
-        <!-- QnA칸 -->
+        <!-- QnA칸 병주 작성 -->
         <div class="row" id="banner3">
           <div class="col-12 qna-middle">
+            <table border=1 align=center id="table1">
+              <tr>
+                <th colspan=2 align=left id=qna>Q&A
+              </tr>
+              <tr>
+                <td colspan=2 id="body"><textarea placeholder="내용을 입력하세요." id="contents1"
+                    name="inquiryContent"></textarea>
+              </tr>
+              <tr>
+                <td colspan=2 align=right><a href="/write.qna"><button>작성완료</button></a>
 
+              </tr>
+            </table>
+            <br>
+            <br>
+            <br>
+            <table border=1 align=center id="table2">
+              <tr>
+                <th colspan=5 align=center id=top>Q&A
+              </tr>
+              <tr align=center>
+                <td id="space">
+                <td id="title" name=inquiryContent>내용
+                <td id="writer" name=userId>작성자
+                <td id="date" name=inquiryCreated>날짜
+                <td id="view" name=inquiryStat>상태
+              </tr>
+              <tr>
+                <td colspan=5 align=center id="contents2">
+                  <c:forEach var="qna_List" items="${qna_List }">
+              <tr align="center">
+                <td>${qna_List.inquiry_seq }
+                <td>${qna_List.inquiryContent }
+                <td>${qna_List.userId }
+                <td>${qna_List.inquiryCreated }
+                <td>${qna_List.inquiryStat }
+              </tr>
+              </c:forEach>
+              </tr>
+              <tr>
+                <td colspan=5 align=right id=bottom>
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
 
         <div class="row" id="banner4">
           <div class="col-12 hotelInfo">
             <h3>${hotelList.hotelName}</h3>
+            <p>${hotelList.hotelDetail}</p>
             <br>
             <p>주소 : ${hotelList.hotelRoadAddress}</p>
             <p>전화번호 : ${hotelList.hotelPhone}</p>
@@ -292,84 +342,20 @@
           </div>
         </div>
 
-        <%-- 카카오 지도 API --%>
-        <%-- <div class="row">
-          <div class="col-12">
-            <!-- ***** RoomController에서 Hotel에 대한 좌표 값을 받아와서 지도에 표시하는 것을 기본으로 하고 있습니다.-->
-            <!-- ***** 참고 링크 :https://apis.map.kakao.com/web/guide/ -->
-
-            <!-- ***** 지도 들어갈 공간 -->
-            <div id="map" style="width: 350px;height:350px;"></div>
-          </div>
-        </div> --%>
-
-
-
-
-
         <!-- 비슷한 상품 -->
         <div class="row">
           <div class="col-12 slideBox">
 
-            <div class="card">
-              <img src="/semi-img/silde_h1.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">카타리나 호텔</h5>
-                <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                  Ipsum
-                  has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                  galley of
-                  type and scrambled it to make a type specimen book.</p>
-                <a href="#" class="cardbtn justify-content-center">보러가기</a>
+            <c:forEach var="cardHotel" items="${hotelListAll}">
+              <div class="card">
+                <img src="/semi-img/silde_h1.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">${cardHotel.hotelName}</h5>
+                  <p class="card-text">${cardHotel.hotelDetail}</p>
+                  <a href="#" class="cardbtn justify-content-center">보러가기</a>
+                </div>
               </div>
-            </div>
-
-            <div class="card">
-              <img src="/semi-img/slide_h2.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">선셋 더샤인</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's
-                  content.</p>
-                <a href="#" class="cardbtn">보러가기</a>
-              </div>
-            </div>
-
-            <div class="card">
-              <img src="/semi-img/slide_h3.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">더 힐튼</h5>
-                <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                  Ipsum
-                  has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                  galley of
-                  type and scrambled it to make a type specimen book.</p>
-                <a href="#" class="cardbtn">보러가기</a>
-              </div>
-            </div>
-
-            <div class="card">
-              <img src="/semi-img/slide_h4.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">엠버서더 명동</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's
-                  content.</p>
-                <a href="#" class="cardbtn">보러가기</a>
-              </div>
-            </div>
-
-            <div class="card">
-              <img src="/semi-img/slide_h5.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">롯데 시그니엘</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's
-                  content.</p>
-                <a href="/list.hotel" class="cardbtn">보러가기</a>
-              </div>
-            </div>
-
+            </c:forEach>
 
           </div>
         </div>
@@ -517,9 +503,36 @@
               alert("url이 복사되었습니다.");
             })
 
+
+            let heart = document.getElementById("heart");
+
+            heart.addEventListener("click", () => {
+              if ('${loginId}' == '') {
+                alert("로그인을 해주세요");
+                return
+              } else {
+                $.ajax({
+                  url: "/detailClick.like",
+                  data: {
+                    "loginId": '${loginId}',
+                    "hotelId": '${hotelList.hotelId}'
+                  }
+                }).done(function (res) {
+                  if(res == 'add'){ // 추가가 오면 하트 빨간색
+                    document.getElementById("heartAjax").src="/semi-img/heartOn.png";
+                    console.log("빨강으로 변경");
+                  } else if(res == 'del'){ // 삭제가 오면 하트 검정색
+                    document.getElementById("heartAjax").src="/semi-img/heart.png";
+                    console.log("검정으로 변경");
+                  }
+                })
+              }
+            })
+
+
           }
         </script>
-        
+
 
     </body>
 

@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,13 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.QnADAO;
+import dao.ReviewDAO;
 import dto.QnADTO;
+import dto.ReviewDTO;
 
 
 
 @WebServlet("*.qna")
 public class QnaController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Import QnADAO
 		QnADAO dao = QnADAO.getInstance();
 		request.setCharacterEncoding("utf8");
 
@@ -27,51 +31,71 @@ public class QnaController extends HttpServlet {
 
 		String ctxPath = request.getContextPath();
 		System.out.println("�봽濡쒖젥�듃 紐� : " + ctxPath);
+		response.setContentType("text/html;charset=UTF-8");
 
-		String cmd = uri.substring(ctxPath.length());
+		// 경로값 받아오기
+		String cmd = request.getServletPath();
 		System.out.println("�궗�슜�옄媛� �썝�븯�뒗 湲곕뒫 : " + cmd);
 		
+		// Import SimpleDateFormat
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		
+		// 1. QnA 작성하기 기능
+		// 2. QnA 조회하기 기능 (내가 쓴 글)
+		// 3. QnA 수정하기 기능
+		// 4. QnA 삭제하기 기능
+		// 5. Hotel 상세페이지에서 QnA 출력할 수 있게 리스트 forward
+		
+		// userId 세션 값으로 받아두고 활용
+		String loginId = (String) request.getSession().getAttribute("loginId");
+		
 		try {
-			if(cmd.equals("/list.qna")) {
-				System.out.println("여기옴ㅎ");
-				List<QnADTO> dto = dao.selectAll();
-				request.setAttribute("qna_List", dto); 
-				response.sendRedirect("/qna.jsp");
-				response.sendRedirect("/qnaList.jsp");
+			// 1. User의 리뷰 작성하기 기능
+			if(cmd.equals("/write.qna")) {
 				
-			}else if(cmd.equals("/write.qna")) {
-				
-				HttpSession session = request.getSession();
-				String hotelId = (String)request.getSession().getAttribute("hotelId");
-				String userId = request.getParameter("userId");
-				String inquiryStat = request.getParameter("inquiryStat");
-				String inquiryContent = request.getParameter("inquiryContent");
-				Date inquiryCreated = Date.valueOf(request.getParameter("inquiryCreated"));
-				int inquiry = Integer.parseInt(request.getParameter("inquiry"));
-				
-				System.out.println(hotelId);
-				System.out.println(userId);
-				System.out.println(inquiryStat);
-
-				int result = dao.insert(new QnADTO(inquiry,hotelId,userId,inquiryStat,inquiryContent,inquiryCreated));
-				request.getRequestDispatcher("/list.qna").forward(request, response);
-				if(result > 0) {
-					System.out.println("�옉�꽦 �셿猷�");
-					response.sendRedirect("/qnaList.qna"); // .board濡� �븞蹂대궡怨� �럹�씠吏�濡� 蹂대궡�룄 湲��씠 �삱�씪�삤�뒗吏� �솗�씤�빐�빞�맖 = �솗�씤寃곌낵 .jsp濡� 諛붾줈蹂대궡硫� �븞�삱�씪�샂
-				}
-			}else if(cmd.equals("/delete.qna")) {
-				int inquiry_seq = Integer.parseInt(request.getParameter("inquiry_seq"));
-				int result = dao.delete(inquiry_seq);
-				response.sendRedirect("/list.qna");
-
-			}else if(cmd.equals("/modify.qna")) {
-				int inquiry_seq = Integer.parseInt(request.getParameter("inquiry_seq"));
+				// loginId, 예약코드, 유저아이디, 호텔 아이디, qna내용, qna 작성날짜 받아오기
+				String revId = request.getParameter("revId");
+				String userId = loginId; // session 값
+				String hotelId = request.getParameter("hotelId");
 				String inquiryContent = request.getParameter("inquiryContent");
 				
-				int result = dao.modify(inquiry_seq,inquiryContent);
+				// QnADTO 객체에 파라미터 값 담기
 				
-				response.sendRedirect("/list.qna?inquiry_seq="+inquiry_seq);
+				dao.insert(new QnADTO(0,revId,userId,hotelId,inquiryContent,null));
+				request.getRequestDispatcher("/views/hotel/hotelDetail.jsp");
 			}
+			// 2. User의 QnA 조회하기 기능 (내가 쓴 글)
+			else if(cmd.equals("/viewMyReview.review")) {
+				
+				// 해당 userId로 작성된 QnA 목록 모두 조회하기
+				List<QnADTO> myqna = dao.selectAll(loginId);
+				
+				// myPage로 request 값 포워드
+				request.setAttribute("myqna", myqna);
+				request.getRequestDispatcher("/myqnaPage.jsp").forward(request, response);
+			}
+			// 3. User의 qna 수정하기 기능
+			else if(cmd.equals("/modify.qna")) {
+				String inquiryContent = request.getParameter("inquiryContent");
+				
+				QnADTO qnaDto = new QnADTO(0, null, null, null, inquiryContent, null);
+				
+				 dao.modify(qnaDto);
+				 //JSP 나오면 추가
+				 response.sendRedirect("");
+			}
+			// 4. User의 qna 삭제하기 기능
+			else if(cmd.equals("/delete.qna")) {
+				
+				// User의 리뷰코드를 받아온다.
+				String userId = request.getParameter("userId");
+				
+				// 예약코드에 해당하는 review를 DB에서 삭제한다.
+				int result = dao.delete(userId);
+				//JSP 나오면 추가
+				 response.sendRedirect("");
+			}
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

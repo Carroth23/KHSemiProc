@@ -123,7 +123,7 @@ public class UserDAO {
 					dto.setUserPhone(rs.getString("userPhone"));
 					dto.setUserPost(rs.getString("userPost"));
 					dto.setUserRoadAddress(rs.getString("userRoadAddress"));
-					dto.setUserRoadAddress(rs.getString("userRoadAddress2"));
+					dto.setUserRoadAddress2(rs.getString("userRoadAddress2"));
 					
 					return dto;
 				}

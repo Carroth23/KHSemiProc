@@ -262,7 +262,25 @@
                         $("#reviewPage").css("display", "none");
                         $("#writePage").css("display", "none");
                         $("#qnaPage").css("display", "none");
+                        // ***** 현우 ajax 수정 *****// 
+                        $.ajax({
+                        	url:"/viewReservationList.book",
+                        	type: "post",
+                        }).done(function (resp){
+                        	// forEach문 돌려서 div로 리스트 뽑아내기
+                        	let result = JSON.parse(resp);
+                        	
+                        	for(let i = 0; i < result.length; i++){
+                        		console.log(result[i].revId + " : " + result[i].userId + " : " + result[i].hotelId
+                        				+ " : " + result[i].hotelName + " : " + result[i].hotelRoadAddress + " : " +
+                        				" : " + result[i].hotelPhone + " : " + result[i].checkIn + " : " + result[i].checkOut +
+                        				" : " + result[i].revDay + " : " + result[i].revRoomtype + " : " + result[i].revQuantity +
+                        				" : " + result[i].revRoomInfo + " : " + result[i].revStat + " : " + result[i].revPrice);
+                        	}
+                        	
+                        });
                     })
+                    
                 </script>
 
 

@@ -30,7 +30,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap"
 	rel="stylesheet">
-<!-- signup CSS -->
+<!-- modify css -->
 <link rel="stylesheet" href="/semi-css/modify.css">
 </head>
 <body>
@@ -185,7 +185,7 @@
 				<div class=signupName>아이디</div>
 				<div class=signupVal>
 					<input type=text placeholder="아이디 입력" id="id" name="id"
-						value="${userDTO.userId}" readonly>
+						value="${userDTO.userId}" disabled>
 				</div>
 				<span class=signupRegex id="idRegex"></span>
 			</div>
@@ -194,7 +194,7 @@
 				<div class=signupName>이름</div>
 				<div class=signupVal>
 					<input type=text placeholder="이름"
-						id="name" name="name">
+					value="${userDTO.userName}"	id="name" name="name" disabled>
 				</div>
 				<span class=signupRegex id="nameRegex"></span>
 			</div>
@@ -240,13 +240,14 @@
 				</div>
 				<span class=signupRegex id="emailRegex"></span>
 			</div>
+			<br> <br>
 			<div class="signupBox">
                     <div class=signupName>생년월일</div>
                     <div class=signupVal id="birthVal">
                     	<input type=text placeholder="주민등록번호 앞자리 입력" value="${userDTO.userBirth}" id="birth" name="birth">
                     </div>
                     <span class=signupRegex id="birthRegex"></span>
-                </div><br><br>
+                </div>
 			<br> <br>
 			<div class="signupBox">
 				<div class=signupName>전화번호</div>
@@ -291,38 +292,14 @@
 			<!-- 수정완료  -->
 			<div class="signupBox">
 				<input type=submit value="수정완료" id="signup-btn">
+				
 			</div>
 			<div class="signupBox">
-				<button type=button id=delUser>회원탈퇴</button>
+				<a href="/secession.user"><input type=button value="회원탈퇴" id="lieve-btn"></a>
 			</div>
 			<br>
 	</form>
-
-	<!-- FOOTER -->
-	<div class="signupBox" id="footer-background">
-		<div class="row">
-			<div class="col-2 footers">
-				<a href="">이용약관</a>
-			</div>
-			<div class="col-3 footers">
-				<a href="">개인정보처리방침</a>
-			</div>
-			<div class="col-4 footers">
-				<a href="">책임의 한계와 법적고지</a>
-			</div>
-			<div class="col-3 footers">
-				<a href="">회원정보 고객센터</a>
-			</div>
-		</div>
-		<br>
-		<div class="row">
-			<div class="col-12 footer">
-				<img src="semi-img/logos.png" id="footer-img"> &nbsp;&nbsp;
-				Copyright PLACEHOLDER Corp. All Rights Reserved.
-			</div>
-		</div>
-		<br>
-	</div>
+	
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript"
@@ -495,8 +472,7 @@
             if (phone.val() == "") {
                 phone_Result.html("");
             }
-        })
-
+        })       
 
         // <FORM> 태그 페이지 이동 막기
         form.on("submit", function () {

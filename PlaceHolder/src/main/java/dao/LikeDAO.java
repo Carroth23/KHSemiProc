@@ -1,6 +1,8 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -17,15 +19,51 @@ public class LikeDAO {
 	private LikeDAO() {}
 	private Connection getConnection() throws Exception {
 		Context ctx = new InitialContext();
-		DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/orale");
+		DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/oracle");
 		return ds.getConnection();
 	}
 	
-	// 우선 해당 아이디로 호텔에 좋아요가 되어있는지 확인.
-//	public int likeCheck() throws Exception{
-//		String sql = "select * from likey where userid = ?";
-//	}
+	// 디테일페이지에서 좋아요 되어있는지 확인.
+	public boolean likeCheck(String loginId, String hotelId) throws Exception{
+		String sql = "select likeid from likey where userid = ? and hotelid = ?";
+		try(Connection con = this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql)){
+			pstat.setString(1, loginId);
+			pstat.setString(2, hotelId);
+			try(ResultSet rs = pstat.executeQuery()){
+				return rs.next();
+			}
+		}
+	}
 	
+	// 로그인한 아이디로 호텔에 좋아요값이 없을때 추가하기.
+	public int likeAdd(String loginId, String hotelId) throws Exception{
+		String sql = "insert into likey values(default, ?, ?)";
+		System.out.println("addDAO에 들어오는 유저id 호텔id = " + loginId + " : " + hotelId);
+		try(Connection con = this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql)){
+			pstat.setString(1, hotelId);
+			pstat.setString(2, loginId);
+			int result = pstat.executeUpdate();
+			con.commit();
+			return result;
+		}
+	}
+	
+	// 로그인한 아이디로 좋아요값이 있을때 그걸 빼버리긔
+	public int likeDel(String loginId, String hotelId) throws Exception{
+		String sql = "delete from likey where userid = ? and hotelid = ?";
+		System.out.println("delDAO에 들어오는 유저id 호텔id = " + loginId + " : " + hotelId);
+		try(Connection con = this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql)){
+			pstat.setString(1, loginId);
+			pstat.setString(2, hotelId);
+			System.out.println("like row삭제");
+			int result = pstat.executeUpdate();
+			con.commit();
+			return result;
+		}
+	}
 	
 	
 }

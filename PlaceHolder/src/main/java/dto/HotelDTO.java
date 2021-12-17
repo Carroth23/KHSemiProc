@@ -9,10 +9,13 @@ public class HotelDTO {
 	private String hotelRoadAddress;
 	private String hotelLongitude;
 	private String hotelLatitude;
+	private String hotelScore;
+	private String hotelDetail;
 	
 	public HotelDTO() {}
+	
 	public HotelDTO(String hotelId, String hotelName, String hotelInfo, String hotelPhone, String hotelRoadAddress,
-			String hotelLongitude, String hotelLatitude) {
+			String hotelLongitude, String hotelLatitude, String hotelScore, String hotelDetail) {
 		super();
 		this.hotelId = hotelId;
 		this.hotelName = hotelName;
@@ -21,7 +24,26 @@ public class HotelDTO {
 		this.hotelRoadAddress = hotelRoadAddress;
 		this.hotelLongitude = hotelLongitude;
 		this.hotelLatitude = hotelLatitude;
+		this.hotelScore = hotelScore;
+		this.hotelDetail = hotelDetail;
 	}
+	
+	public String getHotelDetail() {
+		return hotelDetail;
+	}
+	public void setHotelDetail(String hotelDetail) {
+		this.hotelDetail = hotelDetail;
+	}
+
+	public String getHotelScore() {
+		return hotelScore;
+	}
+
+
+	public void setHotelScore(String hotelScore) {
+		this.hotelScore = hotelScore;
+	}
+
 	public String getHotelId() {
 		return hotelId;
 	}

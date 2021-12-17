@@ -113,18 +113,6 @@ transition:all 0.3s;}
     margin-top: 10px;}
 /* 로그인사이드바 끝 */
 
-/* nav1 */
-.nav1 {    
-    margin-bottom:10px;
-    text-align: center;
-    width: 25%;
-    height: 50px;}
-.navBtn{
-    background-color: rgba(0, 255, 255, 0.24);
-    border:0px;
-    width:95%;
-    height:100%;}
-/* nav바 끝 */
 
 /* nav2 */
 #nav2{margin:0px;}

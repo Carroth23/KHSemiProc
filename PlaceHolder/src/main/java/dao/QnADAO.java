@@ -47,8 +47,8 @@ public class QnADAO {
 		}
 	}
 
-	public List<QnADTO> selectAll() throws Exception{
-		String sql = "select * from qna order by inquiry_seq desc";
+	public List<QnADTO> selectAll(String loginId) throws Exception{
+		String sql = "select * from qna where userId=?";
 		try (Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);
 				ResultSet rs = pstat.executeQuery()){
@@ -92,22 +92,22 @@ public class QnADAO {
 		}
 	}
 	
-	public int delete(int inquiry) throws Exception {
-		String sql = "delete from qna where inquiry=? and id=?";
+	public int delete(String userId) throws Exception {
+		String sql = "delete from qna where userId=?";
 		try(Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){
-			pstat.setInt(1, inquiry);
+			pstat.setString(1, userId);
 			int result = pstat.executeUpdate();
 			con.commit();
 			return result;
 		}
 	}
-	public int modify(int inquiry, String inquiryContent) throws Exception{
+	public int modify(QnADTO dto) throws Exception{
 		String sql = "update qna set inquiryContent=? where inquiry=?";
 		try(Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){
-			pstat.setInt(1, inquiry);
-			pstat.setString(2, inquiryContent);
+			pstat.setInt(1, dto.getInquiry());
+			pstat.setString(2, dto.getInquiryContent());
 			int result = pstat.executeUpdate();
 			con.commit();
 			return result;

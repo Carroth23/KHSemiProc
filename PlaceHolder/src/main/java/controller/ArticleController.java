@@ -59,7 +59,7 @@ public class ArticleController extends HttpServlet {
 				response.sendRedirect("/views/article/list.jsp");
 				
 			//5.게시글 조회(전체 글)
-			}else if(cmd.equals("/list.article")) {
+			}else if(cmd.equals("/articleList.article")) {
 				String cpage = request.getParameter("cpage");
 				if(cpage == null) {cpage = "1";}
 				
@@ -76,7 +76,7 @@ public class ArticleController extends HttpServlet {
 				String navi = adao.getPageNavi(currentPage);
 				request.setAttribute("list", list);
 				request.setAttribute("navi", navi);
-				request.getRequestDispatcher("/views/articles/list.jsp").forward(request, response);
+				request.getRequestDispatcher("/views/article/articleList.jsp").forward(request, response);
 				
 			//6.게시글 조회(유저 글)
 			}else if(cmd.equals("/listUser.article")) {
@@ -103,7 +103,7 @@ public class ArticleController extends HttpServlet {
 				//검색옵션과 키워드 받아오기
 				String option = request.getParameter("option");
 				String keyword = request.getParameter("keyword");
-				
+				System.out.println(option + " : " + keyword);
 				//검색옵션에 따라 분기점
 				if(option.equals("작성자")) {
 					String cpage = request.getParameter("cpage");

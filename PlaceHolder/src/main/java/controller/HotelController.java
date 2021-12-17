@@ -9,11 +9,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
 import dao.HotelDAO;
 import dao.ImgFileDAO;
+import dao.LikeDAO;
 import dao.RoomDAO;
 import dto.HotelDTO;
 
@@ -33,9 +35,12 @@ public class HotelController extends HttpServlet {
 		RoomDAO rdao = RoomDAO.getInstance();
 		ImgFileDAO idao = ImgFileDAO.getInstance();
 		
+		
 		try {
 			//1.상품 리스트로 이동(메인에서 호텔을 눌렀을 때 1-10페이지만 보여줌)
 			if(cmd.equals("/list.hotel")) {
+				
+				
 				int start = 1;
 				int end = start + 9;
 				//호텔 정보와 이미지경로값 받아오기

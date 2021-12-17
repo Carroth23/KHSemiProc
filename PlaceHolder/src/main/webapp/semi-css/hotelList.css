@@ -284,20 +284,14 @@
       }
 
       /* 좋아요 */
-      #heart {
+      .heartBox {
         width: 30px;
         height: 30px;
         border:none;
-        background-image: url(/semi-img/heart.png);
-        background-size:cover;
-        background-color:#F0F8FF;
         margin-top:20px;
         transition: all 0.5s;
+        cursor: pointer;
       }
-
-      #heart:hover{
-        background-image: url(/semi-img/heartOn.png);
-      }  
 
 
       /* 호텔이름 */

@@ -275,9 +275,9 @@
 
 	</div>
 	<script>
-		document.querySelector(".signUp").addEventListener("click", function() {
-			location.href = "/signupPage.user";
-		})
+    $("signUp").on("click", function(){
+      location.href = "/signupPage.user";
+    })
 	</script>
 </body>
 

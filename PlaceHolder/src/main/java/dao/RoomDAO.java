@@ -59,4 +59,30 @@ public class RoomDAO {
 		}
 	}
 	
+	// ***** 현우 추가 : 예약용, 호텔 id, roomType에 따라서 결과 조회하기
+	   public RoomDTO showRoomInfo(String hotelid, String roomType) throws Exception{
+	      String sql = "select * from room where hotelId = ? and roomType = ?";
+	      
+	      RoomDTO dto = new RoomDTO();
+	      
+	      try(Connection con = this.getConnection();
+	            PreparedStatement pstat = con.prepareStatement(sql);){
+	         pstat.setString(1, hotelid);
+	         pstat.setString(2, roomType);
+
+	         try(ResultSet rs = pstat.executeQuery();){
+	            rs.next();
+	            
+	            dto.setHotelId(rs.getString("hotelId"));
+	            dto.setRoomType(rs.getString("roomType"));
+	            dto.setQuantity(rs.getString("quantity"));
+	            dto.setRoomPrice(rs.getString("roomPrice"));
+	            dto.setAddPrice(rs.getString("addPrice"));
+	            dto.setRoomInfo(rs.getString("roomInfo"));
+
+	         }
+	      }
+	      return dto;
+	   }
+	
 }

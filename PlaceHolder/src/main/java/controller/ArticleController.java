@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import dao.ArticleDAO;
 import dto.ArticleDTO;
 import statics.Statics;
@@ -23,13 +25,13 @@ public class ArticleController extends HttpServlet {
 		String ctxPath = request.getContextPath();
 		String cmd = requestURI.substring(ctxPath.length());
 		System.out.println(cmd); //경로 잘 들어오나 확인용
-		
+
 		//미리세팅
 		ArticleDAO adao = ArticleDAO.getInstance();
 		String userId = (String)request.getSession().getAttribute("loginId");
-		
+
 		try {
-			
+
 			//1.게시글 작성 창으로 이동
 			if(cmd.equals("/writeForm.article")) {
 				//jsp에 따라 수정
@@ -58,93 +60,60 @@ public class ArticleController extends HttpServlet {
 				adao.deleteArticle(postId);
 				//jsp에 따라 수정
 				response.sendRedirect("/views/article/list.jsp");
-				
-			//5.게시글 조회(전체 글)
+
+				//5.게시글 조회(전체 글)
 			}else if(cmd.equals("/articleList.article")) {
-//				String cpage = request.getParameter("cpage");
-//				if(cpage == null) {cpage = "1";}
-//				
-//				int currentPage = Integer.parseInt(cpage);
-//				int pageTotalCount = adao.getPageTotalCount();
-//				
-//				if(currentPage < 1) {currentPage = 1;}
-//				if(currentPage > pageTotalCount) {currentPage = pageTotalCount;}
-//				
-//				int start = currentPage * Statics.RECORD_COUNT_PER_PAGE - (Statics.RECORD_COUNT_PER_PAGE-1);
-//				int end = currentPage * Statics.RECORD_COUNT_PER_PAGE;
-				
-				List<ArticleDTO> list = adao.selectArticleB(1, 3);
-				//String navi = adao.getPageNavi(currentPage);
+				int start = 1;
+				int end = start + 9;
+				List<ArticleDTO> list = adao.selectArticleB(start, end);
 				request.setAttribute("list", list);
-				
-				//request.setAttribute("navi", navi);
 				request.getRequestDispatcher("/views/article/articleList.jsp").forward(request, response);
-				
+			
+			//5-1. 게시글 더보기
+			}else if(cmd.equals("/listPlus.article")){
+				//더보기 버튼의 value값을 받아옴
+				System.out.println("정상출력");
+				int start = Integer.parseInt(request.getParameter("btn"));
+				int end = start + 9;
+				if(end > adao.getHotelCount()) {
+					end = adao.getHotelCount();
+				}
+				List<ArticleDTO> articleList = adao.selectArticleB(start, end);
+				Gson g = new Gson();
+				String result = g.toJson(articleList);
+				response.getWriter().append(result);
+			
 			//6.게시글 조회(유저 글)
 			}else if(cmd.equals("/listUser.article")) {
-				String cpage = request.getParameter("cpage");
-				if(cpage == null) {cpage = "1";}
-				
-				int currentPage = Integer.parseInt(cpage);
-				int pageTotalCount = adao.getPageTotalCountU(userId);
-				
-				if(currentPage < 1) {currentPage = 1;}
-				if(currentPage > pageTotalCount) {currentPage = pageTotalCount;}
-				
-				int start = currentPage * Statics.RECORD_COUNT_PER_PAGE - (Statics.RECORD_COUNT_PER_PAGE-1);
-				int end = currentPage * Statics.RECORD_COUNT_PER_PAGE;
-				
-				List<ArticleDTO> list = adao.selectUserArticleB(start, end, userId);
-				String navi = adao.getPageNaviU(currentPage, userId);
+				List<ArticleDTO> list = adao.selectUserArticle(userId);
 				request.setAttribute("list", list);
-				request.setAttribute("navi", navi);
-				request.getRequestDispatcher("/views/articles/myArticle.jsp").forward(request, response);
+				request.getRequestDispatcher("/views/article/myArticle.jsp").forward(request, response);
 			
 			//7.게시글 검색(유저 아이디/제목)
 			}else if(cmd.equals("/search.article")) {
 				//검색옵션과 키워드 받아오기
 				String option = request.getParameter("option");
-				String keyword = request.getParameter("keyword");
+				String keyword = request.getParameter("Keyword");
 				System.out.println(option + " : " + keyword);
 				//검색옵션에 따라 분기점
-				if(option.equals("작성자")) {
-					String cpage = request.getParameter("cpage");
-					if(cpage == null) {cpage = "1";}
-					
-					int currentPage = Integer.parseInt(cpage);
-					int pageTotalCount = adao.getPageTotalCountU(keyword);
-					
-					if(currentPage < 1) {currentPage = 1;}
-					if(currentPage > pageTotalCount) {currentPage = pageTotalCount;}
-					
-					int start = currentPage * Statics.RECORD_COUNT_PER_PAGE - (Statics.RECORD_COUNT_PER_PAGE-1);
-					int end = currentPage * Statics.RECORD_COUNT_PER_PAGE;
-					
-					List<ArticleDTO> list = adao.selectUserArticleB(start, end, keyword);
-					String navi = adao.getPageNaviU(currentPage, keyword);
+				if(option.equals("유저ID")) {
+					List<ArticleDTO> list = adao.selectUserArticle(keyword);
 					request.setAttribute("list", list);
-					request.setAttribute("navi", navi);
-					request.getRequestDispatcher("/views/articles/myArticle.jsp").forward(request, response);
+					request.getRequestDispatcher("/views/article/articleList.jsp").forward(request, response);
 					
 				}else if(option.equals("제목")) {
-					String cpage = request.getParameter("cpage");
-					if(cpage == null) {cpage = "1";}
-					
-					int currentPage = Integer.parseInt(cpage);
-					int pageTotalCount = adao.getPageTotalCountK(keyword);
-					
-					if(currentPage < 1) {currentPage = 1;}
-					if(currentPage > pageTotalCount) {currentPage = pageTotalCount;}
-					
-					int start = currentPage * Statics.RECORD_COUNT_PER_PAGE - (Statics.RECORD_COUNT_PER_PAGE-1);
-					int end = currentPage * Statics.RECORD_COUNT_PER_PAGE;
-					
-					List<ArticleDTO> list = adao.selectTitleArticleB(start, end, keyword);
-					String navi = adao.getPageNaviK(currentPage, keyword);
+					List<ArticleDTO> list = adao.selectTitleArticle(keyword);
 					request.setAttribute("list", list);
-					request.setAttribute("navi", navi);
-					request.getRequestDispatcher("/views/articles/myArticle.jsp").forward(request, response);
+					request.getRequestDispatcher("/views/article/articleList.jsp").forward(request, response);
 				}
+			}	
+				
+			// 7. ***** 현우 추가 : 마이페이지에서 유저 게시글 검색
+			else if(cmd.equals("/viewMyArticle.article")) {
+				List<ArticleDTO> articleList = adao.viewMyArticle(userId);
+				request.setAttribute("articleList", articleList);
+				request.getRequestDispatcher("/views/member/mypage.jsp").forward(request, response);
+				
 			}
 		}catch(Exception e){
 			e.printStackTrace();

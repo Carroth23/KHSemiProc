@@ -118,25 +118,15 @@
 													</div>
 												</form>
 											</div>
-
-
 										</li>
 									</c:otherwise>
 								</c:choose>
-								<li class="nav-item">
-									<button type="button" class="sideBanner">이 달의 이벤트</button>
-								</li>
 								<li class="nav-item"><a href="/main.user"><button
-											type="button" class="sideBanner">홈으로</button></a></li>
+											type="button" class="sideBanner">메인으로</button></a></li>
 								<li class="nav-item">
 									<button type="button" class="sideBanner">자유게시판</button>
 								</li>
 							</ul>
-							<form class="d-flex">
-								<input class="form-control me-2" type="search"
-									placeholder="Search" aria-label="Search">
-								<button class="btn btn-outline-success" type="submit">Search</button>
-							</form>
 						</div>
 					</div>
 				</nav>
@@ -145,15 +135,16 @@
 	</div>
 
 	<!-- nav 바 첫번째 -->
+	<!-- 수정 : 경로 수정 -->
 	<div class="container">
 		<div class="nav">
 			<div class="nav1">
-				<a href="">
+				<a href="/list.hotel">
 					<button type="button" class="navBtn">예약</button>
 				</a>
 			</div>
 			<div class="nav1">
-				<a href="">
+				<a href="/articleList.article">
 					<button type="button" class="navBtn">커뮤니티</button>
 				</a>
 			</div>
@@ -163,8 +154,8 @@
 				</a>
 			</div>
 			<div class="nav1">
-				<a href="">
-					<button type="button" class="navBtn">MY PAGE</button>
+				<a href="/mypage.home">
+					<button type="button" class="navBtn">마이페이지</button>
 				</a>
 			</div>
 		</div>
@@ -549,6 +540,21 @@
                 }
             }).open();
         }
+        
+        document.querySelector("#pagereload").addEventListener("click", function () {
+            location.href = "/list.hotel";
+          })
+
+          // 홈으로
+          document.querySelector("#goHome").addEventListener("click", function () {
+            location.href = "/index.jsp";
+          })
+          
+          // 커뮤니티로
+  		$(".boardGo").on("click", function(){
+            location.href = "/articleList.article";
+          })
+        
     </script>
 </body>
 </html>

@@ -58,14 +58,15 @@ public class ReviewController extends HttpServlet {
 				request.getRequestDispatcher("/views/hotel/detaul.jsp");
 			}
 			// 2. User의 리뷰 조회하기 기능 (내가 쓴 글)
+			// ***** 현우 수정사항 : 경로 수정
 			else if(cmd.equals("/viewMyReview.review")) {
 				
 				// 해당 userId로 작성된 리뷰 목록 모두 조회하기
 				List<ReviewDTO> myReview = vdao.selectMyReview(loginId);
-				
+				System.out.println(myReview.get(0).getUserId());
 				// myPage로 request 값 포워드
 				request.setAttribute("myReview", myReview);
-				request.getRequestDispatcher("/myReviewPage.jsp").forward(request, response);
+				request.getRequestDispatcher("views/member/mypage.jsp").forward(request, response);
 			}
 			// 3. User의 리뷰 수정하기 기능
 			else if(cmd.equals("/modifyReview.review")) {

@@ -71,8 +71,7 @@
 													</div>
 													<div class="row loginAccBannerH">
 														<div class="col-3">
-															<a href="/list.hotel"><button
-																	class="loginAccBanner">예약</button></a>
+															<a href="/list.hotel"><button class="loginAccBanner">예약</button></a>
 														</div>
 														<div class="col-3">
 															<a href=""><button class="loginAccBanner">후기</button></a>
@@ -81,8 +80,7 @@
 															<a href=""><button class="loginAccBanner">찜목록</button></a>
 														</div>
 														<div class="col-3">
-															<a href="/userInfo.user"><button
-																	class="loginAccBanner">MyPage</button></a>
+															<button	class="loginAccBanner">MyPage</button></a>
 														</div>
 													</div>
 												</li>
@@ -108,8 +106,6 @@
 															</div>
 														</form>
 													</div>
-
-
 												</li>
 											</c:otherwise>
 										</c:choose>
@@ -124,7 +120,6 @@
 					</div>
 				</div>
 				<br>
-
 				<!-- nav bar -->
 				<div class=container>
 					<div class="row" id="banner">
@@ -132,15 +127,13 @@
 							<p id="pagereload">예약</p>
 						</div>
 						<div class="col-3 community bannerIn">
-							<p>커뮤니티</p>
+							<p id="boardGo">커뮤니티</p>
 						</div>
 						<div class="col-3 qna bannerIn">
 							<p>고객센터</p>
 						</div>
-						<div class="col-3 mypage bannerIn">
-							<a href="/userInfo.user">
-								<p>마이페이지</p>
-							</a>
+						<div class="col-3 mypage bannerIn"> <!-- 마이페이지 경로 수정함 -->
+							<p id="mypage">마이페이지</p>
 						</div>
 					</div>
 				</div>
@@ -644,6 +637,28 @@
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 			<script type="text/javascript"
 				src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+				
+			<script>
+			
+			// 홈으로
+			document.querySelector("#mypage").addEventListener("click",
+					function() {
+						location.href = "/mypage.home";
+					})
+
+			// 예약으로 이동
+			
+			document.querySelector("#pagereload").addEventListener("click",
+					function() {
+						location.href = "/list.hotel";
+					})
+
+			// 커뮤니티로
+			$(".boardGo").on("click", function(){
+				location.href = "/articleList.article";
+			})
+			
+			</script>	
 		</body>
 
 		</html>

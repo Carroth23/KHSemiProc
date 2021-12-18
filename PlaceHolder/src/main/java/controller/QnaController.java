@@ -57,14 +57,15 @@ public class QnaController extends HttpServlet {
 				request.getRequestDispatcher("/views/hotel/hotelDetail.jsp");
 			}
 			// 2. User의 QnA 조회하기 기능 (내가 쓴 글)
-			else if(cmd.equals("/viewMyReview.review")) {
+			// **** 현우 : 명령어 수정함
+			else if(cmd.equals("/viewMyInquiry.qna")) {
 				
 				// 해당 userId로 작성된 QnA 목록 모두 조회하기
-				List<QnADTO> myqna = dao.selectAll(loginId);
+				List<QnADTO> myInquiry = dao.selectAll(loginId);
 				
 				// myPage로 request 값 포워드
-				request.setAttribute("myqna", myqna);
-				request.getRequestDispatcher("/myqnaPage.jsp").forward(request, response);
+				request.setAttribute("myInquiry", myInquiry);
+				request.getRequestDispatcher("/views/member/mypage.jsp").forward(request, response);
 			}
 			// 3. User의 qna 수정하기 기능
 			else if(cmd.equals("/modify.qna")) {

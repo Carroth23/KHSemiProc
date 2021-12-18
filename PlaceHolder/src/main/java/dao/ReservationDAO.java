@@ -124,25 +124,17 @@ public class ReservationDAO {
 	// 3. 예약 수정하기 기능(Hotel Controller와 통신)
 	public int modifyReservation(ReservationDTO dto) throws Exception {
 
-		String sql = "update reservation set revId = ?, userId = ?, hotelId = ?,hotelName = ?,hotelPhone = "
-				+ "?,hotelRoadAddress = ?, checkIn = ?, checkOut = ?,revDay = sysdate, revRoomType = ?, revQuantity = ?,revStat = ?, revPrice = ?";
+		String sql = "update reservation set checkIn = ?, checkOut = ?, revRoomType = ?, revQuantity = ?, revPrice = ? where revId = ?";
 
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
-			pstat.setString(1, dto.getRevId());
-			pstat.setString(2, dto.getUserId());
-			pstat.setString(3, dto.getHotelId());
-			pstat.setString(4, dto.getHotelName());
-			pstat.setString(5, dto.getHotelPhone());
-			pstat.setString(6, dto.getHotelRoadAddress());
-			pstat.setDate(7, dto.getCheckIn());
-			pstat.setDate(8, dto.getCheckOut());
-			// pstat.setDate(9, dto.getRevDay());
-			pstat.setString(10, dto.getRevRoomType());
-			pstat.setInt(11, dto.getRevQuantity());
-			pstat.setString(12, dto.getRevRoomInfo());
-			pstat.setString(13, dto.getRevStat());
-			pstat.setString(14, dto.getRevPrice());
-
+			
+			pstat.setDate(1, dto.getCheckIn());
+			pstat.setDate(2, dto.getCheckOut());
+			pstat.setString(3, dto.getRevRoomType());
+			pstat.setInt(4, dto.getRevQuantity());
+			pstat.setString(5, dto.getRevPrice());
+			pstat.setString(6, dto.getRevId());
+			
 			int result = pstat.executeUpdate();
 
 			return result;
@@ -160,13 +152,7 @@ public class ReservationDAO {
 			return result;
 		}
 	}
-
-	public List<ReservationDTO> viewReservationToDelete(String loginId, String revId) throws Exception {
-		List<ReservationDTO> list = new ArrayList<>();
-
-		return list;
-	}
-
+	
 	// 6. User 리뷰 남기기 기능- 1 (글쓰기 게시판으로 이동해서 남김) -> 데이터 리뷰 테이블로 전송
 	// 어떤 예약건에 대한 리뷰를 남길 수 있는지 봐야 함
 	public List<ReservationDTO> selectAllUserHistory(String loginId) throws Exception {

@@ -158,7 +158,7 @@
                 </select>
               </div>
               <div class="col-8">
-                <input type="text" placeholder="상세검색어를 입력해주세요." class="detailSearch">
+                <input type="text" placeholder="상세검색어를 입력해주세요." class="detailSearch" id = "">
               </div>
               <div class="col-2 align-self-start">
                 <button class="detailSearchBtn">
@@ -167,29 +167,52 @@
               </div>
             </div>
             <hr class="bannerHr">
-            
-        <!-- 보드 나오기 + 내비 -->
+        <!-- 글쓰기 버튼 -->
+        <div class = "row write">
+        	<div class = "col" style="text-align: right;">
+        		<button class="detailSearchBtn">
+                  글 쓰기
+                </button>
+        	</div>
+        </div>
+        <hr class="bannerHr">
+        
+        <!-- 보드 나오기 -->
+        <br>
             <div class = "container" id = "articlecontainer">
-            	<div class = "row top">
+            	<div class = "row top" style = "text-align:center">         		
             		<div class = "col-2 num">글 번호</div>
             		<div class = "col-5 title">제목</div>
             		<div class = "col-3 writer">작성자</div>
             		<div class = "col-2 date">작성일</div>
             	</div>
-            	<c:forEach var = "list" items = "${list }">
-            		<div class = "row middle">
+            	<br>
+            	<div class = "row middle" style = "text-align : center; background-color: whitesmoke">
+					<c:forEach var = "list" items = "${list }">
             		<div class = "col-2 num">${list.postId}</div>
-            		<div class = "col-5 title">${list.postTitle}</div>
+            		<div class = "col-5 title"><a href = "detail.article?posttitle=${list.postTitle}" style = "text-decoration-line : none;">${list.postTitle}</a></div>
             		<div class = "col-3 writer">${list.userId}</div>
             		<div class = "col-2 date">${list.postCreated}</div>
-            	</div>
-            	</c:forEach>
-            	<div class = "row bottom">
-            		<div class = "col navigation">
-            			
-            		</div>
-            	</div>
+            		<hr class="bannerHr">
+            		</c:forEach>
+				</div>
+         	</div>
+        <br>
             </div>
+        <div id="inner"></div>
+
+            <div class="row" id="readMoreUp">
+              <div class="col-5">
+                <!-- 더보기 버튼 위치지정용 col -->
+              </div>
+              <div class="col-2">
+                <button id="readMore" style = "background-color: rgb(180, 213, 240)">+</button>
+              </div>
+              <div class="col-5">
+                <!-- 더보기 버튼 위치지정용 col -->
+              </div>
+            </div>
+          </div>
         
           <!-- 푸터 -->
           <div class="container-fluid footBack">
@@ -247,10 +270,8 @@
                         <li><a href="https://twitter.com/" target='_blank' class="twitter"></a></li>
                         <li><a href="https://www.instagram.com/" target='_blank' class="instargram"></a></li>
                         <li><a href="https://www.facebook.com/" target='_blank' class="facebook"></a></li>
-
                       </ul>
                     </div>
-
                   </div>
                   <hr class="bottomHr">
                   <div class="row">
@@ -292,13 +313,48 @@
         searchBtn.addEventListener("click", function () { // 검색버튼을 누를때 option의 값을 빼냄
 
         let searchTxt = document.querySelector(".detailSearch").value; // 검색창 value값 추출
-
+		console.log(searchTxt);
         let searchBox = document.querySelector("#searchOption");
         let searchOption = searchBox.options[searchBox.selectedIndex].value; // 검색 옵션값 추출
-        location.href = "/Search.article?option=" + searchOption + "&Keyword=" + searchTxt; // get으로 검색값 전달
+        location.href = "/search.article?option=" + searchOption + "&Keyword=" + searchTxt; // get으로 검색값 전달
         })
+	
+     // 더보기 버튼 ajax 
+        let readMore = document.getElementById("readMore");
+        let btn = 1;
+        let inner = document.getElementById("inner");
+        let ContentPlus = document.getElementById("readMoreUp");
+        let div = '';
 
-
+        readMore.addEventListener("click", function () {
+          btn += 10;
+          $.ajax({
+            url: "/listPlus.article",
+            data: { "btn": btn }
+          }).done(function (res) {
+            let result = JSON.parse(res);
+            for (let i = 0; i < result.length; i++) {
+            	div += `<div class = "container" id = "articlecontainer">
+            	<div class = "row middle" style = "text-align : center; background-color: whitesmoke">
+            		<div class = "col-2 num"><a href = "/detail.article?posttitle=\${result[i].postId}">\${result[i].postId}</a></div>
+            		<div class = "col-5 title">\${result[i].postTitle}</div>
+            		<div class = "col-3 writer">\${result[i].userId}</div>
+            		<div class = "col-2 date">\${result[i].postCreated}</div>
+            		<hr class="bannerHr">
+				</div>
+         	</div>`
+			inner.innerHTML = div;
+            }
+            if (result.length < 10) { // 넘어올 호텔 목록이 10보다 작다면 더보기 삭제
+              readMore.style.display = "none";
+            }
+          })
+        });
+	
+     // 페이지 새로고침
+        document.querySelector("#community").addEventListener("click", function () {
+          location.href = "/articleList.article";
+        })
       </script>
 
     </body>

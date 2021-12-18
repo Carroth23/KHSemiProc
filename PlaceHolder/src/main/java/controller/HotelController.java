@@ -87,8 +87,27 @@ public class HotelController extends HttpServlet {
 				all.add(hotelList);
 //				all.add(hotelImgList);
 				Gson g = new Gson();
-				String result = g.toJson(hotelList);
-				response.getWriter().append(result);
+				
+				
+				// 진규 추가내용
+				String loginId = (String) session.getAttribute("loginId");
+				System.out.println("로그인된 사용자의 ID : " + loginId);
+				List<LikeDTO> likeList = new ArrayList<>();
+	            for (HotelDTO d : hotelList) {
+	            	String hotelId = d.getHotelId();
+	            	boolean likeCheck = ldao.likeCheck(loginId, hotelId);
+	            	System.out.println("forEach 돌린 호텔 Id와 불린값 " + hotelId + " : " + likeCheck);
+	            	likeList.add(new LikeDTO(0, hotelId, loginId, likeCheck));
+	            }
+	            String result = g.toJson(hotelList); // 호텔 리스트를 받고
+	            String result2 = g.toJson(likeList); // 좋아요 리스트를 받고
+	            String sub1 = result.substring(0, result.length()-1); // 호텔 json변환전 형식을 뒤에서 하나 자르고, 
+	            String sub2 = result2.substring(1); // 호텔 형식을 앞에서 하나 잘라서
+	            String push = sub1 + "," + sub2; // 이어 붙임
+	            
+				response.getWriter().append(push); // 더보기 누를시 console에는 에러가 나지만 페이지는 정상작동됨.
+				
+				
 				
 				//String result1 = g.toJson(hotelList);
 				//String r	 esult2 = g.toJson(hotelImgList);

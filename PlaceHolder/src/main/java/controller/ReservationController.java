@@ -125,25 +125,38 @@ public class ReservationController extends HttpServlet {
 				// 마이페이지로 request를 전송
 				String result = g.toJson(reservDto);
 				response.getWriter().append(result);
+				
+				request.setAttribute("reserveList", reservDto);
+				request.getRequestDispatcher("/views/member/mypage.jsp").forward(request, response);
 
 				// 3. 예약 수정하기 기능(Hotel Controller와 통신)	
 			}else if(cmd.equals("/modifyReservation.book")) {
 
 				// 수정할 예약 내용 데이터 받아오기(어디서, 어떤 방식으로?)
-				String revId = request.getParameter("");
+				System.out.println(request.getParameter("revId") + " : " + request.getParameter("checkIn") + " : " + request.getParameter("checkOut"));
+				String revId = request.getParameter("revId");
 				String userId = loginId;
-				String hotelId = request.getParameter("hotelId");
-				String hotelName = request.getParameter("hotelName");
-				String hotelRoadAddress = request.getParameter("hotelRoadAddress");
-				String hotelPhone = request.getParameter("hotelPhone");
 				Date checkIn = DateChanger.changeSqlDate(request.getParameter("checkIn"));
 				Date checkOut = DateChanger.changeSqlDate(request.getParameter("checkOut"));
-				Date revDay = DateChanger.changeSqlDate(request.getParameter("revDay"));
+				Date revDay = DateChanger.changeCurrentTime(System.currentTimeMillis());				
+				
+				String hotelId = request.getParameter("hotelId");
+				String hotelName = "none";
+				String hotelRoadAddress = "none";
+				String hotelPhone = "none";
+				
 				String revRoomType = request.getParameter("revRoomType");
 				int revQuantity = Integer.parseInt(request.getParameter("revQuantity"));
 				String revRoomInfo = request.getParameter("revRoomInfo");
-				String revStat = request.getParameter("revStat");
-				String revPrice = request.getParameter("revPrice");
+				String revStat = "N";
+				
+				System.out.println(checkIn + " : " + checkOut + " : " + revRoomType);
+				
+				RoomDTO selectedRoomInfo = roomDao.showRoomInfo(hotelId, revRoomType);
+				
+				String revPrice = Integer.toString((Integer.parseInt(selectedRoomInfo.getRoomPrice()) +
+						Integer.parseInt(selectedRoomInfo.getAddPrice()) * Integer.parseInt(request.getParameter("addPrice"))));
+
 
 				// Reservation DB의 데이터 수정
 				ReservationDTO reservDto = new ReservationDTO(revId, userId, hotelId, hotelName, hotelRoadAddress, hotelPhone, checkIn, checkOut, revDay, revRoomType, revQuantity, revRoomInfo, revStat, revPrice);
@@ -155,11 +168,11 @@ public class ReservationController extends HttpServlet {
 					// Reservation table에 예약 내역 저장
 					int result = reservDao.modifyReservation(reservDto);
 
-					// 수정내역 확인할 수 있게 마이페이지로 이동 (협의 필요함)
-					response.sendRedirect("/myPage.jsp");
-					// 예약이 불가능한 경우
+					// 수정내역 확인할 수 있게 예약목록으로 이동 (협의 필요함)
+					response.sendRedirect("/viewReservationList.book");
 				} else {
-					response.sendRedirect("/reservationFailed.jsp");
+					request.setAttribute("false", condition);
+					request.getRequestDispatcher("/viewReservationList.book").forward(request, response);
 				}
 			}
 
@@ -173,11 +186,8 @@ public class ReservationController extends HttpServlet {
 				int result = reservDao.cancelReservation(revId);
 
 				// Hotel Controller로 Room 데이터보내 Room DB에서 예약 삭제하기
-				List<ReservationDTO> reservDto = reservDao.viewReservationToDelete(loginId, revId);
-
-				request.setAttribute("revId", revId);
-				request.getRequestDispatcher("/cancel.room").forward(request, response);
-
+				request.setAttribute("result", result);
+				request.getRequestDispatcher("/viewReservationList.book").forward(request, response);
 			}
 			// 5. User 결재 처리 기능 (유저 정보까지 함께 보내야 함)
 			else if(cmd.equals("/pay.book")) {

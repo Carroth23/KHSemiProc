@@ -25,7 +25,7 @@ public class QnADAO {
 		return instance;
 	}
 	private QnADAO() {}
-	
+
 	private Connection getConnection()throws Exception{
 		Context ctx = new InitialContext(); //
 		//ctx.lookup("java:comp/env/jdbc/oracle"); //java:comp/env 源뚯��뒗 嫄곗쓽 怨좎젙
@@ -46,28 +46,31 @@ public class QnADAO {
 
 		}
 	}
-
+	// **** 현우 수정 : pstat.setString 으로 검색할 수 있게 수정
 	public List<QnADTO> selectAll(String loginId) throws Exception{
 		String sql = "select * from qna where userId=?";
 		try (Connection con = this.getConnection();
-				PreparedStatement pstat = con.prepareStatement(sql);
-				ResultSet rs = pstat.executeQuery()){
-			List<QnADTO> dto = new ArrayList<>();
-			while(rs.next()) {
-				int inquiry = rs.getInt("inquiry");
-				String hotelId = rs.getString("hotelId");
-				String userId = rs.getString("userId");
-				String inquiryStat = rs.getString("inquiryStat");
-				String inquiryContent = rs.getString("inquiryContent");
-				Date inquiryCreated = rs.getDate("inquiryCreated");
-				
-				dto.add(new QnADTO(inquiry,hotelId,userId,inquiryStat,inquiryContent,inquiryCreated));
+				PreparedStatement pstat = con.prepareStatement(sql);){
+			pstat.setString(1, loginId);
+
+			try(ResultSet rs = pstat.executeQuery()){
+				List<QnADTO> dto = new ArrayList<>();
+				while(rs.next()) {
+					int inquiry = rs.getInt("inquiry");
+					String hotelId = rs.getString("hotelId");
+					String userId = rs.getString("userId");
+					String inquiryStat = rs.getString("inquiryStat");
+					String inquiryContent = rs.getString("inquiryContent");
+					Date inquiryCreated = rs.getDate("inquiryCreated");
+
+					dto.add(new QnADTO(inquiry,hotelId,userId,inquiryStat,inquiryContent,inquiryCreated));
+				}
+				return dto;
 			}
-			return dto;
 		}
 	}
-	
-	
+
+
 	public QnADTO selectBySeq(int inquiry_seq) throws Exception{
 		String sql = "select * from qna where inquiry_seq=?";
 		try(Connection con = this.getConnection();
@@ -83,7 +86,7 @@ public class QnADAO {
 					String inquiryStat = rs.getString("inquiryStat");
 					String inquiryContent = rs.getString("inquiryContent");
 					Date inquiryCreated = rs.getDate("inquiryCreated");
-					
+
 					dto=new QnADTO(inquiry,hotelId,userId,inquiryStat,inquiryContent,inquiryCreated);
 
 				}
@@ -91,7 +94,7 @@ public class QnADAO {
 			}
 		}
 	}
-	
+
 	public int delete(String userId) throws Exception {
 		String sql = "delete from qna where userId=?";
 		try(Connection con = this.getConnection();
@@ -113,27 +116,27 @@ public class QnADAO {
 			return result;
 		}
 	}
-	
-	
+
+
 	//호텔 아이디를 조건으로 하여 QnA 조회하기
-		public List<QnADTO> selectQnAByHotelId(String hotelId)throws Exception{
-			String sql = "select * from qna where hotelId = ?";
-			try(Connection con = this.getConnection();
-					PreparedStatement pstat = con.prepareStatement(sql);){
-				pstat.setString(1, hotelId);
-				try(ResultSet rs = pstat.executeQuery();){
-					List<QnADTO> list = new ArrayList<>();
-					while(rs.next()) {
-						QnADTO dto = new QnADTO();
-						dto.setInquiry(rs.getInt("inquiry"));
-						dto.setHotelId(rs.getString("hotelId"));
-						dto.setUserId(rs.getString("userId"));
-						dto.setInquiryStat(rs.getString("inquuiryStat"));
-						dto.setInquiryContent(rs.getString("inquiryContent"));
-						dto.setInquiryCreated(rs.getDate("inquiryCreated"));
-						list.add(dto);
-					}return list;
-				}
+	public List<QnADTO> selectQnAByHotelId(String hotelId)throws Exception{
+		String sql = "select * from qna where hotelId = ?";
+		try(Connection con = this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql);){
+			pstat.setString(1, hotelId);
+			try(ResultSet rs = pstat.executeQuery();){
+				List<QnADTO> list = new ArrayList<>();
+				while(rs.next()) {
+					QnADTO dto = new QnADTO();
+					dto.setInquiry(rs.getInt("inquiry"));
+					dto.setHotelId(rs.getString("hotelId"));
+					dto.setUserId(rs.getString("userId"));
+					dto.setInquiryStat(rs.getString("inquiryStat"));
+					dto.setInquiryContent(rs.getString("inquiryContent"));
+					dto.setInquiryCreated(rs.getDate("inquiryCreated"));
+					list.add(dto);
+				}return list;
 			}
 		}
+	}
 }

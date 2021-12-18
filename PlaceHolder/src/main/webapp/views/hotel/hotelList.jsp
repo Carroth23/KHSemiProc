@@ -195,10 +195,12 @@
                         <div class="col-3 zzimUp">
                           <c:choose>
                             <c:when test="${likeDto[status.index].listLike == false}">
-                              <div class="heartBox"><img src="/semi-img/heart.png" id="heart"></div>
+                              <input type="text" class="heartNone" value=${list.hotelId}>
+                              <img src="/semi-img/false.png" id="heart" class="heartBox">
                             </c:when>
                             <c:when test="${likeDto[status.index].listLike == true}">
-                              <div class="heartBox"><img src="/semi-img/heartOn.png" id="heart"></div>
+                              <input type="text" class="heartNone" value=${list.hotelId}>
+                              <img src="/semi-img/true.png" id="heart" class="heartBox">
                             </c:when>
                           </c:choose>
                           <form action="/goods.room" method="get">
@@ -383,7 +385,8 @@
                           <img src="/semi-img/star.png"> 4.9
                         </div>
                         <div class="col-3 zzimUp">
-                          <button id="heart"></button>
+                          <input type="text" class="heartNone" value=\${result[i].hotelId}>
+                          <img src="/semi-img/\${result[i+10].listLike}.png" id="heart" class="heartBox">
                           <form action="/goods.room" method="get">
                             <input type="text" class="hotelId" name="hotelId" value=\${result[i].hotelId}>
                             <button class="reservationGo">예약하기</button>
@@ -502,6 +505,29 @@
         // 커뮤니티로
         $(".boardGo").on("click", function () {
           location.href = "/articleList.article";
+        })
+
+        // 좋아요 기능
+        $(document).on("click", ".heartBox", function(){
+          const $heart = $(this); // 미리 담아둠
+          if ('${loginId}' == '') {
+                alert("로그인을 해주세요");
+                return
+              } else {
+                $.ajax({
+                  url: "/detailClick.like",
+                  data: {
+                    "loginId": '${loginId}',
+                    "hotelId": $(this).prev().val()
+                  }
+                }).done(function (res) {
+                  if (res == 'add') { // 추가가 오면 하트 빨간색
+                    $heart.attr("src", "/semi-img/true.png");
+                  } else if (res == 'del') { // 삭제가 오면 하트 검정색
+                    $heart.attr("src", "/semi-img/false.png");
+                  }
+                })
+              }
         })
 
       </script>

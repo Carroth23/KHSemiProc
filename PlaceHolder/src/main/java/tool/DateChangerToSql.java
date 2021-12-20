@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class DateChanger {
+public class DateChangerToSql {
 	
 		public static Date changeSqlDate(String date) throws ParseException {
 			

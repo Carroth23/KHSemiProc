@@ -5,15 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>PlaceHolder</title>
+<title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-
-<script>
-(function indexStart(){
-    location.href="/main.home";
-  }());
-</script>
+	<h1>에러남ㅋ</h1>
 </body>
 </html>

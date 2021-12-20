@@ -34,36 +34,37 @@ public class QnADAO {
 	}
 
 	public int insert(QnADTO dto) throws Exception{
-		String sql = "insert into qna values(inquiry_seq.nextval, ?, ?, ?, ?, ?)";
+		String sql = "insert into qna values(inquiry_seq.nextval, ?, ?, '답변 대기', ?, default)";
 		try (Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){
 			pstat.setString(1, dto.getHotelId());
 			pstat.setString(2, dto.getUserId());
-			pstat.setString(3, dto.getInquiryStat());
-			pstat.setString(4, dto.getInquiryContent());
-			pstat.setDate(5, dto.getInquiryCreated());
-			return pstat.executeUpdate();
+			pstat.setString(3, dto.getInquiryContent());
+	
+			int result = pstat.executeUpdate();
+			con.commit();
+			return result;
 
 		}
 	}
 	// **** 현우 수정 : pstat.setString 으로 검색할 수 있게 수정
-	public List<QnADTO> selectAll(String loginId) throws Exception{
-		String sql = "select * from qna where userId=?";
+	public List<QnADTO> selectAll(String hotelId) throws Exception{
+		String sql = "select * from qna where hotelId=?";
 		try (Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);){
-			pstat.setString(1, loginId);
+			pstat.setString(1, hotelId);
 
 			try(ResultSet rs = pstat.executeQuery()){
 				List<QnADTO> dto = new ArrayList<>();
 				while(rs.next()) {
 					int inquiry = rs.getInt("inquiry");
-					String hotelId = rs.getString("hotelId");
+					String hotelIds = rs.getString("hotelId");
 					String userId = rs.getString("userId");
 					String inquiryStat = rs.getString("inquiryStat");
 					String inquiryContent = rs.getString("inquiryContent");
 					Date inquiryCreated = rs.getDate("inquiryCreated");
 
-					dto.add(new QnADTO(inquiry,hotelId,userId,inquiryStat,inquiryContent,inquiryCreated));
+					dto.add(new QnADTO(inquiry,hotelIds,userId,inquiryStat,inquiryContent,inquiryCreated));
 				}
 				return dto;
 			}
@@ -139,4 +140,24 @@ public class QnADAO {
 			}
 		}
 	}
+	
+	//QNA 전체 조회하기(소현)
+	   public List<QnADTO> qnaList() throws Exception{
+	      String sql = "select * from qna";
+	      try(Connection con = this.getConnection();
+	            PreparedStatement pstat = con.prepareStatement(sql);
+	            ResultSet rs = pstat.executeQuery();){
+	         List<QnADTO> list = new ArrayList<>();
+	         while(rs.next()) {
+	            QnADTO dto = new QnADTO();
+	            dto.setInquiry(rs.getInt("inquiry"));
+	            dto.setHotelId(rs.getString("hotelId"));
+	            dto.setUserId(rs.getString("userId"));
+	            dto.setInquiryStat(rs.getString("inquiryStat"));
+	            dto.setInquiryContent(rs.getString("inquiryContent"));
+	            dto.setInquiryCreated(rs.getDate("inquiryCreated"));
+	            list.add(dto);
+	         }return list;
+	      }
+	   }
 }

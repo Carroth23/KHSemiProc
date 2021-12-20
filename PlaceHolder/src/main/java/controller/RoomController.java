@@ -18,9 +18,11 @@ import dao.ReviewDAO;
 import dao.ReviewImgDAO;
 import dao.RoomDAO;
 import dto.HotelDTO;
+import dto.HotelLikeImgDTO;
 import dto.QnADTO;
 import dto.ReviewDTO;
 import dto.RoomDTO;
+import dto.RoomImgDTO;
 
 @WebServlet("*.room")
 public class RoomController extends HttpServlet {
@@ -57,15 +59,17 @@ public class RoomController extends HttpServlet {
 	            String loginId = (String) session.getAttribute("loginId");
 	            boolean likeCheck = ldao.likeCheck(loginId, hotelId);
 	            System.out.println("찜하기 버튼 유무 : " + likeCheck);
-	            
+	            // 빠른예약 기능 모든 호텔 정보 넣어주기
+	            List<HotelLikeImgDTO> hotelListS = hdao.selectHotel();
+	            request.setAttribute("hotelListS", hotelListS);
 	            
 	            //호텔 이미지+정보 불러오기
-	            List<HotelDTO> hotelListAll = hdao.selectHotel();
+	            List<HotelLikeImgDTO> hotelListAll = hdao.selectHotel();
 	            HotelDTO hotelList = hdao.selectHotelById(hotelId);
-	            String hotelImgList = idao.selectHotelImgById(hotelId);
+	            String hotelImg = idao.selectHotelImgById(hotelId);
 	            //방 이미지+정보 불러오기
 	            List<RoomDTO> RoomList = rdao.selectRoomById(hotelId);
-	            List<String> RoomImgList = idao.selectRoomImgById(hotelId);
+	            List<RoomImgDTO> RoomImgList = idao.selectRoomImgById(hotelId);
 	            //QnA정보 불러오기
 	            List<QnADTO> QnAList = qdao.selectQnAByHotelId(hotelId);
 	            //리뷰정보 불러오기
@@ -74,7 +78,7 @@ public class RoomController extends HttpServlet {
 	            //이 값들을 전달해주기
 	            request.setAttribute("hotelListAll", hotelListAll);
 	            request.setAttribute("hotelList", hotelList);
-	            request.setAttribute("hotelImgList", hotelImgList);
+	            request.setAttribute("hotelImgList", hotelImg);
 	            request.setAttribute("RoomList", RoomList);
 	            request.setAttribute("RoomImgList", RoomImgList);
 	            request.setAttribute("QnAList", QnAList);

@@ -25,7 +25,6 @@
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
-
       <link rel="stylesheet" href="/semi-css/hotelList.css">
     </head>
 
@@ -39,11 +38,11 @@
               <div class="col-3 align-self-center">
                 <a href="/index.jsp"><img src="/semi-img/logos.png" id="logo"></a>
               </div>
-              <div class="col-8 align-self-center">
-                <input type="text" placeholder="Search" id="topSearch">
-                <button type="button" class="top-search" id="topSearchBtn">
-                  <i class="fas fa-search"></i>
-                </button>
+              <div class="col-8 align-self-center" id="head2">
+                <form class="d-flex">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="top-search"><i class="fas fa-search"></i></button>
+                </form>
               </div>
               <!-- 햄버거메뉴 -->
               <div class="col-1  align-self-center justify-content-end">
@@ -149,72 +148,53 @@
                 </a>
               </div>
             </div>
-
-        <!-- 배너 밑 검색바 -->    
-            <div class="row bannerSearch">
-              <div class="col-2">
-                <select id="searchOption">
-                  <option>제목</option>
-                  <option>유저ID</option>
-                </select>
-              </div>
-              <div class="col-8">
-                <input type="text" placeholder="상세검색어를 입력해주세요." class="detailSearch" id = "">
-              </div>
-              <div class="col-2 align-self-start">
-                <button class="detailSearchBtn">
-                  검색
-                </button>
-              </div>
-            </div>
-            <hr class="bannerHr">
-        <!-- 글쓰기 버튼 -->
-        <div class = "row write">
-        	<div class = "col" style="text-align: right;">
-        		<button class="detailSearchBtn" id = "write">
-                  		글 쓰기
-                </button>
+		<!-- 내용물 -->
+        <form action ="/modify.article" method="get" id = "frmDetail">
+        	<div class = "container">
+        	<div class = "row title">
+        		<div class = "col title">
+        			<br>
+        			<br>
+        			<input type =hidden value = "${articleList.postId }" name = postId id = postId>
+        			<label>제목 : </label>
+        			<input type = "text" name = "postTitle" style = "width: 90%;" value = "${articleList.postTitle }" id = "title" readonly>
+        		</div>
+        	</div>
+        	<div class = "row sub">
+        		<div class = "col-6 sub">
+        			<label>작성자 : </label>
+        			${articleList.userId}
+        		</div>
+        		<div class = "col-3 sub" style = "text-align : center">
+        			<label>작성일 : </label>
+        			${articleList.postCreated}
+        		</div>
+        		<div class = "col-3 sub" style = "text-align : center">
+        			<label>최종수정일 : </label>
+        			${articleList.postModified}
+        		</div>
+        	</div>
+        	<br>
+        	<div class = "row content">
+        		<div class = "col content">
+        			<textarea rows = "30" cols = "117" name = "postContent" id = "content" readonly>${articleList.postContent }</textarea>
+        		</div>
+        	</div>
+        	<div class = "row button">
+        		<div class = "col button" style = "text-align:right;">
+        			<a href="javascript:history.back()">
+        				<input type = "button" value = "목록으로">
+        			</a>
+        			<c:if test = "${articleList.userId == loginId }">
+        				<input type = button value = "삭제" style = "width : 60px;" id = "del">
+        				<input type = button value = "수정" style = "width : 60px;" id = "mod">
+        				<input type = button id = "modOk" style = "display:none;" value = "수정완료">
+						<input type = button id = "modCancel" style = "display:none;" value = "취소">
+					</c:if>
+        		</div>
         	</div>
         </div>
-        <hr class="bannerHr">
-        
-        <!-- 보드 나오기 -->
-        <br>
-            <div class = "container" id = "articlecontainer">
-            	<div class = "row top" style = "text-align:center">         		
-            		<div class = "col-2 num">글 번호</div>
-            		<div class = "col-5 title">제목</div>
-            		<div class = "col-3 writer">작성자</div>
-            		<div class = "col-2 date">작성일</div>
-            	</div>
-            	<br>
-            	<div class = "row middle" style = "text-align : center; background-color: whitesmoke">
-					<c:forEach var = "list" items = "${list }">
-            		<div class = "col-2 num">${list.postId}</div>
-            		<div class = "col-5 title"><a href = "detail.article?postId=${list.postId}" style = "text-decoration-line : none;">${list.postTitle}</a></div>
-            		<div class = "col-3 writer">${list.userId}</div>
-            		<div class = "col-2 date">${list.postCreated}</div>
-            		<hr class="bannerHr">
-            		</c:forEach>
-            		<span id = "inner" style = "margin:0px;"></span>
-				</div>
-         	</div>
-        <br>
-            </div>
-        
-
-            <div class="row" id="readMoreUp">
-              <div class="col-5">
-                <!-- 더보기 버튼 위치지정용 col -->
-              </div>
-              <div class="col-2">
-                <button id="readMore" style = "background-color: rgb(180, 213, 240)">+</button>
-              </div>
-              <div class="col-5">
-                <!-- 더보기 버튼 위치지정용 col -->
-              </div>
-            </div>
-          </div>
+        </form>
         
           <!-- 푸터 -->
           <div class="container-fluid footBack">
@@ -313,61 +293,51 @@
           location.href = "/index.jsp";
         })
         
-     //검색어 입력했을 때
-     	let searchBtn = document.querySelector(".detailSearchBtn");
-        searchBtn.addEventListener("click", function () { // 검색버튼을 누를때 option의 값을 빼냄
-
-        let searchTxt = document.querySelector(".detailSearch").value; // 검색창 value값 추출
-		console.log(searchTxt);
-        let searchBox = document.querySelector("#searchOption");
-        let searchOption = searchBox.options[searchBox.selectedIndex].value; // 검색 옵션값 추출
-        location.href = "/search.article?option=" + searchOption + "&Keyword=" + searchTxt; // get으로 검색값 전달
-        })
-	
-     // 더보기 버튼 ajax 
-        let readMore = document.getElementById("readMore");
-        let btn = 1;
-        let inner = document.getElementById("inner");
-        let ContentPlus = document.getElementById("readMoreUp");
-        let div = '';
-
-        readMore.addEventListener("click", function () {
-          btn += 10;
-          $.ajax({
-            url: "/listPlus.article",
-            data: { "btn": btn }
-          }).done(function (res) {
-            let result = JSON.parse(res);
-            for (let i = 0; i < result.length; i++) {
-            	div += `<div class = "row middle" style = "text-align : center; background-color: whitesmoke">
-            		<div class = "col-2 num">\${result[i].postId}</div>
-            		<div class = "col-5 title"><a href = "/detail.article?postId=\${result[i].postId}">\${result[i].postTitle}</a></div>
-            		<div class = "col-3 writer">\${result[i].userId}</div>
-            		<div class = "col-2 date">\${result[i].postCreated}</div>
-            		<hr class="bannerHr">
-				</div>`
-			inner.innerHTML = div;
-            }
-            if (result.length < 10) { // 넘어올 호텔 목록이 10보다 작다면 더보기 삭제
-              readMore.style.display = "none";
-            }
-          })
-        });
-	
      // 페이지 새로고침
         document.querySelector("#community").addEventListener("click", function () {
           location.href = "/articleList.article";
         })
-        
-    //글 쓰기 비회원 막기
-        document.getElementById("write").addEventListener("click", () => {
-          if ('${loginId}' == '') {
-            alert("로그인을 해주세요");
-            return
-          } else {
-            location.href = "/writeForm.article";
-          }
-        })
+     //수정+취소
+     
+     $("#del").on("click",function(){
+		if(confirm("정말 삭제하시겠습니까?")){
+			location.href="/delete.article?postId=${articleList.postId}"; 
+		}
+	})
+	
+	let bkTitle = "";
+	let bkContent = "";
+	
+	$("#mod").on("click",function(){
+		bkTitle = $("#title").val();
+		bkContent = $("#content").val();
+		
+		$("#title").removeAttr("readonly");
+		$("#content").removeAttr("readonly");
+		
+		$("#mod").css("display","none");
+		$("#del").css("display","none");
+		
+		$("#modOk").css("display","inline");
+		$("#modCancel").css("display","inline");
+	})
+	$("#modOk").on("click",function(){
+		if(confirm("이대로 수정하시겠습니까?")){
+			$("#frmDetail").submit();
+		}
+	})
+	$("#modCancel").on("click",function(){
+		if(confirm("정말 취소하시겠습니까?")){
+			$("#title").val(bkTitle);
+			$("#content").val(bkContent);
+			$("#title").attr("readonly","");
+			$("#content").attr("readonly","");
+			$("#mod").css("display","inline");
+			$("#del").css("display","inline");
+			$("#modOk").css("display","none");
+			$("#modCancel").css("display","none");
+		}
+	})
       </script>
 
     </body>

@@ -10,7 +10,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import dto.HotelDTO;
+import dto.HotelImgDTO;
+import dto.RoomImgDTO;
 
 public class ImgFileDAO {
 	//인스턴스와 커넥션
@@ -29,16 +30,19 @@ public class ImgFileDAO {
 	
 	//호텔컨트롤러에서 쓰일 것
 	//호텔 이미지 뽑아오는데 범위 내의 값만 가져오기
-		public List<String> selectHotelImgB(int start, int end)throws Exception{
-			String sql = "select * from(select ImgFile.hotelimg, row_number() over(order by hotelId asc)rn from ImgFile) where rn between ? and ?";
+	
+	// 진규 수정 String리스트를 호텔이미지 DTO로 변경
+		public List<HotelImgDTO> selectHotelImgB(int start, int end)throws Exception{
+			String sql = "select * from(select hotelimg.*, row_number() over(order by hotelId asc)rn from hotelimg) where rn between ? and ?";
 			try(Connection con = this.getConnection();
 					PreparedStatement pstat = con.prepareStatement(sql);){
 				pstat.setInt(1, start);
 				pstat.setInt(2, end);
 				try(ResultSet rs = pstat.executeQuery();){
-					ArrayList<String> list = new ArrayList();
+					List<HotelImgDTO> list = new ArrayList<>();
 					while(rs.next()) {
-						list.add(rs.getString("hotelImg"));
+						HotelImgDTO dto = new HotelImgDTO(rs.getString("hotelImg"));
+						list.add(dto);
 					}return list;
 				}
 			}
@@ -58,32 +62,34 @@ public class ImgFileDAO {
 		}
 		
 		//검색(이름)에 맞는 호텔이미지 불러오기
-		public List<String> searchHotelNameImg(String keyword)throws Exception{
-			String sql = "select i.hotelImg from hotel h, imgFile i where h.hotelid = i.hotelid and h.hotelname like ?";
+		public List<HotelImgDTO> searchHotelNameImg(String keyword)throws Exception{
+			String sql = "select i.hotelImg from hotel h, hotelimg i where h.hotelid = i.hotelid and h.hotelname like ?";
 			try(Connection con = this.getConnection();
 					PreparedStatement pstat = con.prepareStatement(sql);){
 				pstat.setString(1, "%"+keyword+"%" );
 				try(ResultSet rs = pstat.executeQuery();){
-					ArrayList<String> list = new ArrayList();
+					List<HotelImgDTO> list = new ArrayList<>();
 					while(rs.next()) {
-						list.add(rs.getString("hotelImg"));
+						HotelImgDTO dto = new HotelImgDTO(rs.getString("hotelImg"));
+						list.add(dto);
 					}return list;
 				}
 			}
 		}
 		
 		//검색(이름)에 맞는 호텔이미지 불러오는데 범위 값
-		public List<String> searchHotelNameImgB(int start, int end, String keyword)throws Exception{
-			String sql = "select i.hotelImg from (select imgFile.*, row_number() over(order by hotelId asc)rn from imgFile where h.hotelname like ?) where rn between ? and ?";
+		public List<HotelImgDTO> searchHotelNameImgB(int start, int end, String keyword)throws Exception{
+			String sql = "select i.hotelImg from (select hotelimg.*, row_number() over(order by hotelId asc)rn from hotel where h.hotelname like ?) where rn between ? and ?";
 			try(Connection con = this.getConnection();
 					PreparedStatement pstat = con.prepareStatement(sql);){
 				pstat.setInt(1, start);
 				pstat.setInt(2, end);
 				pstat.setString(3, "%"+keyword+"%" );
 				try(ResultSet rs = pstat.executeQuery();){
-					ArrayList<String> list = new ArrayList();
+					List<HotelImgDTO> list = new ArrayList<>();
 					while(rs.next()) {
-						list.add(rs.getString("hotelImg"));
+						HotelImgDTO dto = new HotelImgDTO(rs.getString("hotelImg"));
+						list.add(dto);
 					}return list;
 				}
 			}
@@ -123,8 +129,9 @@ public class ImgFileDAO {
 		
 		//룸컨트롤러에서 쓰일 것
 		//호텔 아이디 값에 맞는 호텔 이미지
+		// 진규 수정 img -> hotelimg로
 		public String selectHotelImgById(String hotelId)throws Exception{
-			String sql = "select hotelImg from imgFile where hotelId = ?";
+			String sql = "select hotelImg from hotelimg where hotelId = ?";
 			try(Connection con = this.getConnection();
 					PreparedStatement pstat = con.prepareStatement(sql);){
 				pstat.setString(1, hotelId );					
@@ -138,15 +145,17 @@ public class ImgFileDAO {
 		}
 		
 		//호텔 아이디 값에 맞는 방 이미지
-		public List<String> selectRoomImgById(String id)throws Exception{
-			String sql = "select roomImg from imgFile where hotelId = ?";
+		// 진규 수정 String -> RoomImgDTO
+		public List<RoomImgDTO> selectRoomImgById(String id)throws Exception{
+			String sql = "select roomImg from roomimg where hotelId = ?";
 			try(Connection con = this.getConnection();
 					PreparedStatement pstat = con.prepareStatement(sql);){
 				pstat.setString(1, id);
 				try(ResultSet rs = pstat.executeQuery();){
-					List<String> list = new ArrayList();
+					List<RoomImgDTO> list = new ArrayList<>();
 					while(rs.next()) {
-						list.add(rs.getString("roomImg"));
+						RoomImgDTO dto = new RoomImgDTO(rs.getString("roomImg"));
+						list.add(dto);
 					}return list;
 				}
 			}

@@ -2,14 +2,12 @@
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <!DOCTYPE html>
     <html lang="en">
-
     <head>
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>PlaceHolder</title>
-      <!-- 파비콘 -->
-<link rel="shortcut icon" type="image/x-icon" href="/semi-img/favicon.ico" />
+      <link rel="shortcut icon" type="image/x-icon" href="/semi-img/favicon.png" />
       <!-- 제이쿼리CDN -->
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <!-- 부트스트랩CDN -->
@@ -39,11 +37,11 @@
               <div class="col-3 align-self-center">
                 <a href="/index.jsp"><img src="/semi-img/logos.png" id="logo"></a>
               </div>
-              <div class="col-8 align-self-center">
-                <input type="text" placeholder="Search" id="topSearch">
-                <button type="button" class="top-search" id="topSearchBtn">
-                  <i class="fas fa-search"></i>
-                </button>
+              <div class="col-8 align-self-center" id="head2">
+                <form class="d-flex">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="top-search"><i class="fas fa-search"></i></button>
+                </form>
               </div>
               <!-- 햄버거메뉴 -->
               <div class="col-1  align-self-center justify-content-end">
@@ -111,8 +109,6 @@
                                   </div>
                                 </form>
                               </div>
-
-
                             </li>
                           </c:otherwise>
                         </c:choose>
@@ -149,7 +145,6 @@
                 </a>
               </div>
             </div>
-
         <!-- 배너 밑 검색바 -->    
             <div class="row bannerSearch">
               <div class="col-2">
@@ -168,14 +163,7 @@
               </div>
             </div>
             <hr class="bannerHr">
-        <!-- 글쓰기 버튼 -->
-        <div class = "row write">
-        	<div class = "col" style="text-align: right;">
-        		<button class="detailSearchBtn" id = "write">
-                  		글 쓰기
-                </button>
-        	</div>
-        </div>
+
         <hr class="bannerHr">
         
         <!-- 보드 나오기 -->
@@ -183,39 +171,24 @@
             <div class = "container" id = "articlecontainer">
             	<div class = "row top" style = "text-align:center">         		
             		<div class = "col-2 num">글 번호</div>
-            		<div class = "col-5 title">제목</div>
+            		<div class = "col-5 title">호텔아이디</div>
             		<div class = "col-3 writer">작성자</div>
             		<div class = "col-2 date">작성일</div>
             	</div>
             	<br>
             	<div class = "row middle" style = "text-align : center; background-color: whitesmoke">
-					<c:forEach var = "list" items = "${list }">
-            		<div class = "col-2 num">${list.postId}</div>
-            		<div class = "col-5 title"><a href = "detail.article?postId=${list.postId}" style = "text-decoration-line : none;">${list.postTitle}</a></div>
+					<c:forEach var = "list" items = "${reviewList }">
+            		<div class = "col-2 num">${list.reviewId}</div>
+            		<div class = "col-5 title"><a href = "/showReview.review?reviewId=${list.reviewId}" style = "text-decoration-line : none;">${list.reviewId}</a></div>
             		<div class = "col-3 writer">${list.userId}</div>
-            		<div class = "col-2 date">${list.postCreated}</div>
+            		<div class = "col-2 date">${list.reviewCreated}</div>
             		<hr class="bannerHr">
             		</c:forEach>
-            		<span id = "inner" style = "margin:0px;"></span>
 				</div>
          	</div>
         <br>
             </div>
-        
-
-            <div class="row" id="readMoreUp">
-              <div class="col-5">
-                <!-- 더보기 버튼 위치지정용 col -->
-              </div>
-              <div class="col-2">
-                <button id="readMore" style = "background-color: rgb(180, 213, 240)">+</button>
-              </div>
-              <div class="col-5">
-                <!-- 더보기 버튼 위치지정용 col -->
-              </div>
-            </div>
-          </div>
-        
+        <div id="inner"></div>
           <!-- 푸터 -->
           <div class="container-fluid footBack">
             <div class="container">
@@ -295,14 +268,6 @@
       </div>
 
       <script>
-   // 검색하여 페이지 새로고침 될 시 더보기 없애기
-      $(function () {
-        let link = document.location.search;
-        if (link != '') {
-          readMore.style.display = "none";
-        }
-      });
-      
       //예약으로 이동
       document.querySelector("#pagereload").addEventListener("click", function () {
           location.href = "/list.hotel";
@@ -323,50 +288,10 @@
         let searchOption = searchBox.options[searchBox.selectedIndex].value; // 검색 옵션값 추출
         location.href = "/search.article?option=" + searchOption + "&Keyword=" + searchTxt; // get으로 검색값 전달
         })
-	
-     // 더보기 버튼 ajax 
-        let readMore = document.getElementById("readMore");
-        let btn = 1;
-        let inner = document.getElementById("inner");
-        let ContentPlus = document.getElementById("readMoreUp");
-        let div = '';
-
-        readMore.addEventListener("click", function () {
-          btn += 10;
-          $.ajax({
-            url: "/listPlus.article",
-            data: { "btn": btn }
-          }).done(function (res) {
-            let result = JSON.parse(res);
-            for (let i = 0; i < result.length; i++) {
-            	div += `<div class = "row middle" style = "text-align : center; background-color: whitesmoke">
-            		<div class = "col-2 num">\${result[i].postId}</div>
-            		<div class = "col-5 title"><a href = "/detail.article?postId=\${result[i].postId}">\${result[i].postTitle}</a></div>
-            		<div class = "col-3 writer">\${result[i].userId}</div>
-            		<div class = "col-2 date">\${result[i].postCreated}</div>
-            		<hr class="bannerHr">
-				</div>`
-			inner.innerHTML = div;
-            }
-            if (result.length < 10) { // 넘어올 호텔 목록이 10보다 작다면 더보기 삭제
-              readMore.style.display = "none";
-            }
-          })
-        });
-	
+	     	
      // 페이지 새로고침
         document.querySelector("#community").addEventListener("click", function () {
           location.href = "/articleList.article";
-        })
-        
-    //글 쓰기 비회원 막기
-        document.getElementById("write").addEventListener("click", () => {
-          if ('${loginId}' == '') {
-            alert("로그인을 해주세요");
-            return
-          } else {
-            location.href = "/writeForm.article";
-          }
         })
       </script>
 

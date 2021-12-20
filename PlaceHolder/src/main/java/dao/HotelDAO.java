@@ -11,6 +11,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import dto.HotelDTO;
+import dto.HotelLikeImgDTO;
 
 public class HotelDAO {
    //인스턴스와 커넥션
@@ -29,14 +30,15 @@ public class HotelDAO {
 
    //호텔 컨트롤러에서 쓰일 것
    //호텔 테이블에서 정보 모두 불러오기
-   public List<HotelDTO> selectHotel() throws Exception{
-      String sql = "select * from hotel";
+   // 진규 수정 이미지까지 추가
+   public List<HotelLikeImgDTO> selectHotel() throws Exception{
+      String sql = "select * from hotel join hotelimg using(hotelid)";
       try(Connection con = this.getConnection();
             PreparedStatement pstat = con.prepareStatement(sql);
             ResultSet rs = pstat.executeQuery();){
-         List<HotelDTO> list = new ArrayList<>();
+         List<HotelLikeImgDTO> list = new ArrayList<>();
          while(rs.next()) {
-            HotelDTO dto = new HotelDTO();
+        	 HotelLikeImgDTO dto = new HotelLikeImgDTO();
             dto.setHotelId(rs.getString("hotelID"));
             dto.setHotelInfo(rs.getString("hotelInfo"));
             dto.setHotelName(rs.getString("hotelName"));
@@ -46,22 +48,23 @@ public class HotelDAO {
             dto.setHotelLatitude(rs.getString("hotelLatitude"));
             dto.setHotelScore(rs.getString("hotelScore"));
             dto.setHotelDetail(rs.getString("hotelDetail"));
+            dto.setHotelImg(rs.getString("hotelimg"));
             list.add(dto);
          }return list;
       }
    }
 
    //호텔 테이블에서 범위 내의 정보 불러오기
-   public List<HotelDTO> selectHotelB(int start, int end) throws Exception{
-      String sql = "select * from(select hotel.*, row_number() over(order by hotelId asc)rn from hotel) where rn between ? and ?";
+   public List<HotelLikeImgDTO> selectHotelB(int start, int end) throws Exception{
+      String sql = "select * from(select hotel.*, row_number() over(order by hotelId asc)rn from hotel) join hotelimg using(hotelid) where rn between ? and ?";
       try(Connection con = this.getConnection();
             PreparedStatement pstat = con.prepareStatement(sql);){
          pstat.setInt(1, start);
          pstat.setInt(2, end);
          try(ResultSet rs = pstat.executeQuery();){
-            List<HotelDTO> list = new ArrayList();
+            List<HotelLikeImgDTO> list = new ArrayList<>();
             while(rs.next()) {
-               HotelDTO dto = new HotelDTO();
+            	HotelLikeImgDTO dto = new HotelLikeImgDTO();
                dto.setHotelId(rs.getString("hotelID"));
                dto.setHotelInfo(rs.getString("hotelInfo"));
                dto.setHotelName(rs.getString("hotelName"));
@@ -71,22 +74,52 @@ public class HotelDAO {
                dto.setHotelLatitude(rs.getString("hotelLatitude"));
                dto.setHotelScore(rs.getString("hotelScore"));
                dto.setHotelDetail(rs.getString("hotelDetail"));
+               dto.setHotelImg(rs.getString("hotelimg"));
                list.add(dto);
             }return list;
          }
       }
    }
+   
+   // 진규 12.20추가
+   public List<HotelLikeImgDTO> selectHotelA(int start, int end) throws Exception{
+	      String sql = "select distinct * from (select hotel.*, row_number() over(order by hotelId asc)rn from hotel) join hotelimg using(hotelid) where rn between ? and ?";
+	      try(Connection con = this.getConnection();
+	            PreparedStatement pstat = con.prepareStatement(sql);){
+	         pstat.setInt(1, start);
+	         pstat.setInt(2, end);
+	         try(ResultSet rs = pstat.executeQuery();){
+	            List<HotelLikeImgDTO> list = new ArrayList<>();
+	            while(rs.next()) {
+	               HotelLikeImgDTO dto = new HotelLikeImgDTO();
+	               dto.setHotelId(rs.getString("hotelID"));
+	               dto.setHotelInfo(rs.getString("hotelInfo"));
+	               dto.setHotelName(rs.getString("hotelName"));
+	               dto.setHotelPhone(rs.getString("hotelPhone"));
+	               dto.setHotelRoadAddress(rs.getString("hotelRoadAddress"));
+	               dto.setHotelLongitude(rs.getString("hotelLongitude"));
+	               dto.setHotelLatitude(rs.getString("hotelLatitude"));
+	               dto.setHotelScore(rs.getString("hotelScore"));
+	               dto.setHotelDetail(rs.getString("hotelDetail"));
+	               dto.setHotelImg(rs.getString("hotelimg"));
+	               list.add(dto);
+	            }return list;
+	         }
+	      }
+	   }
+   
+   
 
    //호텔 테이블에서 이름 키워드를 포함한 정보 값을 불러오기
-   public List<HotelDTO> searchHotelName(String keyword)throws Exception{
-      String sql = "select * from hotel where hotelName like ?";
+   public List<HotelLikeImgDTO> searchHotelName(String keyword)throws Exception{
+      String sql = "select * from hotel join hotelimg using(hotelid) where hotelName like ? ";
       try(Connection con = this.getConnection();
             PreparedStatement pstat = con.prepareStatement(sql);){
          pstat.setString(1, "%"+keyword+"%");
          try(ResultSet rs = pstat.executeQuery();){
-            List<HotelDTO> list = new ArrayList();
+            List<HotelLikeImgDTO> list = new ArrayList<>();
             while(rs.next()) {
-               HotelDTO dto = new HotelDTO();
+            	HotelLikeImgDTO dto = new HotelLikeImgDTO();
                dto.setHotelId(rs.getString("hotelID"));
                dto.setHotelInfo(rs.getString("hotelInfo"));
                dto.setHotelName(rs.getString("hotelName"));
@@ -96,6 +129,7 @@ public class HotelDAO {
                dto.setHotelLatitude(rs.getString("hotelLatitude"));
                dto.setHotelScore(rs.getString("hotelScore"));
                dto.setHotelDetail(rs.getString("hotelDetail"));
+               dto.setHotelImg(rs.getString("hotelImg"));
                list.add(dto);
             }return list;
          }
@@ -130,15 +164,15 @@ public class HotelDAO {
    }
 
    //호텔 테이블에서 키워드(위치)를 포함한 값을 불러오기
-   public List<HotelDTO> searchHotelSite(String keyword)throws Exception{
-      String sql = "select * from hotel where hotelRoadAddress like ?";
+   public List<HotelLikeImgDTO> searchHotelSite(String keyword)throws Exception{
+      String sql = "select * from hotel join hotelimg using(hotelid) where hotelRoadAddress like ?";
       try(Connection con = this.getConnection();
             PreparedStatement pstat = con.prepareStatement(sql);){
          pstat.setString(1, "%"+keyword+"%");
          try(ResultSet rs = pstat.executeQuery();){
-            List<HotelDTO> list = new ArrayList();
+            List<HotelLikeImgDTO> list = new ArrayList<>();
             while(rs.next()) {
-               HotelDTO dto = new HotelDTO();
+            	HotelLikeImgDTO dto = new HotelLikeImgDTO();
                dto.setHotelId(rs.getString("hotelID"));
                dto.setHotelInfo(rs.getString("hotelInfo"));
                dto.setHotelName(rs.getString("hotelName"));
@@ -148,6 +182,7 @@ public class HotelDAO {
                dto.setHotelLatitude(rs.getString("hotelLatitude"));
                dto.setHotelScore(rs.getString("hotelScore"));
                dto.setHotelDetail(rs.getString("hotelDetail"));
+               dto.setHotelImg(rs.getString("hotelimg"));
                list.add(dto);
             }return list;
          }
@@ -199,6 +234,32 @@ public class HotelDAO {
          rs.next();
          return rs.getInt(1);
       }
-   } 
+   }
+   
+   
+   // 진규 추가
+   // Like에서 쓰일 것.
+   public HotelLikeImgDTO getLikeHotelOne(String hotelId) throws Exception{
+	   String sql = "select * from hotel join hotelimg using(hotelid) where hotelid = ?";
+	   try(Connection con = this.getConnection();
+			   PreparedStatement pstat = con.prepareStatement(sql)){
+		   pstat.setString(1, hotelId);
+		   try(ResultSet rs = pstat.executeQuery()){
+			   HotelLikeImgDTO dto = new HotelLikeImgDTO();
+			   rs.next();
+               dto.setHotelId(rs.getString("hotelID"));
+               dto.setHotelInfo(rs.getString("hotelInfo"));
+               dto.setHotelName(rs.getString("hotelName"));
+               dto.setHotelPhone(rs.getString("hotelPhone"));
+               dto.setHotelRoadAddress(rs.getString("hotelRoadAddress"));
+               dto.setHotelLongitude(rs.getString("hotelLongitude"));
+               dto.setHotelLatitude(rs.getString("hotelLatitude"));
+               dto.setHotelScore(rs.getString("hotelScore"));
+               dto.setHotelDetail(rs.getString("hotelDetail"));
+               dto.setHotelImg(rs.getString("hotelimg"));
+               return dto;
+		   }
+	   }
+   }
 
 }

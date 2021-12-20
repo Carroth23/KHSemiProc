@@ -17,7 +17,8 @@ import dao.HotelDAO;
 import dao.ImgFileDAO;
 import dao.LikeDAO;
 import dao.RoomDAO;
-import dto.HotelDTO;
+import dto.HotelFullDTO;
+import dto.HotelLikeImgDTO;
 import dto.LikeDTO;
 
 @WebServlet("*.hotel")
@@ -50,20 +51,19 @@ public class HotelController extends HttpServlet {
 				int start = 1;
 				int end = start + 9;
 				//호텔 정보와 이미지경로값 받아오기
-				List<HotelDTO> hotelList = hdao.selectHotelB(start, end);
-//				List<String> hotelImgList = idao.selectHotelImgB(start,end);
+				List<HotelLikeImgDTO> hotelList = hdao.selectHotelB(start, end);
 				request.setAttribute("hotelList", hotelList);
-//				request.setAttribute("hotelImgList", hotelImgList);
-				
+				// 빠른예약용 모든호텔 정보 보내주기
+				List<HotelLikeImgDTO> hotelListS = hdao.selectHotel();
+	            request.setAttribute("hotelListS", hotelListS);
 				
 				// 진규 추가한 내용
 				String loginId = (String) session.getAttribute("loginId");
 				System.out.println("로그인된 사용자의 ID : " + loginId);
 				List<LikeDTO> dto = new ArrayList<>();
-	            for (HotelDTO d : hotelList) {
+	            for (HotelLikeImgDTO d : hotelList) {
 	            	String hotelId = d.getHotelId();
 	            	boolean likeCheck = ldao.likeCheck(loginId, hotelId);
-	            	System.out.println("forEach 돌린 호텔 Id와 불린값 " + hotelId + " : " + likeCheck);
 	            	dto.add(new LikeDTO(0, hotelId, loginId, likeCheck));
 	            }
 	            request.setAttribute("likeDto", dto);
@@ -78,34 +78,37 @@ public class HotelController extends HttpServlet {
 				int end = start + 9;
 				if(end > hdao.getHotelCount()) {
 					end = hdao.getHotelCount();
-				}	
+				}
 				//호텔 정보와 이미지경로값 받아오기
-				List<HotelDTO> hotelList = hdao.selectHotelB(start, end);
-//				List<String> hotelImgList = idao.selectHotelImgB(start,end);
+//				List<HotelDTO> hotelList = hdao.selectHotelB(start, end);
 				
-				List<List> all = new ArrayList<>();
-				all.add(hotelList);
+				// 진규 수정 이걸로 써야됨.
+				List<HotelLikeImgDTO> hotelImgList = hdao.selectHotelA(start, end);
+				// 진규 수정 String를 HotelImgDTO로 변경
+//				List<HotelImgDTO> hotelImgList = idao.selectHotelImgB(start,end);
+				
+//				List<List> all = new ArrayList<>();
+//				all.add(hotelList);
 //				all.add(hotelImgList);
+//				System.out.println(all);
 				Gson g = new Gson();
 				
 				
 				// 진규 추가내용
 				String loginId = (String) session.getAttribute("loginId");
-				System.out.println("로그인된 사용자의 ID : " + loginId);
-				List<LikeDTO> likeList = new ArrayList<>();
-	            for (HotelDTO d : hotelList) {
+				List<HotelFullDTO> likeList = new ArrayList<>();
+				
+	            for (HotelLikeImgDTO d : hotelImgList) {
 	            	String hotelId = d.getHotelId();
 	            	boolean likeCheck = ldao.likeCheck(loginId, hotelId);
-	            	System.out.println("forEach 돌린 호텔 Id와 불린값 " + hotelId + " : " + likeCheck);
-	            	likeList.add(new LikeDTO(0, hotelId, loginId, likeCheck));
+	            	likeList.add(new HotelFullDTO(d.getHotelId(), d.getHotelName(), d.getHotelInfo(), d.getHotelPhone(), d.getHotelRoadAddress(), 
+	            			d.getHotelLongitude(), d.getHotelLatitude(), d.getHotelScore(), d.getHotelDetail(), d.getHotelImg(), likeCheck));
 	            }
-	            String result = g.toJson(hotelList); // 호텔 리스트를 받고
-	            String result2 = g.toJson(likeList); // 좋아요 리스트를 받고
-	            String sub1 = result.substring(0, result.length()-1); // 호텔 json변환전 형식을 뒤에서 하나 자르고, 
-	            String sub2 = result2.substring(1); // 호텔 형식을 앞에서 하나 잘라서
-	            String push = sub1 + "," + sub2; // 이어 붙임
-	            
-				response.getWriter().append(push); // 더보기 누를시 console에는 에러가 나지만 페이지는 정상작동됨.
+
+	            String result = g.toJson(likeList); // 좋아요 리스트를 받고
+	            System.out.println(likeList);
+	            System.out.println(result);
+				response.getWriter().append(result); // 
 				
 				
 				
@@ -127,16 +130,40 @@ public class HotelController extends HttpServlet {
 				String keyword = request.getParameter("Keyword");
 				//검색 옵션에 따라 찾는 값이 달라지므로 나눔
 				if(option.equals("이름")) {
-					List<HotelDTO> hotelList = hdao.searchHotelName(keyword);
-//					List<String> hotelImgList = idao.searchHotelNameImg(keyword);
+					System.out.println("인덱스에서 검색 후 여기옴");
+					// 진규 수정 이걸로 써야됨.
+					
+					List<HotelLikeImgDTO> hotelList = hdao.searchHotelName(keyword);
 					request.setAttribute("hotelList", hotelList);
 //					request.setAttribute("hotelImgList", hotelImgList);
+					
+					// 진규 추가한 내용
+					String loginId = (String) session.getAttribute("loginId");
+					List<LikeDTO> dto = new ArrayList<>();
+		            for (HotelLikeImgDTO d : hotelList) {
+		            	String hotelId = d.getHotelId();
+		            	boolean likeCheck = ldao.likeCheck(loginId, hotelId);
+		            	dto.add(new LikeDTO(0, hotelId, loginId, likeCheck));
+		            }
+		            request.setAttribute("likeDto", dto);
+					
 					request.getRequestDispatcher("/views/hotel/hotelList.jsp").forward(request, response);
 				}else if(option.equals("위치")) {
-					List<HotelDTO> hotelList = hdao.searchHotelSite(keyword);
-//					List<String> hotelImgList = idao.searchHotelSiteImg(keyword);
+					List<HotelLikeImgDTO> hotelList = hdao.searchHotelSite(keyword);
 					request.setAttribute("hotelList", hotelList);
 //					request.setAttribute("hotelImgList", hotelImgList);
+					
+					// 진규 추가한 내용
+					String loginId = (String) session.getAttribute("loginId");
+					System.out.println("로그인된 사용자의 ID : " + loginId);
+					List<LikeDTO> dto = new ArrayList<>();
+		            for (HotelLikeImgDTO d : hotelList) {
+		            	String hotelId = d.getHotelId();
+		            	boolean likeCheck = ldao.likeCheck(loginId, hotelId);
+		            	dto.add(new LikeDTO(0, hotelId, loginId, likeCheck));
+		            }
+		            request.setAttribute("likeDto", dto);
+					
 					request.getRequestDispatcher("/views/hotel/hotelList.jsp").forward(request, response);
 				}
 				

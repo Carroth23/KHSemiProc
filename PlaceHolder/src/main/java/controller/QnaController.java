@@ -40,28 +40,25 @@ public class QnaController extends HttpServlet {
 		
 		// userId 세션 값으로 받아두고 활용
 		String loginId = (String) request.getSession().getAttribute("loginId");
+		String hotelId = request.getParameter("hotelId");
 		
 		try {
 			// 1. User의 리뷰 작성하기 기능
 			if(cmd.equals("/write.qna")) {
 				
 				// loginId, 예약코드, 유저아이디, 호텔 아이디, qna내용, qna 작성날짜 받아오기
-				String revId = request.getParameter("revId");
 				String userId = loginId; // session 값
-				String hotelId = request.getParameter("hotelId");
 				String inquiryContent = request.getParameter("inquiryContent");
-				
 				// QnADTO 객체에 파라미터 값 담기
 				
-				dao.insert(new QnADTO(0,revId,userId,hotelId,inquiryContent,null));
-				request.getRequestDispatcher("/views/hotel/hotelDetail.jsp");
+				dao.insert(new QnADTO(0,hotelId,userId,"미완",inquiryContent,null));
+				response.sendRedirect("/views/hotel/hotelDetail.jsp");
 			}
 			// 2. User의 QnA 조회하기 기능 (내가 쓴 글)
 			// **** 현우 : 명령어 수정함
 			else if(cmd.equals("/viewMyInquiry.qna")) {
-				
 				// 해당 userId로 작성된 QnA 목록 모두 조회하기
-				List<QnADTO> myInquiry = dao.selectAll(loginId);
+				List<QnADTO> myInquiry = dao.selectAll(hotelId);
 				
 				// myPage로 request 값 포워드
 				request.setAttribute("myInquiry", myInquiry);

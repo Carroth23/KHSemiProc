@@ -10,6 +10,10 @@ public class HotelImgDTO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	public HotelImgDTO(String hotelImg) {
+		super();
+		this.hotelImg = hotelImg;
+	}
 	
 	public HotelImgDTO(String hotelId, String hotelImg) {
 		super();

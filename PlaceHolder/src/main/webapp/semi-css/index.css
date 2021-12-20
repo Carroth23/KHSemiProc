@@ -20,10 +20,8 @@
       height: 100%;
     }
 
-    /* 헤더부분 시작 */
-    /* header */
-
-
+  /* 헤더부분 시작 */
+  /* header */
   .header{
     margin-bottom:30px;
     margin-top:20px;
@@ -33,6 +31,7 @@
       height: 80px;
   }
 
+  /* 아마 햄버거는 여기부터 */
   #sidebtn {
       height: 50px;
   }
@@ -61,18 +60,30 @@
   .form-control{
     width:80%;
   }
-.top-search{
-  width:40px;
-  height:40px;
-  border-radius: 10px;
-  background-color: #e8f3ff;
-  border:none;
-  transition:all 0.3s;
-}
-.top-search:hover{
-  border:1px solid #e8f3ff;
-}
-
+  #topSearch{
+    width:80%;
+    height:40px;
+    padding-left:20px;
+    border-radius: 10px;
+    background-color: white;
+    border:1px solid gray;
+    transition:all 0.3s;
+    margin-right:10px;
+  }
+  #topSearch:hover{
+    border:1px solid #e8f3ff;
+  }
+  #topSearchBtn{
+    width:37px;
+    height:37px;
+    border-radius: 5px;
+    background-color: white;
+    border:1px solid gray;
+    transition: all 0.3s;
+  }
+  #topSearchBtn:hover{
+    border-radius: 15px;
+  }
   /* 로그인 */
   .signInput input {
       margin-top: 12px;
@@ -157,6 +168,7 @@
   #loginAcc {
       width: 100%;
       height: 250px;
+      margin-bottom:10px;
   }
 
   .loginAcc {
@@ -172,13 +184,82 @@
       text-align: center;
       margin-top: 10px;
   }
+
+
+
+  /* 모든 사이드바에 빠른예약 기능 추가 */
+  /* 호텔id값 빼오는 입력안 */
+  #sideHotelId{
+    display:none;
+  }
+  #revRoomType{
+    display:none;
+  }
+  .sidetxt{
+    text-align: center;
+  }
+  #sideHotelSelect{
+    width:100%;
+    height:40px;
+    font-size:18px;
+    border-radius: 5px;
+    margin-bottom:10px;
+  }
+  .sideRoomTypeBox{
+    margin-top:10px;
+  }
+  #sideRoomTypeBox{
+    width:180px;
+    height:30px;
+  }
+  #sideReserveBtn{
+    margin-top:10px;
+    width:100%;
+    height:40px;
+    background-color:white;
+    font-size:18px;
+    line-height: 40px;
+    border:solid 1px gray;
+    border-radius: 3px;
+    transition:all 0.3s;
+    margin-top:20px;
+  }
+  #sideReserveBtn:hover{
+    background-color: whitesmoke;
+  }
+  #speedRevMargin{
+    margin-top:15px;
+    margin-bottom:20px;
+  }
+  .sideCBackBox{
+    position:relative;
+  }
+  .sideCBack{
+    position:absolute;
+    text-align: center;
+    width:100%;
+    height:50px;
+    margin-top:100px;
+    line-height: 50px;
+    background-color: rgb(51, 51, 51);
+    opacity: 0.7;
+    z-index: 9998;
+    color: white;
+    font-size:32px;
+    cursor:default;
+  }
+  #sideC{
+    margin-bottom:20px;
+  }
+
+
   /* 로그인사이드바 끝 */
     
 
     /* 콘텐츠 시작 */
 
     .contentAll {
-      height:370px;
+      height:400px;
       width:100%;
       position: relative;
       transition: all 0.5s;
@@ -364,9 +445,6 @@
     }
 
     @media screen and (max-width: 800px) { /* 모바일 전용 */
-      body {
-          
-      }
       .form-control{
         width:150px;
         margin-left:30px;

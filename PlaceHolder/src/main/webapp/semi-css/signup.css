@@ -17,6 +17,12 @@
 .signupName{font-size: 18px; height:40%;}
 .signupVal{width:100%; height:60%;}
 input{text-align:center; border:0px; width:100%; height:100%; background-color: rgba(244, 165, 96, 0.575); border-radius: 50px;}
+
+#idVal>div{float:left; height:100%;}
+#idTest1{width:78%;}
+#idTest2{width:22%; background-color: rgba(105, 90, 205, 0.438); border-radius: 12px;}
+#idCheck{background-color: rgba(105, 90, 205, 0.438); border-radius: 12px;}
+
 input::placeholder{text-align: center;}
 #test5>div{float: left;}
 #test1 { width: 85%; height: 100%;}

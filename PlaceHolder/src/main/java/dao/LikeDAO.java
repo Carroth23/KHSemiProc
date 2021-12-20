@@ -85,5 +85,23 @@ public class LikeDAO {
 		}
 	}
 	
+	// 찜목록 기능
+	public List<LikeDTO> likeList(String loginId) throws Exception {
+		String sql = "select hotelid from likey where userid = ?";
+		try(Connection con = this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql)){
+			pstat.setString(1, loginId);
+			try(ResultSet rs = pstat.executeQuery()){
+				List<LikeDTO> list = new ArrayList<>();
+				while(rs.next()) {
+					LikeDTO dto = new LikeDTO();
+					dto.setHotelId(rs.getString("hotelid"));
+					list.add(dto);
+				}
+				return list;
+			}
+		}
+	}
+	
 	
 }

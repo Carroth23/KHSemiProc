@@ -16,6 +16,10 @@ public class LikeDTO {
 		this.loginId = loginId;
 		this.listLike = listLike;
 	}
+	public LikeDTO(String hotelId) {
+		super();
+		this.hotelId = hotelId;
+	}
 	public int getLikeId() {
 		return likeId;
 	}

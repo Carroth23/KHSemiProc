@@ -19,7 +19,8 @@ import dao.UserDAO;
 import dto.HotelDTO;
 import dto.ReservationDTO;
 import dto.RoomDTO;
-import tool.DateChanger;
+import tool.DateChangerToSql;
+import tool.PriceCharger;
 
 @WebServlet("*.book")
 public class ReservationController extends HttpServlet {
@@ -61,9 +62,14 @@ public class ReservationController extends HttpServlet {
 			if(cmd.equals("/confirm.book")) {
 				
 				// 호텔 상세페이지에서 직접 받아오는 정보
+				System.out.println(request.getParameter("hotelId") + " : " 
+				+ request.getParameter("checkIn") + " : " + request.getParameter("checkOut") 
+				+ " : " + request.getParameter("revRoomType") + " : " + request.getParameter("revQuantity")
+				+ " : " + loginId);
+				
 				String hotelId = request.getParameter("hotelId");
-				Date checkIn = DateChanger.changeSqlDate(request.getParameter("checkIn"));
-				Date checkOut = DateChanger.changeSqlDate(request.getParameter("checkOut"));
+				Date checkIn = DateChangerToSql.changeSqlDate(request.getParameter("checkIn"));
+				Date checkOut = DateChangerToSql.changeSqlDate(request.getParameter("checkOut"));
 				
 				String revRoomType = request.getParameter("revRoomType");
 				int revQuantity = Integer.parseInt(request.getParameter("revQuantity"));
@@ -79,14 +85,15 @@ public class ReservationController extends HttpServlet {
 				
 				// Room DB에서 방 정보 받아오기
 				RoomDTO selectedRoomInfo = roomDao.showRoomInfo(hotelId, revRoomType);
-				String revRoomInfo = selectedRoomInfo.getRoomInfo();
+				String revRoomInfo = roomDao.showRoomInfo(hotelId, revRoomType).getRoomInfo();
 				String revStat = "N";
-				// 기본 방 가격 + 추가인원 * 추가인원 당 가격
-				String revPrice = Integer.toString((Integer.parseInt(selectedRoomInfo.getRoomPrice()) +
-						Integer.parseInt(selectedRoomInfo.getAddPrice()) * Integer.parseInt(request.getParameter("addPrice"))));
+				String addPrice = request.getParameter("addPrice");
+				
+				// 기본 방 가격 + 추가인원 * 추가인원 당 가격 * 숙박일수
+				String revPrice = PriceCharger.charger(selectedRoomInfo.getRoomPrice(), revQuantity , addPrice, checkIn, checkOut);
 
 				// 예약일 : SYSDATE
-				Date revDay = DateChanger.changeCurrentTime(System.currentTimeMillis());
+				Date revDay = DateChangerToSql.changeCurrentTime(System.currentTimeMillis());
 				
 				// ** 해당 옵션의 방이 예약 가능한지 확인해야 함.c
 				// 호텔 측에 문의했을 때 예약이 가능한 경우
@@ -133,12 +140,12 @@ public class ReservationController extends HttpServlet {
 			}else if(cmd.equals("/modifyReservation.book")) {
 
 				// 수정할 예약 내용 데이터 받아오기(어디서, 어떤 방식으로?)
-				System.out.println(request.getParameter("revId") + " : " + request.getParameter("checkIn") + " : " + request.getParameter("checkOut"));
+				System.out.println("예약 수정 넘어오는 것 : " + request.getParameter("revId") + " : " + request.getParameter("checkIn") + " : " + request.getParameter("checkOut"));
 				String revId = request.getParameter("revId");
 				String userId = loginId;
-				Date checkIn = DateChanger.changeSqlDate(request.getParameter("checkIn"));
-				Date checkOut = DateChanger.changeSqlDate(request.getParameter("checkOut"));
-				Date revDay = DateChanger.changeCurrentTime(System.currentTimeMillis());				
+				Date checkIn = DateChangerToSql.changeSqlDate(request.getParameter("checkIn"));
+				Date checkOut = DateChangerToSql.changeSqlDate(request.getParameter("checkOut"));
+				Date revDay = DateChangerToSql.changeCurrentTime(System.currentTimeMillis());				
 				
 				String hotelId = request.getParameter("hotelId");
 				String hotelName = "none";
@@ -148,15 +155,15 @@ public class ReservationController extends HttpServlet {
 				String revRoomType = request.getParameter("revRoomType");
 				int revQuantity = Integer.parseInt(request.getParameter("revQuantity"));
 				String revRoomInfo = request.getParameter("revRoomInfo");
-				String revStat = "N";
+				String revStat = "Y";
+				
+				String addPrice = request.getParameter("addPrice");
 				
 				System.out.println(checkIn + " : " + checkOut + " : " + revRoomType);
 				
 				RoomDTO selectedRoomInfo = roomDao.showRoomInfo(hotelId, revRoomType);
 				
-				String revPrice = Integer.toString((Integer.parseInt(selectedRoomInfo.getRoomPrice()) +
-						Integer.parseInt(selectedRoomInfo.getAddPrice()) * Integer.parseInt(request.getParameter("addPrice"))));
-
+				String revPrice = PriceCharger.charger(selectedRoomInfo.getRoomPrice(), revQuantity, addPrice, checkIn, checkOut);
 
 				// Reservation DB의 데이터 수정
 				ReservationDTO reservDto = new ReservationDTO(revId, userId, hotelId, hotelName, hotelRoadAddress, hotelPhone, checkIn, checkOut, revDay, revRoomType, revQuantity, revRoomInfo, revStat, revPrice);

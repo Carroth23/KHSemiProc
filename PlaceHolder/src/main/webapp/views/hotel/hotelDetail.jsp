@@ -9,7 +9,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>PlaceHolder</title>
-      <link rel="shortcut icon" type="image/x-icon" href="/semi-img/favicon.png" />
+      <link rel="shortcut icon" type="image/x-icon" href="/semi-img/favicon.ico" />
       <!-- 제이쿼리CDN -->
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <!-- 부트스트랩CDN -->
@@ -33,15 +33,19 @@
 
     <body>
       <div class="container">
+
+        <!-- 사이드바 코드 시작 -->
         <div class="row header">
           <div class="col-3 align-self-center">
             <a href="index.jsp"><img src="/semi-img/logos.png" id="logo"></a>
           </div>
-          <div class="col-8 align-self-center" id="head2">
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="top-search"><i class="fas fa-search"></i></button>
-            </form>
+          <div class="col-8 align-self-center">
+
+            <input type="text" placeholder="HotelName" id="topSearch">
+            <button type="button" class="top-search" id="topSearchBtn">
+              <i class="fas fa-search"></i>
+            </button>
+
           </div>
           <!-- 햄버거메뉴 -->
           <div class="col-1  align-self-center justify-content-end">
@@ -74,19 +78,86 @@
                           </div>
                           <div class="row loginAccBannerH">
                             <div class="col-3">
-                              <a href="/list.hotel"><button class="loginAccBanner">예약</button></a>
+                              <a href="/list.hotel"><button class="loginAccBanner">Hotels</button></a>
                             </div>
                             <div class="col-3">
                               <a href=""><button class="loginAccBanner">후기</button></a>
                             </div>
                             <div class="col-3">
-                              <a href=""><button class="loginAccBanner">찜목록</button></a>
+                              <a href="/likeList.like?loginId=${loginId}"><button
+                                  class="loginAccBanner">찜목록</button></a>
                             </div>
                             <div class="col-3">
-                              <a href="/userInfo.user"><button class="loginAccBanner">MyPage</button></a>
+                              <a href="/mypage.home"><button class="loginAccBanner">MyPage</button></a>
                             </div>
                           </div>
                         </li>
+
+                        <!-- 빠른예약 -->
+                        <li class="nav-item" id="speedRevMargin">
+                          <form action="/confirm.book" method="get" id="form">
+                            <div class="row">
+                              <hr>
+                              <p class="sidetxt">빠른 예약</p>
+                              <div class="nav3 col-12">
+                                <select id="sideHotelSelect" onchange="selectBoxChange(this.value);">
+                                  <c:forEach var="list" items="${hotelListS }">
+                                    <option value=${list.hotelId}>${list.hotelName}</option>
+                                  </c:forEach>
+                                </select>
+                                <input type="text" name="hotelId" id="sideHotelId">
+                              </div>
+                              <div class="nav3 row">
+                                <div class="col-6 speedRevIn">
+                                  CheckIn
+                                  <input type=date name="checkIn" id="speedRevIn" min="2021-12-25" max="2022-12-30">
+                                </div>
+                                <div class="col-6 speedRevOut">
+                                  CheckOut
+                                  <input type=date name="checkOut" id="speedRevOut" min="2021-12-26" max="2022-12-31">
+                                </div>
+                              </div>
+
+                              <div class="row sideRoomTypeBox">
+                                <div calss="col-8" id="sideRoomTypeBox">
+                                  <select id="selectRoomType" onchange="selectRoomChange(this.value);">
+                                    <option value="스탠다드룸">스탠다드룸</option>
+                                    <option value="더블룸">더블룸</option>
+                                    <option value="디럭스룸">디럭스룸</option>
+                                    <option value="스위트룸">스위트룸</option>
+                                    <option value="이그제큐티브룸">이그제큐티브룸</option>
+                                  </select>
+                                  <input type="text" name="revRoomType" id="revRoomType" display="none">
+                                </div>
+                                <div class="col-2">
+                                  <select name="revQuantity" id="revQuantity">
+                                    <option value="1">1 개</option>
+                                    <option value="2">2 개</option>
+                                    <option value="3">3 개</option>
+                                    <option value="4">4 개</option>
+                                    <option value="5">5 개</option>
+                                  </select>
+                                </div>
+                                <div class="col-2 align-self-right">
+                                  <select name="addPrice" id="addPrice">
+                                    <option value="1">1 명</option>
+                                    <option value="2">2 명</option>
+                                    <option value="3">3 명</option>
+                                    <option value="4">4 명</option>
+                                    <option value="5">5 명</option>
+                                    <option value="6">6 명</option>
+                                  </select>
+                                </div>
+                              </div>
+
+                              <button type="button" class="nav-2" id="sideReserveBtn">
+                                Reservation
+                              </button>
+                            </div>
+                          </form>
+                        </li>
+                        <!-- 빠른예약 끝 -->
+
                       </c:when>
                       <c:otherwise>
                         <!-- 로그인 폼 -->
@@ -94,12 +165,12 @@
                           <div class="row signBox">
                             <form action="/login.user" method="post">
                               <div class="col-12 signInput">
-                                <input type="text" placeholder="Input ID" class="inputId" name="id"> <input
-                                  type="password" placeholder="Input PW" class="inputPw" name="pw">
+                                <input type="text" placeholder="Input ID" class="inputId" name="id" id="inputId">
+                                <input type="password" placeholder="Input PW" class="inputPw" name="pw" id="inputPw">
                               </div>
                               <div class="row">
                                 <div class="col-6 sign">
-                                  <button class="signBtns">로그인</button>
+                                  <button class="signBtns" id="loginBtn">로그인</button>
                                 </div>
                                 <div class="col-6 sign">
                                   <a href="/signupPage.user"><button type="button"
@@ -108,24 +179,42 @@
                               </div>
                             </form>
                           </div>
-
-
                         </li>
+
+                        <!-- 로그인 밑 캐러셀 -->
+
+                        <li class="nav-item" id="sideC">
+                          <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner sideCBackBox">
+                              <div class="sideCBack">PlaceHolder</div>
+                              <div class="carousel-item active">
+                                <img src="/semi-img/sideC1.jpg" class="d-block w-100" alt="여행을 해보세요">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="/semi-img/sideC2.jpg" class="d-block w-100" alt="나만의 공간">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="/semi-img/sideC3.jpg" class="d-block w-100" alt="PlaceHolder">
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+
                       </c:otherwise>
                     </c:choose>
-                    <li class="nav-item">
-                      <a href="/main.user"><button type="button" class="sideBanner">메인으로</button></a>
+                    <li class="nav-item nav-banner">
+                      <a href="/main.home"><button type="button" class="sideBanner">처음으로</button></a>
                     </li>
-                    <li class="nav-item">
-                      <button type="button" class="sideBanner boardGo">자유게시판</button>
+                    <li class="nav-item nav-banner">
+                      <a href="/articleList.article"><button type="button" class="sideBanner">자유게시판</button></a>
                     </li>
                   </ul>
-
                 </div>
               </div>
             </nav>
           </div>
         </div>
+        <!-- 사이드바 코드 끝 -->
 
         <!-- 위 배너 -->
         <div class="row" id="banner">
@@ -149,7 +238,7 @@
         <!-- 호텔설명칸 -->
         <div class="row">
           <div class="col-6 mainPhoto">
-            <img src="/semi-img/hotel-list2.jpg">
+            <img src="${hotelImgList}">
           </div>
           <div class="col-6 mainInfo">
             <div class="row">
@@ -195,16 +284,13 @@
 
         <!-- 중간배너 -->
         <div class="row stickyBanner">
-          <div class="col-3 detailBanner banner">
+          <div class="col-4 detailBanner banner">
             <a href="#banner1" class="middleBanner">룸 타입</a>
           </div>
-          <div class="col-3 reviewBanner banner">
+          <div class="col-4 reviewBanner banner">
             <a href="#banner2" class="middleBanner">리뷰</a>
           </div>
-          <div class="col-3 qnaBanner banner">
-            <a href="#banner3" class="middleBanner">QnA</a>
-          </div>
-          <div class="col-3 infoBanner banner">
+          <div class="col-4 infoBanner banner">
             <a href="#banner4" class="middleBanner">정보</a>
           </div>
         </div>
@@ -216,11 +302,11 @@
           <div class="col-12 detail">
 
             <!-- 각 방의 form -->
-            <c:forEach var="room" items="${RoomList}">
+            <c:forEach var="room" items="${RoomList}" varStatus="status">
               <form action="/confirm.book" method="get">
                 <div class="row roomInfoBox">
-                  <div class="col-3 roomImg">
-                    <img src="/semi-img/detailRoom1.jpg" alt="룸1입니다">
+                  <div class="col-3 roomImg" id="roomImgs">
+                    <img src=${RoomImgList[status.index].roomImg} alt="룸1입니다">
                   </div>
                   <div class="col-5 roomInfo">
                     <input type="text" name="hotelId" class="throwRun" value=${hotelList.hotelId}>
@@ -235,8 +321,8 @@
                   </div>
                   <div class="col-4 roomDate">
                     <p>예약 날짜 입력</p>
-                    <input type="date" name="checkIn"> 부터<br>
-                    <input type="date" class="roomDateEnd" name="checkOut"> 까지<br>
+                    <input type="date" id="checkIn" name="checkIn" min="2021-12-25" max="2022-12-30"> 부터<br>
+                    <input type="date" class="roomDateEnd" name="checkOut" min="2021-12-26" max="2022-12-31"> 까지<br>
                     <!-- ***** 현우 : revQuantity / addPrice 시험-->
                     객실 <input type="number" min="1" max="5" class="revQuantity" name="revQuantity"> 개,
                     총 <input type="number" min="1" max="6" class="addPrice" name="addPrice"> 명
@@ -282,55 +368,6 @@
 
         <hr class="bannerCutLine">
 
-        <!-- QnA칸 병주 작성 -->
-        <div class="row" id="banner3">
-          <div class="col-12 qna-middle">
-            <table border=1 align=center id="table1">
-              <tr>
-                <th colspan=2 align=left id=qna>Q&A
-              </tr>
-              <tr>
-                <td colspan=2 id="body"><textarea placeholder="내용을 입력하세요." id="contents1"
-                    name="inquiryContent"></textarea>
-              </tr>
-              <tr>
-                <td colspan=2 align=right><a href="/write.qna"><button>작성완료</button></a>
-
-              </tr>
-            </table>
-            <br>
-            <br>
-            <br>
-            <table border=1 align=center id="table2">
-              <tr>
-                <th colspan=5 align=center id=top>Q&A
-              </tr>
-              <tr align=center>
-                <td id="space">
-                <td id="title" name=inquiryContent>내용
-                <td id="writer" name=userId>작성자
-                <td id="date" name=inquiryCreated>날짜
-                <td id="view" name=inquiryStat>상태
-              </tr>
-              <tr>
-                <td colspan=5 align=center id="contents2">
-                  <c:forEach var="qna_List" items="${qna_List }">
-              <tr align="center">
-                <td>${qna_List.inquiry_seq }
-                <td>${qna_List.inquiryContent }
-                <td>${qna_List.userId }
-                <td>${qna_List.inquiryCreated }
-                <td>${qna_List.inquiryStat }
-              </tr>
-              </c:forEach>
-              </tr>
-              <tr>
-                <td colspan=5 align=right id=bottom>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
 
         <div class="row" id="banner4">
           <div class="col-12 hotelInfo">
@@ -351,14 +388,16 @@
 
             <c:forEach var="cardHotel" items="${hotelListAll}">
               <div class="card">
-              <form action="/goods.room" method="get">
-                <img src="/semi-img/silde_h1.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">${cardHotel.hotelName}</h5>
-                  <p class="card-text">${cardHotel.hotelDetail}</p>
-                  <input type="text" name="hotelId" class="throwRun" value=${cardHotel.hotelId}>
-                  <button class="cardbtn justify-content-center">보러가기</button>
-                </div>
+                <form action="/goods.room" method="get">
+                  <div id="cardImgBox">
+                    <img src=${cardHotel.hotelImg} class="card-img-top" alt="...">
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">${cardHotel.hotelName}</h5>
+                    <p class="card-text">${cardHotel.hotelDetail}</p>
+                    <input type="text" name="hotelId" class="throwRun" value=${cardHotel.hotelId}>
+                    <button class="cardbtn justify-content-center">보러가기</button>
+                  </div>
                 </form>
               </div>
             </c:forEach>
@@ -442,103 +481,181 @@
         </div>
 
         <script>
-          window.onload = function () {
-            $(function () {
-              $('.slideBox').slick({
-                slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
-                infinite: true, 	//무한 반복 옵션	 
-                slidesToShow: 4,		// 한 화면에 보여질 컨텐츠 개수
-                slidesToScroll: 1,		//스크롤 한번에 움직일 컨텐츠 개수
-                speed: 100,	 // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
-                arrows: true, 		// 옆으로 이동하는 화살표 표시 여부
-                dots: false, 		// 스크롤바 아래 점으로 페이지네이션 여부
-                autoplay: true,			// 자동 스크롤 사용 여부
-                autoplaySpeed: 10000, 		// 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
-                pauseOnHover: true,		// 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
-                vertical: false,		// 세로 방향 슬라이드 옵션
-                prevArrow: "<button type='button' class='slick-prev'>></button>",		// 이전 화살표 모양 설정
-                nextArrow: "<button type='button' class='slick-next'><</button>",		// 다음 화살표 모양 설정
-                dotsClass: "slick-dots", 	//아래 나오는 페이지네이션(점) css class 지정
-                draggable: true, 	//드래그 가능 여부 
-
-                responsive: [ // 반응형 웹 구현 옵션
-                  {
-                    breakpoint: 960, //화면 사이즈 960px
-                    settings: {
-                      //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
-                      slidesToShow: 3
-                    }
-                  },
-                  {
-                    breakpoint: 768, //화면 사이즈 768px
-                    settings: {
-                      //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
-                      slidesToShow: 2
-                    }
-                  }
-                ]
-
-              });
-            })
-
-            // 상단배너 바로가기 버튼
-            document.getElementById("goHome").addEventListener("click", () => {
-              location.href = "/index.jsp";
-            })
-            document.getElementById("listGoBar").addEventListener("click", () => {
-              location.href = "/list.hotel";
-            })
-            $(".boardGo").on("click", () => {
-              location.href = "/articleList.article";
-            })
-            // document.getElementById("gogakGobar").addEventListener("click", () => {
-            //   location.href="/";
-            // })
-            document.getElementById("mypageGobar").addEventListener("click", () => {
-              location.href = "/userInfo.user";
-            })
 
 
-            // 공유하기 누르면 url 복사시키기. 모바일에선 shareAPI사용하면 됨
-            $("#share").on("click", function () {
-              let url = document.location.href;
-              let shareUrl = document.getElementById("shareUrl");
-              shareUrl.value = url;
-              shareUrl.select();
-              document.execCommand('copy');
-              alert("url이 복사되었습니다.");
-            })
+          // 사이드바 관련 스크립트 시작
+          $(".signUp").on("click", function () {
+            location.href = "/signupPage.user";
+          })
 
-
-            let heart = document.getElementById("heart");
-
-            heart.addEventListener("click", () => {
-              if ('${loginId}' == '') {
-                alert("로그인을 해주세요");
-                return
-              } else {
-                $.ajax({
-                  url: "/detailClick.like",
-                  data: {
-                    "loginId": '${loginId}',
-                    "hotelId": '${hotelList.hotelId}'
-                  }
-                }).done(function (res) {
-                  if (res == 'add') { // 추가가 오면 하트 빨간색
-                    document.getElementById("heartAjax").src = "/semi-img/heartOn.png";
-                    console.log("빨강으로 변경");
-                  } else if (res == 'del') { // 삭제가 오면 하트 검정색
-                    document.getElementById("heartAjax").src = "/semi-img/heart.png";
-                    console.log("검정으로 변경");
-                  }
-                })
+          if ("${loginId}" == '') {
+            document.getElementById("loginBtn").addEventListener("click", () => {
+              let inputId = document.getElementById("inputId").value;
+              let inputPw = document.getElementById("inputPw").value;
+              if (inputId == '' || inputPw == '') {
+                alert("ID와 PW를 입력해주세요.");
               }
             })
-
-            $(".cardbtn").on("click", () => {
-              console.log($(this).prev().val());
-            })
           }
+
+          // 빠른 예약 select box 함수 ***** 현우 : 호텔 select box
+          let selectBoxChange = function (value) {
+            console.log(value);
+            $("#sideHotelId").val(value);
+          }
+          // 룸 타입 selectbox 함수
+          let selectRoomChange = function (value) {
+            console.log(value);
+            $("#revRoomType").val(value);
+          }
+
+          $(".logOut").on("click", () => {
+            alert("로그아웃 되었습니다.");
+          })
+
+          // 사이드 바 예약 확인
+          $("#sideReserveBtn").on("click", function () {
+            let hotelId = document.getElementById("sideHotelId").value;
+            let checkIn = document.getElementById("speedRevIn").value;
+            let checkOut = document.getElementById("speedRevOut").value;
+            let revRoomType = document.getElementById("revRoomType").value;
+            let revQuantity = document.getElementById("revQuantity").value;
+            let addPrice = document.getElementById("addPrice").value;
+
+            console.log(checkIn + checkOut + revRoomType + revQuantity + addPrice);
+
+            if (checkIn == '' || checkOut == '') {
+              alert("체크인, 체크아웃 날짜를 입력해주세요");
+              return false;
+            } else if (checkIn >= checkOut) {
+              alert("체크아웃 날짜는 체크인 다음날부터 가능합니다.");
+              return false;
+            } else if (revRoomType == '') {
+              alert("방 타입을 선택해주세요.");
+              return false;
+            } else if (revQuantity == '') {
+              alert("방 개수를 선택해주세요.");
+              return false;
+            } else if (addPrice == '') {
+              alert("방 1개 당 인원을 선택해주세요.");
+              return false;
+            } else {
+              if (confirm("예약 하시겠습니까?")) {
+                alert("예약이 완료되었습니다.");
+                $("#form").submit();
+              }
+            }
+          })
+
+          // 사이드바 관련 스크립트 끝
+
+
+
+
+
+          $(function () {
+            $('.slideBox').slick({
+              slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
+              infinite: true, 	//무한 반복 옵션	 
+              slidesToShow: 4,		// 한 화면에 보여질 컨텐츠 개수
+              slidesToScroll: 1,		//스크롤 한번에 움직일 컨텐츠 개수
+              speed: 100,	 // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+              arrows: true, 		// 옆으로 이동하는 화살표 표시 여부
+              dots: false, 		// 스크롤바 아래 점으로 페이지네이션 여부
+              autoplay: true,			// 자동 스크롤 사용 여부
+              autoplaySpeed: 10000, 		// 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+              pauseOnHover: true,		// 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
+              vertical: false,		// 세로 방향 슬라이드 옵션
+              prevArrow: "<button type='button' class='slick-prev'>></button>",		// 이전 화살표 모양 설정
+              nextArrow: "<button type='button' class='slick-next'><</button>",		// 다음 화살표 모양 설정
+              dotsClass: "slick-dots", 	//아래 나오는 페이지네이션(점) css class 지정
+              draggable: true, 	//드래그 가능 여부 
+
+              responsive: [ // 반응형 웹 구현 옵션
+                {
+                  breakpoint: 960, //화면 사이즈 960px
+                  settings: {
+                    //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+                    slidesToShow: 3
+                  }
+                },
+                {
+                  breakpoint: 768, //화면 사이즈 768px
+                  settings: {
+                    //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+                    slidesToShow: 2
+                  }
+                }
+              ]
+
+            });
+          })
+
+          // 상단배너 바로가기 버튼
+          document.getElementById("goHome").addEventListener("click", () => {
+            location.href = "/index.jsp";
+          })
+          document.getElementById("listGoBar").addEventListener("click", () => {
+            location.href = "/list.hotel";
+          })
+          $(".boardGo").on("click", () => {
+            location.href = "/articleList.article";
+          })
+          // document.getElementById("gogakGobar").addEventListener("click", () => {
+          //   location.href="/";
+          // })
+          document.getElementById("mypageGobar").addEventListener("click", () => {
+            location.href = "/userInfo.user";
+          })
+
+
+          // 공유하기 누르면 url 복사시키기. 모바일에선 shareAPI사용하면 됨
+          $("#share").on("click", function () {
+            let url = document.location.href;
+            let shareUrl = document.getElementById("shareUrl");
+            shareUrl.value = url;
+            shareUrl.select();
+            document.execCommand('copy');
+            alert("url이 복사되었습니다.");
+          })
+
+
+          let heart = document.getElementById("heart");
+
+          heart.addEventListener("click", () => {
+            if ('${loginId}' == '') {
+              alert("로그인을 해주세요");
+              return
+            } else {
+              $.ajax({
+                url: "/detailClick.like",
+                data: {
+                  "loginId": '${loginId}',
+                  "hotelId": '${hotelList.hotelId}'
+                }
+              }).done(function (res) {
+                if (res == 'add') { // 추가가 오면 하트 빨간색
+                  document.getElementById("heartAjax").src = "/semi-img/heartOn.png";
+                  console.log("빨강으로 변경");
+                } else if (res == 'del') { // 삭제가 오면 하트 검정색
+                  document.getElementById("heartAjax").src = "/semi-img/heart.png";
+                  console.log("검정으로 변경");
+                }
+              })
+            }
+          })
+
+          $(".cardbtn").on("click", () => {
+            console.log($(this).prev().val());
+          })
+
+          // 최상단 버튼
+          document.getElementById("topSearchBtn").addEventListener("click", () => {
+            let keyword = document.getElementById("topSearch").value;
+            location.href = "/listSearch.hotel?option=이름" + "&Keyword=" + keyword;
+          })
+
+
 
 
         </script>

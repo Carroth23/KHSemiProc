@@ -8,6 +8,11 @@ public class RoomImgDTO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public RoomImgDTO (String roomImg) {
+		super();
+		this.roomImg = roomImg;
+	}
 
 	public RoomImgDTO(String hotelId, String roomImg) {
 		super();

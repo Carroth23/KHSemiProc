@@ -1,19 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="java.util.Date" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <%
-	Date nowTime = new Date();
-	SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+Date nowTime = new Date();
+SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>PlaceHolder</title>
-<link rel="shortcut icon" type="image/x-icon"
-	href="/semi-img/favicon.png" />
+<!-- 파비콘 -->
+<link rel="shortcut icon" type="image/x-icon" href="/semi-img/favicon.ico" />
 <!-- 제이쿼리CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- 부트스트랩CDN -->
@@ -38,7 +38,7 @@
 	href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap"
 	rel="stylesheet">
 
-<link rel="stylesheet" href="/semi-css/hotelList.css">
+<link rel="stylesheet" href="/semi-css/mypage.css">
 </head>
 <body>
 	<div class="container">
@@ -95,7 +95,8 @@
 															<a href="/list.hotel"><button class="loginAccBanner">예약</button></a>
 														</div>
 														<div class="col-3">
-															<a href=""><button class="loginAccBanner">후기</button></a>
+															<a href="/selectAll.review"><button
+																	class="loginAccBanner">후기</button></a>
 														</div>
 														<div class="col-3">
 															<a href=""><button class="loginAccBanner">찜목록</button></a>
@@ -154,11 +155,8 @@
 					<div class="col-2 community bannerIn">
 						<p class="boardGo">커뮤니티</p>
 					</div>
-					<div class="col-2 qna bannerIn">
-						<p>고객센터</p>
-					</div>
 					<div class="col-2 mypage bannerIn">
-							<p id="mypage">마이페이지</p>
+						<p id="mypage">마이페이지</p>
 						</a>
 					</div>
 				</div>
@@ -167,10 +165,11 @@
 				<div class="row">
 					<div class="col-10 contentAll" id="content1">
 						<div class="conBack"></div>
-			
+
 						<div class="conInBox conInBox1">
 							<p>${loginId}님환영합니다.</p>
-							<p>이미지 + 아이콘 추가 예정</p><br><br><br><br><br><br><br>
+							<p>이미지 + 아이콘 추가 예정</p>
+							<br> <br> <br> <br> <br> <br> <br>
 						</div>
 
 					</div>
@@ -187,344 +186,388 @@
 					<div class="col-2 community bannerIn">
 						<p id="myBoard">내가 쓴 글</p>
 					</div>
-					<div class="col-2 qna bannerIn">
-						<p id="myReview">내 리뷰</p>
-					</div>
 					<div class="col-2 mypage bannerIn">
-						<p id="myInquiry">내 Q&A</p>
+						<p id="myInquiry">고객센터</p>
 					</div>
 				</div>
-
 				<!-- list 추가하는 곳   -->
-
 				<!-- 예약 리스트 추가 -->
+				<c:forEach var="reserv" items="${reserveList}" varStatus="status">
 				<div class="row" id="banner1">
 					<div class="col-12 detail">
 						<!-- 각 방의 form -->
-						<c:forEach var="reserv" items="${reserveList}">
-							<form action="/modifyReservation.book" method="get">
+							<form action="/modifyReservation.book" method="get" id="form">
 								<div class="row roomInfoBox">
-									<div class="col-3 roomDate">
-										예약한 호텔 이미지
-									</div>
+									<div class="col-3 roomDate">예약한 호텔 이미지</div>
 									<div class="col-4 roomInfo">
-										<input type="text" id="hotelId" name="hotelId" class="throwRun" value=${reserv.hotelId} readonly>
-										<input type="text" id="revId" name="revId" class="throwRun" value=${reserv.revId}>
-										<!-- <p class="showReservation">예약 번호 : ${reserv.revId}</p>
+										<input type="text" id="hotelId${status.index }" name="hotelId"class="throwRun" value=${reserv.hotelId } display="hidden">
+										<input type="text" id="revId${status.index }" name="revId" class="throwRun" value=${reserv.revId } display="none">
+										<input type="hidden" name="revId" id ="${reserv.revId }" value="${reserv.revId }"/>
+										<p class="showReservation">예약 번호 : ${reserv.revId}</p>
 										<p class="showReservation">${reserv.hotelName}</p>
-										<p class="showReservation" name="hotelId">${reserv.hotelId}</p> -->
 										<p class="showReservation">${reserv.checkIn}~${reserv.checkOut}</p>
-										<p class="showReservation">${reserv.revRoomType}
-											₩${reserv.revPrice}</p>
-
+										<p class="showReservation">${reserv.revRoomType} ₩${reserv.revPrice}</p> 
 										<c:choose>
-											<c:when test="${reserv.revStat eq('Y')}">
+											<c:when test="new Date(${reserv.checkOut}) < new Date() }">
 												<p class="showReservation">예약 상태 : 완료</p>
-												<button class="roomSubmit justify-content-end">리뷰 작성</button>
+												<button class="roomSubmit justify-content-end">리뷰
+													작성</button>
 											</c:when>
 											<c:otherwise>
 												<p class="showReservation">예약 상태 : 대기</p>
-												<input type=button class="roomSubmit justify-content-end" id="cancelReservation" value="예약 취소">
+												<!-- <input type=button class="cancelReservation" value="예약취소"> -->
+												<input type="button" value="예약취소" onclick="deleteRev(${reserv.revId })">
+												<input type=button class="payReservation" value="결제하기" onclick="payRev(${status.index })">
 											</c:otherwise>
 										</c:choose>
 									</div>
 									<div class="col-5 roomDate">
-										<p>예약 변경<p>
-										체크인 : <input type="date" id="checkIn" name="checkIn"><br>
-										체크아웃 : <input type="date" id="checkOut" class="roomDateEnd" name="checkOut"><br>
-										<!-- ***** 현우 : revQuantity / addPrice 시험-->
-                        				방 타입 :	<div class="col-3">
-                          							<select class="revRoomType" name="revRoomType">
-                            						<option>스탠다드룸</option>
-                           							<option>더블룸</option>
-                            						<option>디럭스룸</option>
-                            						<option>이그제큐티브룸</option>
-                            						<option>스위트룸</option>
-                          							</select>
-                        						</div>
-										방 개수 : <input type="text" id="revQuantity" class="revQuantity" name="revQuantity">개<br> 
-										추가 인원 : <input type="text" id="addPrice" class="addPrice" name="addPrice">명<br>
-										<button class="roomSubmit justify-content-end" id="modifyReservation">예약 수정</button>
+										<p>예약 변경
+										<p>
+											체크인 : <input type="date" id="checkIn${status.index }" name="checkIn" min="2021-12-25" max="2022-12-30"><br> 체크아웃 : 
+											<input 	type="date" id="checkOut${status.index }" class="roomDateEnd" name="checkOut" min="2021-12-26" max="2022-12-31"><br>
+											방 타입 :
+											<!-- <div class="col-3"> -->
+											<select class="revRoomType" id="revRoomType${status.index }" >
+												<option value="스탠다드룸" selected>스탠다드룸</option>
+												<option value="더블룸">더블룸</option>
+												<option value="디럭스룸">디럭스룸</option>
+												<option value="스위트룸">스위트룸</option>
+												<option value="이그제큐티브룸">이그제큐티브룸</option>
+											</select> 
+											<!-- onchange="selectRoomChange(this.value);" <input type="text" name="revRoomType" id="revRoomType${status.index }" style="display: none"> -->
+											<!--</div>-->
+											방 개수 :
+											<!-- <input type="text" id="revQuantity" class="revQuantity">개<br> -->
+											<select name="revQuantity" id="revQuantity${status.index }">
+												<option value="1">1 개</option>
+												<option value="2">2 개</option>
+												<option value="3">3 개</option>
+												<option value="4">4 개</option>
+												<option value="5">5 개</option>
+											</select> 방 1개 당 인원 :
+											<!-- <input type="text" id="addPrice" class="addPrice" name="addPrice">명<br>-->
+											<!-- <div class="nav3">-->
+											<select name="addPrice" id="addPrice${status.index }">
+												<option value="1">1 명</option>
+												<option value="2">2 명</option>
+												<option value="3">3 명</option>
+												<option value="4">4 명</option>
+												<option value="5">5 명</option>
+												<option value="6">6 명</option>
+											</select>
+											<!--</div>-->
+											<br>
+											<input type="button" value="예약수정" class="modifyReservation" onclick="modifyRev(${status.index })">
 									</div>
 								</div>
 							</form>
-						</c:forEach>
 					</div>
 				</div>
+				</c:forEach>
 				<!-- 내가 쓴 글 : article에서 끌어오기 -->
-				<div class="row" id="banner2">
-					<div class="col-12 review">
-						<c:forEach var="article" items="${articleList}">
+				<c:forEach var="article" items="${articleList}">
+					<div class="row" id="banner2">
+						<div class="col-12 review">
 							<div class="row reviewBox">
-								<div class="col-3 reviewImg">
-									리뷰 이미지 공간
-								</div>
-								<div class="col-6 reviewInfo">
-									<span>${article.postId} 님의 리뷰 </span>
-									<!-- <img src="/semi-img/star.png">  -->
-									<span>${article.postTitle}</span> <br>
-									<span>${article.postContent}</span><br>
-									<span class="reviewWriteDate">작성 날짜 : ${article.postCreated}</span>
-									<span class="reviewWriteDate">수정 날짜 : ${article.postModified}</span>
-								</div>
-								<div class="col-3 reviewImg">
-									<input type=button value="내 글 수정하기" id="modifyMyArticle">
-									
-								</div>
+								<form action="/modify.article" method="get">
+									<div class="col-3 reviewImg">리뷰 이미지 공간</div>
+									<div class="col-6 reviewInfo">
+										<span>${article.postId} 님의 리뷰 </span>
+										<!-- <img src="/semi-img/star.png">  -->
+										<span>${article.postTitle}</span> <br> <span>${article.postContent}</span><br>
+										<span class="reviewWriteDate">작성 날짜 :
+											${article.postCreated}</span> <span class="reviewWriteDate">수정
+											날짜 : ${article.postModified}</span>
+									</div>
+									<div class="col-3 reviewImg">
+										<input type=text name="postId" value="${article.postId}"
+											style="display: none"> <input type=text
+											name="postTitle" value="${article.postTitle}"
+											style="display: none"> <input type=text
+											name="postContent" value="${article.postContent}"
+											style="display: none"> <input type=submit
+											value="내 글 수정하기" id="modifyMyArticle">
+									</div>
+								</form>
 							</div>
-						</c:forEach>
+				</c:forEach>
+			</div>
+		</div>
+		<!-- 내 Q & A -->
+		<div class="row" id="banner2">
+			<div class="col-12 review">
+				<c:forEach var="inquiry" items="${myInquiry}">
+					<div class="row reviewBox">
+						<div class="col-9 reviewInfo">
+							<span>${inquiry.userId} 님의 문의 </span> <span>문의 내용 :
+								${inquiry.inquiryContent}</span> <span class="reviewWriteDate">작성
+								날짜 : ${inquiry.inquiryCreated}</span> <span>답변 현황 :
+								${inquiry.inquiryStat}</span>
+						</div>
 					</div>
-				</div>
-				<!-- 내 리뷰 : review에서 끌어오기 -->
-				<div class="row" id="banner2">
-					<div class="col-12 review">
-						<c:forEach var="review" items="${myReview}">
-							<div class="row reviewBox">
-								<!-- <div class="col-3 reviewImg">
-									<img src="/semi-img/reviewImg1.jpg">
-								</div>  -->
-								<div class="col-6 reviewInfo">
-									<span>${review.userId} 님의 리뷰 </span>
-									<!-- <img src="/semi-img/star.png">  -->
-									<span>${review.reviewScore}</span> <span
-										class="reviewWriteDate">작성 날짜 : ${review.reviewCreated}</span>
-									<div class="row">
-										<div class="col-12 reviewContentBox">
-											<p class="reviewContent">${review.reviewContent}</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-3 reviewImg">
-									<input type=button value="리뷰 수정하기">
-								</div>
+				</c:forEach>
+			</div>
+		</div>
+		<!-- 오늘의 추천 상품 -->
+		<div class="row">
+			<div class="col-12 slideBox">
+				<c:forEach var="cardHotel" items="${hotelListAll}">
+					<div class="card">
+						<form action="/goods.room" method="get">
+							<img src="/semi-img/silde_h1.jpg" class="card-img-top" alt="...">
+							<div id="card-body">
+								<h5 class="card-title">${cardHotel.hotelName}</h5>
+								<p class="card-text">${cardHotel.hotelDetail}</p>
+								<input type="text" name="hotelId" class="throwRun"
+									value=${cardHotel.hotelId}>
+								<button class="cardbtn justify-content-center">보러가기</button>
 							</div>
-						</c:forEach>
+						</form>
 					</div>
-				</div>
-
-				<!-- 내 Q & A -->
-				<div class="row" id="banner2">
-					<div class="col-12 review">
-						<c:forEach var="inquiry" items="${myInquiry}">
-							<div class="row reviewBox">
-								<div class="col-9 reviewInfo">
-									<span>${inquiry.userId} 님의 문의 </span> <span>문의 내용 :
-										${inquiry.inquiryContent}</span> <span class="reviewWriteDate">작성
-										날짜 : ${inquiry.inquiryCreated}</span> <span>답변 현황 :
-										${inquiry.inquiryStat}</span>
-								</div>
+				</c:forEach>
+			</div>
+		</div>
+		<!-- 리뷰 존 -->
+		<div class="row">
+			<div class="row">
+				<p class="myInquiry">오늘의 추천 상품</p>
+			</div>
+			<c:forEach var="cardHotel" items="${hotelList}">
+				<div class="col-12 slideBox">
+					<form action="/goods.room" method="get">
+						<div class="card" id="card">
+							<img src="/semi-img/silde_h1.jpg" class="card-img-top" alt="...">
+							<div class="card-body">
+								<h5 class="card-title">${cardHotel.hotelName}</h5>
+								<p class="card-text">${cardHotel.hotelDetail}</p>
+								<button type=submit>보러가기</button>
+								<input type=text name=hotelId value="${cardHotel.hotelId }" style="display: none"}>
 							</div>
-						</c:forEach>
-					</div>
+						</div>
+					</form>
 				</div>
-
-				<!-- 오늘의 추천 상품 -->
-       <div class="row">
-          <div class="col-12 slideBox">
-
-            <c:forEach var="cardHotel" items="${hotelListAll}">
-              <div class="card">
-              <form action="/goods.room" method="get">
-                <img src="/semi-img/silde_h1.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">${cardHotel.hotelName}</h5>
-                  <p class="card-text">${cardHotel.hotelDetail}</p>
-                  <input type="text" name="hotelId" class="throwRun" value=${cardHotel.hotelId}>
-                  <button class="cardbtn justify-content-center">보러가기</button>
-                </div>
-                </form>
-              </div>
-            </c:forEach>
-
-          </div>
-        </div>
-				
-				<!-- 리뷰 존 -->
-				<div class="row">
-					<div class="row">
-						<p class="myInquiry">오늘의 추천 상품</p>
-					</div>
-					<div class="col-12 slideBox">
-						
-						<c:forEach var="cardHotel" items="${hotelList}">
-							<form action="/goods.room" method="get">
-							<div class="card" id="card">
-								<img src="/semi-img/silde_h1.jpg" class="card-img-top" alt="...">
-								<div class="card-body">
-									<h5 class="card-title">${cardHotel.hotelName}</h5>
-									<p class="card-text">${cardHotel.hotelDetail}</p>
-									<p class="card-text" style="display:none">${cardHotel.hotelId}</p>
-									<button type=submit >보러가기</button>
-								</div>
+			</c:forEach>
+		</div>
+		<!-- 푸터 -->
+		<div class="container-fluid footBack">
+			<div class="container">
+				<div id="footer">
+					<div id="footerIn">
+						<div class="row">
+							<div class="col-3 footer-left">
+								<a href="index.jsp" class="fot_logo"></a>
 							</div>
-							</form>
-						</c:forEach>
-					</div>
-				</div>
-				
+							<div class="col-3 footer-center"></div>
+							<div class="col-6 footer-right">
+								<ul class="foot-ul-blog">
+									<li><a
+										href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0">블로그</a>
+									</li>
+									<li><a href="">이용약관</a></li>
+									<li><a href="">개인정보처리방침</a></li>
+									<li><a href="">운영 정책</a></li>
+									<li><a href="">고객 문의</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-4">
+								<ul class="foot-sangho">
+									<li>상호명 : <a href="index.jsp" class="foot-sangho-a">PlaceHolder</a></li>
+									<li>공동대표 : 기억해조</li>
+									<li>사업자등록번호 : 230-00-12345</li>
+									<li>동신판매업신고번호 : 2021-서울종로-05000</li>
+								</ul>
+							</div>
+							<div class="col-5">
+								<ul class="foot-sangho">
+									<li>&nbsp;</li>
+									<li>대표전화 : 02-1234-5678</li>
+									<li>이메일 : PlaceHolder@LoremIpsum.com</li>
+									<li>영업소재지 : 서울특별시 중구 남대문로 120 대일빌딩 2F, 3F</li>
+								</ul>
+							</div>
+							<div class="col-3">
+								<ul class="foot-logos">
 
-				<!-- 푸터 -->
-				<div class="container-fluid footBack">
-					<div class="container">
-						<div id="footer">
-							<div id="footerIn">
-								<div class="row">
-									<div class="col-3 footer-left">
-										<a href="index.jsp" class="fot_logo"></a>
-									</div>
-									<div class="col-3 footer-center"></div>
-									<div class="col-6 footer-right">
-										<ul class="foot-ul-blog">
-											<li><a
-												href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0">블로그</a>
-											</li>
-											<li><a href="">이용약관</a></li>
-											<li><a href="">개인정보처리방침</a></li>
-											<li><a href="">운영 정책</a></li>
-											<li><a href="">고객 문의</a></li>
-										</ul>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-4">
-										<ul class="foot-sangho">
-											<li>상호명 : <a href="index.jsp" class="foot-sangho-a">PlaceHolder</a></li>
-											<li>공동대표 : 기억해조</li>
-											<li>사업자등록번호 : 230-00-12345</li>
-											<li>동신판매업신고번호 : 2021-서울종로-05000</li>
-										</ul>
-									</div>
-									<div class="col-5">
-										<ul class="foot-sangho">
-											<li>&nbsp;</li>
-											<li>대표전화 : 02-1234-5678</li>
-											<li>이메일 : PlaceHolder@LoremIpsum.com</li>
-											<li>영업소재지 : 서울특별시 중구 남대문로 120 대일빌딩 2F, 3F</li>
-										</ul>
-									</div>
-									<div class="col-3">
-										<ul class="foot-logos">
-
-											<li><a
-												href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0"
-												target='_blank' class="nblog"></a></li>
-											<li><a href="https://twitter.com/" target='_blank'
-												class="twitter"></a></li>
-											<li><a href="https://www.instagram.com/" target='_blank'
-												class="instargram"></a></li>
-											<li><a href="https://www.facebook.com/" target='_blank'
-												class="facebook"></a></li>
-										</ul>
-									</div>
-								</div>
-								<hr class="bottomHr">
-								<div class="row">
-									<div class="col-9">
-										<p class="foot_caution">PlaceHolder는 통신판매중개자이자 통신판매 당사자
-											입니다. 따라서 PlaceHolder는 공간 거래정보 및 거래내역을 소유할 수 있습니다.</p>
-									</div>
-									<div class="col-3">
-										<p class="foot_caution">Copyright PLACEHOLDER Corp. All
-											Rights Reserved.</p>
-									</div>
-								</div>
+									<li><a
+										href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0"
+										target='_blank' class="nblog"></a></li>
+									<li><a href="https://twitter.com/" target='_blank'
+										class="twitter"></a></li>
+									<li><a href="https://www.instagram.com/" target='_blank'
+										class="instargram"></a></li>
+									<li><a href="https://www.facebook.com/" target='_blank'
+										class="facebook"></a></li>
+								</ul>
+							</div>
+						</div>
+						<hr class="bottomHr">
+						<div class="row">
+							<div class="col-9">
+								<p class="foot_caution">PlaceHolder는 통신판매중개자이자 통신판매 당사자 입니다.
+									따라서 PlaceHolder는 공간 거래정보 및 거래내역을 소유할 수 있습니다.</p>
+							</div>
+							<div class="col-3">
+								<p class="foot_caution">Copyright PLACEHOLDER Corp. All
+									Rights Reserved.</p>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+	</div>
+	<script>
+		// 홈으로
+		document.querySelector("#goHome").addEventListener("click", function() {
+			location.href = "/index.jsp";
+		})
 
-		<script>
-			// 홈으로
-			document.querySelector("#goHome").addEventListener("click",
-					function() {
-						location.href = "/index.jsp";
-					})
+		// 예약으로 이동
+		document.querySelector("#pagereload").addEventListener("click",
+				function() {
+					location.href = "/list.hotel";
+				})
 
-			// 예약으로 이동
-			
-			document.querySelector("#pagereload").addEventListener("click",
-					function() {
-						location.href = "/list.hotel";
-					})
+		// 커뮤니티로
+		document.querySelector(".boardGo").addEventListener("click",
+				function() {
+					location.href = "/articleList.article";
+				})
 
-			// 커뮤니티로
-			document.querySelector(".boardGo").addEventListener("click",
-					function() {
-				location.href = "/articleList.article";
-			})
-			
-			// 마이페이지로
-			document.querySelector("#mypage").addEventListener("click",
-					function(){
-				location.href = "/mypage.home";
-			})
-	
-			// 내 정보 수정
-			document.querySelector("#myInfo").addEventListener("click",
-					function() {
-				location.href = "/update.user";
-			})
-			
-			// 예약 목록 출력
-			document.querySelector("#myReservation").addEventListener("click",
-					function() {
-				location.href = "/viewReservationList.book";
-			})
-			
-			let revId = $("#revId").val();
-						
-			// 예약 변경
-			$("#modifyReservation").on("click", function(){
-				let response = confirm("예약을 변경하시겠습니까?");
-				if(response){
+		// 마이페이지로
+		document.querySelector("#mypage").addEventListener("click", function() {
+			location.href = "/mypage.home";
+		})
+
+		// 내 정보 수정
+		document.querySelector("#myInfo").addEventListener("click", function() {
+			location.href = "/update.user";
+		})
+
+		// 예약 목록 출력
+		document.querySelector("#myReservation").addEventListener("click",
+				function() {
 					location.href = "/viewReservationList.book";
-				} else{
+				})
+		// 예약 결제하기 기능
+		
+		function payRev(index){
+			
+			let revId = document.getElementById("revId"+index).value;
+			let hotelId = document.getElementById("hotelId"+index).value;
+			let checkIn = document.getElementById("checkIn"+index).value;
+			let checkOut = document.getElementById("checkOut"+index).value;
+			let revRoomType = document.getElementById("revRoomType"+index).value;
+			let revQuantity = document.getElementById("revQuantity"+index).value;
+			let addPrice = document.getElementById("addPrice"+index).value;		
+			
+			let result = confirm("결제하시겠습니까?");
+			if(result){
+				window.open('www.naver.com','','width=500px,height=300px,top=250,left=500,resizable=no');
+			}
+			
+			function call_child(){
+				try{
+					
+				}catch(e){
+					alert('다시 시도해주세요');
+				}
+			}
+			
+		}
+			
+		// 예약 수정하기 기능		
+		function modifyRev(index){
+			console.log(index);
+			const now = new Date();
+			let revId = document.getElementById("revId"+index).value;
+			let hotelId = document.getElementById("hotelId"+index).value;
+			let checkIn = document.getElementById("checkIn"+index).value;
+			let checkOut = document.getElementById("checkOut"+index).value;
+			let revRoomType = document.getElementById("revRoomType"+index).value;
+			let revQuantity = document.getElementById("revQuantity"+index).value;
+			let addPrice = document.getElementById("addPrice"+index).value;		
+			
+			console.log(checkIn + checkOut + revRoomType + revQuantity + addPrice);
+			
+			if (checkIn == '' || checkOut == '') {
+				alert("체크인, 체크아웃 날짜를 입력해주세요");
+				return false;
+			} else if (checkIn >= checkOut) {
+				alert("체크아웃 날짜는 체크인 다음날부터 가능합니다.");
+				return false;
+			} else if (revRoomType == '') {
+				alert("방 타입을 선택해주세요.");
+				return false;
+			} else if (revQuantity == '') {
+				alert("방 개수를 선택해주세요.");
+				return false;
+			} else if (addPrice == '') {
+				alert("방 1개 당 인원을 선택해주세요.");
+				return false;
+			} else {
+				let response = confirm("예약을 변경하시겠습니까?");
+				if (response) {
+					$.ajax({
+						url:"/modifyReservation.book",
+						data: {
+							"revId":revId,
+							"hotelId":hotelId,
+							"checkIn":checkIn,
+							"checkOut":checkOut,
+							"revRoomType":revRoomType,
+							"revQuantity":revQuantity,
+							"addPrice": addPrice
+						}
+					}).done(function(){
+						alert("변경이 완료되었습니다.");
+						location.href="/viewReservationList.book";
+					})
+				} else {
 					return false;
 				}
-			})
+			}
+		}
+		
+		// 예약 삭제
+		function deleteRev(reservationId){
 			
-			// 예약 취소
-			$("#cancelReservation").on("click", function(){
-				if(confirm("정말 예약을 취소하시겠습니까?")){
-					$.ajax({
-						url: "/deleteReservation.book",
-						data: {"revId" : revId}
-					}).done(function(){
-						alert("예약이 취소되었습니다.");
-						location.href = "/viewReservationList.book";
-					})
-				}
-			})
-			
-			// 내가 쓴 글 출력
-			document.querySelector("#myBoard").addEventListener("click",
-					function() {
-				location.href = "/viewMyArticle.article";
-			})
-			
-			// 내 글 수정
-			$("#modifyMyArticle").on("click",
-					function(){
-				location.href = "/articleList.article";
-			})
-			
-			// 내 리뷰 출력
-			document.querySelector("#myReview").addEventListener("click",
-					function() {
-				console.log("haha");
-				location.href = "/viewMyReview.review";
-			})
-			
-			// 내 Q & A 출력
-			document.querySelector("#myInquiry").addEventListener("click",
-					function() {
-				location.href = "/viewMyInquiry.qna";
-			})
-			
-			
-			
-		</script>
+			if(confirm("예약 취소 후에는 복구가 불가능합니다.\n정말 예약을 취소하시겠습니까?")){
+	               $.ajax({
+	                  url: "/deleteReservation.book",
+	                  data: {"revId" : reservationId}
+	               }).done(function(){
+	                  location.href = "/viewReservationList.book";
+	               })
+	            }
+		}
+		// 내가 쓴 글 출력
+		document.querySelector("#myBoard").addEventListener("click",
+				function() {
+					location.href = "/viewMyArticle.article";
+				})
+		
+		// 내 글 수정
+		//$("#modifyMyArticle").on("click",
+		//	function(){
+		//location.href = "/articleList.article";
+		//})
+		
+		// 내 Q & A 출력
+		document.querySelector("#myInquiry").addEventListener("click",
+				function() {
+					location.href = "/viewMyInquiry.qna";
+				})
+				
+		// 룸 타입 selectbox 박스
+		let selectRoomChange = function(value) {
+			console.log(value);
+			$("#revRoomType").val(value);
+		}
+	</script>
 </body>
 </html>

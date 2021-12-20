@@ -15,6 +15,8 @@ import dao.ReviewDAO;
 import dao.ReviewImgDAO;
 import dao.UserDAO;
 import dto.HotelDTO;
+import dto.HotelImgDTO;
+import dto.HotelLikeImgDTO;
 import dto.ReviewDTO;
 
 @WebServlet("*.home")
@@ -39,25 +41,17 @@ public class PageController extends HttpServlet {
       //들어오는 경로값에 따라 보내주는 곳
       try {
          if(cmd.equals("/main.home")) {
-            //넘겨줘야할 정보 => 호텔 3개와 리뷰 6개
-            //호텔 3개
-            List<HotelDTO> hotelList = hdao.selectHotelB(11, 13);
-            List<String> hotelImgList = idao.selectHotelImgB(11, 13);
-            //리뷰 6개
-            List<ReviewDTO> reviewList = vdao.selectReviewLimit();
-            List<String> reviewImgList = vidao.selectReviewImgLimit();
-            //전달
+        	// 인덱스용 진규 수정
+        	 
+            List<HotelLikeImgDTO> hotelList = hdao.selectHotel();
             request.setAttribute("hotelList", hotelList);
-            request.setAttribute("hotelImgList", hotelImgList);
-            request.setAttribute("reviewList", reviewList);
-            request.setAttribute("reviewImgList", reviewImgList);
-            request.getRequestDispatcher("/views/hotel/hotelMain.jsp").forward(request, response);
             
+            request.getRequestDispatcher("/index2.jsp").forward(request, response);
          }else if(cmd.equals("/mypage.home")) {
             //넘겨줘야할 정보 => 호텔 3개와 리뷰 6개
             //호텔 3개
-            List<HotelDTO> hotelList = hdao.selectHotelB(11, 13);
-            List<String> hotelImgList = idao.selectHotelImgB(11, 13);
+            List<HotelLikeImgDTO> hotelList = hdao.selectHotelB(11, 13);
+            List<HotelImgDTO> hotelImgList = idao.selectHotelImgB(11, 13);
             //리뷰 6개
             List<ReviewDTO> reviewList = vdao.selectReviewLimit();
             List<String> reviewImgList = vidao.selectReviewImgLimit();

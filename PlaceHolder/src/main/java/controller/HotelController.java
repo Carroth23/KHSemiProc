@@ -125,6 +125,10 @@ public class HotelController extends HttpServlet {
 				
 			//이름을 검색
 			}else if(cmd.equals("/listSearch.hotel")) {
+				// 빠른예약 기능 모든 호텔 정보 넣어주기 진규추가
+	            List<HotelLikeImgDTO> hotelListS = hdao.selectHotel();
+	            request.setAttribute("hotelListS", hotelListS);
+				
 				//키워드 값을 받아옴(검색 옵션과 검색어)
 				String option = request.getParameter("option");
 				String keyword = request.getParameter("Keyword");

@@ -43,16 +43,16 @@ public class ReservationController extends HttpServlet {
 
 		// Import RoomDAO
 		RoomDAO roomDao = RoomDAO.getInstance();
-		
+
 		// Import HotelDAO
 		HotelDAO hotelDao = HotelDAO.getInstance();
-		
+
 		// Import Gson
 		Gson g = new Gson();
-		
+
 		// Session 값으로 떠 다니는 ID 값 받아오기
 		String loginId = (String) request.getSession().getAttribute("loginId");
-		
+
 		// 명령어에 따라 예약 업무 처리
 		try {
 
@@ -60,57 +60,57 @@ public class ReservationController extends HttpServlet {
 
 			// 1. 상품 상세페이지에서 확정된 예약 정보를 받아 DB에 저장하는 기능
 			if(cmd.equals("/confirm.book")) {
-				
+
 				// 호텔 상세페이지에서 직접 받아오는 정보
 				System.out.println(request.getParameter("hotelId") + " : " 
-				+ request.getParameter("checkIn") + " : " + request.getParameter("checkOut") 
-				+ " : " + request.getParameter("revRoomType") + " : " + request.getParameter("revQuantity")
-				+ " : " + loginId);
-				
+						+ request.getParameter("checkIn") + " : " + request.getParameter("checkOut") 
+						+ " : " + request.getParameter("revRoomType") + " : " + request.getParameter("revQuantity")
+						+ " : " + loginId);
+
 				String hotelId = request.getParameter("hotelId");
 				Date checkIn = DateChangerToSql.changeSqlDate(request.getParameter("checkIn"));
 				Date checkOut = DateChangerToSql.changeSqlDate(request.getParameter("checkOut"));
-				
+
 				String revRoomType = request.getParameter("revRoomType");
 				int revQuantity = Integer.parseInt(request.getParameter("revQuantity"));
-				 
+
 				String revId = "auto";
 				String userId = loginId;
-				
+
 				// Hotel DB에서 호텔 정보 받아오기
 				HotelDTO hDto = hotelDao.selectHotelById(hotelId); // hotelId
 				String hotelName = hDto.getHotelName();
 				String hotelRoadAddress = hDto.getHotelRoadAddress();
 				String hotelPhone = hDto.getHotelPhone();
-				
+
 				// Room DB에서 방 정보 받아오기
 				RoomDTO selectedRoomInfo = roomDao.showRoomInfo(hotelId, revRoomType);
 				String revRoomInfo = roomDao.showRoomInfo(hotelId, revRoomType).getRoomInfo();
-				String revStat = "N";
+				String revStat = "대기";
 				String addPrice = request.getParameter("addPrice");
-				
+
 				// 기본 방 가격 + 추가인원 * 추가인원 당 가격 * 숙박일수
 				String revPrice = PriceCharger.charger(selectedRoomInfo.getRoomPrice(), revQuantity , addPrice, checkIn, checkOut);
 
 				// 예약일 : SYSDATE
 				Date revDay = DateChangerToSql.changeCurrentTime(System.currentTimeMillis());
-				
+
 				// ** 해당 옵션의 방이 예약 가능한지 확인해야 함.c
 				// 호텔 측에 문의했을 때 예약이 가능한 경우
 				// 조건1. : quantity >= revQuantity;
 				// 조건2. : checkIn > sysdate;
 				// 조건3. : checkIn < checkOut; -> view에서 걸러준다.
-				
+
 				// 예약 DB 전체를 스캔하면서 다음 조건이 맞는지 확인한 후에 풀어낸다.
 				ReservationDTO reservDto = new ReservationDTO(revId, userId, hotelId, hotelName, hotelRoadAddress, hotelPhone, checkIn, checkOut, revDay, revRoomType, revQuantity, revRoomInfo, revStat, revPrice);
-				
+
 				System.out.println(
 						"확인용 코드 : " + revId + " : " + userId + " : " + hotelId + " : " + hotelName + " : " + hotelRoadAddress + " : " + hotelPhone + " : " + checkIn + " : " + checkOut 
 						+ " : " + revDay + " : " + revRoomType + " : " + revQuantity + " : " + revRoomInfo + " : " + revStat + " : " + revPrice 
-				);
-			
+						);
+
 				boolean condition = reservDao.isReservationAllowed(reservDto);
-				
+
 				if(condition) {
 					// Reservation table에 예약 내역 저장
 					int result = reservDao.confirmReservation(reservDto);
@@ -127,12 +127,12 @@ public class ReservationController extends HttpServlet {
 				List<ReservationDTO> reservDto = reservDao.viewCurrentReservation(loginId); // session 값 활용하기
 
 				// ReservationDTO 객체를 request에 담기
-//				request.setAttribute("reservDto",reservDto);
+				//				request.setAttribute("reservDto",reservDto);
 
 				// 마이페이지로 request를 전송
 				String result = g.toJson(reservDto);
 				response.getWriter().append(result);
-				
+
 				request.setAttribute("reserveList", reservDto);
 				request.getRequestDispatcher("/views/member/mypage.jsp").forward(request, response);
 
@@ -146,23 +146,23 @@ public class ReservationController extends HttpServlet {
 				Date checkIn = DateChangerToSql.changeSqlDate(request.getParameter("checkIn"));
 				Date checkOut = DateChangerToSql.changeSqlDate(request.getParameter("checkOut"));
 				Date revDay = DateChangerToSql.changeCurrentTime(System.currentTimeMillis());				
-				
+
 				String hotelId = request.getParameter("hotelId");
 				String hotelName = "none";
 				String hotelRoadAddress = "none";
 				String hotelPhone = "none";
-				
+
 				String revRoomType = request.getParameter("revRoomType");
 				int revQuantity = Integer.parseInt(request.getParameter("revQuantity"));
 				String revRoomInfo = request.getParameter("revRoomInfo");
-				String revStat = "Y";
-				
+				String revStat = "대기";
+
 				String addPrice = request.getParameter("addPrice");
-				
+
 				System.out.println(checkIn + " : " + checkOut + " : " + revRoomType);
-				
+
 				RoomDTO selectedRoomInfo = roomDao.showRoomInfo(hotelId, revRoomType);
-				
+
 				String revPrice = PriceCharger.charger(selectedRoomInfo.getRoomPrice(), revQuantity, addPrice, checkIn, checkOut);
 
 				// Reservation DB의 데이터 수정
@@ -196,17 +196,12 @@ public class ReservationController extends HttpServlet {
 				request.setAttribute("result", result);
 				request.getRequestDispatcher("/viewReservationList.book").forward(request, response);
 			}
-			// 5. User 결재 처리 기능 (유저 정보까지 함께 보내야 함)
-			else if(cmd.equals("/pay.book")) {
-
-				// User의 예약 정보를 받아옴
-				List<ReservationDTO> reservDto = reservDao.viewCurrentReservation(loginId); // session 값 활용하기
-
-				// ReservationDTO 객체를 request에 담기
-				request.setAttribute("reservDto", reservDto);
-
-				// 결제 페이지로 request 전송
-				request.getRequestDispatcher("/pay.jsp").forward(request, response);
+			// 12.21 현우 수정 (5번 메서드는 삭제)
+			else if(cmd.equals("/paid.book")) {
+				String revId = request.getParameter("revId");
+				System.out.println("예약 확정할 번호 : " + revId);
+				int result = reservDao.completeBooking(revId);
+				response.sendRedirect("/viewReservationList.book");
 			}
 
 		}catch(Exception e) { // error 발생 시 처리

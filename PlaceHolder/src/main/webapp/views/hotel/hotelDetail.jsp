@@ -28,6 +28,9 @@
       <!-- 슬라이드CDN -->
       <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
       <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+      <!-- 카카오API -->
+      <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=385b023a616a407040b812a825f84bdf"></script>
       <link rel="stylesheet" href="/semi-css/hotelDetail.css">
     </head>
 
@@ -92,6 +95,10 @@
                             </div>
                           </div>
                         </li>
+
+                        <c:if test="${loginId == 'admin00'}">
+                          <button id="adminBtn">관리자 창으로</button>
+                        </c:if>
 
                         <!-- 빠른예약 -->
                         <li class="nav-item" id="speedRevMargin">
@@ -170,7 +177,7 @@
                               </div>
                               <div class="row">
                                 <div class="col-6 sign">
-                                  <button class="signBtns" id="loginBtn">로그인</button>
+                                  <button type="button" class="signBtns" id="loginBtn">로그인</button>
                                 </div>
                                 <div class="col-6 sign">
                                   <a href="/signupPage.user"><button type="button"
@@ -243,7 +250,8 @@
           <div class="col-6 mainInfo">
             <div class="row">
               <div class="col-6">
-                <p class="hotelName">${hotelList.hotelName}</p> <!-- 호텔 이름 -->
+                <p class="hotelName">${hotelList.hotelName}</p>
+                <!-- 호텔 이름 -->
               </div>
               <div class="col-6">
                 <div class="star">
@@ -251,10 +259,14 @@
                   <p>${hotelList.hotelScore}</p>
                   <c:choose>
                     <c:when test="${likeCheck == false}">
-                      <div id="heart"><img src="/semi-img/heart.png" id="heartAjax"></div>
+                      <div id="heart">
+                        <img src="/semi-img/heart.png" id="heartAjax">
+                      </div>
                     </c:when>
                     <c:when test="${likeCheck == true}">
-                      <div id="heart"><img src="/semi-img/heartOn.png" id="heartAjax"></div>
+                      <div id="heart">
+                        <img src="/semi-img/heartOn.png" id="heartAjax">
+                      </div>
                     </c:when>
                   </c:choose>
                   <div id="share"></div>
@@ -264,56 +276,41 @@
             <hr>
             <div class="row">
               <div class="col-12 options">
-                <span>위치 : </span><span>${hotelList.hotelRoadAddress}</span><br> <!-- 호텔 주소 -->
-                <span>룸 옵션 : </span>
-                <select>
+                <span>위치 : </span><span>${hotelList.hotelRoadAddress}</span><br>
+                <!-- 호텔 주소 -->
+                <span>룸 옵션 : </span> <select>
                   <option>스탠다드룸</option>
                   <option>더블룸</option>
                   <option>디럭스룸</option>
                   <option>패밀리룸</option>
                   <option>이그제큐티브룸</option>
-                </select>
-                <br>
-                <span>전화 번호 : </span><span>${hotelList.hotelPhone}</span><br><br>
-                <span>1박당 가격 : </span><span>${RoomList[0].roomPrice} 부터~</span>
-                <a href="#banner1"><button class="reservationGo">룸 선택</button></a>
+                </select> <br> <span>전화 번호 : </span><span>${hotelList.hotelPhone}</span><br>
+                <br> <span>1박당 가격 : </span><span>${RoomList[0].roomPrice}
+                  부터~</span> <a href="#banner1"><button class="reservationGo">룸
+                    선택</button></a>
               </div>
             </div>
           </div>
         </div>
-
-        <!-- 중간배너 -->
-        <div class="row stickyBanner">
-          <div class="col-4 detailBanner banner">
-            <a href="#banner1" class="middleBanner">룸 타입</a>
-          </div>
-          <div class="col-4 reviewBanner banner">
-            <a href="#banner2" class="middleBanner">리뷰</a>
-          </div>
-          <div class="col-4 infoBanner banner">
-            <a href="#banner4" class="middleBanner">정보</a>
-          </div>
-        </div>
-
-
-
+        <hr class="bannerCutLine">
         <!-- 각각의 배너에 해당하는 html -->
         <div class="row" id="banner1">
           <div class="col-12 detail">
-
             <!-- 각 방의 form -->
             <c:forEach var="room" items="${RoomList}" varStatus="status">
-              <form action="/confirm.book" method="get">
+              <form action="/confirm.book" method="get" id="form${status.index }">
                 <div class="row roomInfoBox">
                   <div class="col-3 roomImg" id="roomImgs">
-                    <img src=${RoomImgList[status.index].roomImg} alt="룸1입니다">
+                    <img src=${RoomImgList[status.index].roomImg } alt="룸1입니다">
                   </div>
                   <div class="col-5 roomInfo">
-                    <input type="text" name="hotelId" class="throwRun" value=${hotelList.hotelId}>
-                    <input type="text" name="hotelName" class="throwRun" value=${hotelList.hotelName}>
-                    <input type="text" name="revRoomType" class="throwRun" value=${room.roomType}>
-                    <input type="text" name="hotelPhone" class="throwRun" value=${hotelList.hotelPhone}>
-                    <input type="text" name="hotelRoadAddress" class="throwRun" value=${hotelList.hotelRoadAddress}>
+                    <input type="text" name="hotelId" id="hotelId${status.index }" class="throwRun"
+                      value=${hotelList.hotelId}> <input type="text" name="hotelName" class="throwRun"
+                      value=${hotelList.hotelName}> <input type="text" name="revRoomType"
+                      id="revRoomType${status.index }" class="throwRun" value=${room.roomType}> <input type="text"
+                      name="hotelPhone" class="throwRun" value=${hotelList.hotelPhone}> <input type="text"
+                      name="hotelRoadAddress" class="throwRun" value=${hotelList.hotelRoadAddress}> <input type="text"
+                      id="pHotelId" value="${hotelList.hotelId}" style="display: none">
                     <p>${room.roomType}</p>
                     <p>기본제공 : 드라이, 샤워가운, 조식, 룸서비스..</p>
                     <p>1박당 가격 : ${room.roomPrice}원</p>
@@ -321,12 +318,13 @@
                   </div>
                   <div class="col-4 roomDate">
                     <p>예약 날짜 입력</p>
-                    <input type="date" id="checkIn" name="checkIn" min="2021-12-25" max="2022-12-30"> 부터<br>
-                    <input type="date" class="roomDateEnd" name="checkOut" min="2021-12-26" max="2022-12-31"> 까지<br>
-                    <!-- ***** 현우 : revQuantity / addPrice 시험-->
-                    객실 <input type="number" min="1" max="5" class="revQuantity" name="revQuantity"> 개,
-                    총 <input type="number" min="1" max="6" class="addPrice" name="addPrice"> 명
-                    <button class="roomSubmit justify-content-end">예약</button>
+                    <input type="date" id="checkIn${status.index }" name="checkIn" min="2021-12-25" max="2022-12-30">
+                    부터<br> <input type="date" id="checkOut${status.index }" class="roomDateEnd" name="checkOut"
+                      min="2021-12-26" max="2022-12-31"> 까지<br>
+                    객실 <input type="number" id="revQuantity${status.index }" min="1" max="5" class="revQuantity"
+                      name="revQuantity"> 개, 총 <input type="number" id="addPrice${status.index }" min="1" max="6"
+                      class="addPrice" name="addPrice"> 명 <input type="button" class="roomSubmit justify-content-end"
+                      value="예약" onclick="bookCheck(${status.index })">
                   </div>
                 </div>
               </form>
@@ -336,61 +334,35 @@
         </div>
 
         <hr class="bannerCutLine">
-
-
-        <!-- 리뷰칸 -->
-        <div class="row" id="banner2">
-          <div class="col-12 review">
-            <c:forEach var="review" items="${ReviewList}">
-              <div class="row reviewBox">
-                <div class="col-3 reviewImg">
-                  <img src="/semi-img/reviewImg1.jpg">
-                </div>
-                <div class="col-9 reviewInfo">
-                  <span>${review.userId} 님의 리뷰 </span>
-                  <img src="/semi-img/star.png">
-                  <span>${review.reviewScore}</span>
-                  <span class="reviewWriteDate">작성 날짜 : ${review.reviewCreated}</span>
-                  <p class="choiceOption">선택옵션 : 디럭스(이건 빼야될수도)</p>
-                  <div class="row">
-                    <div class="col-12 reviewContentBox">
-                      <p class="reviewContent">
-                        ${review.reviewContent}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </c:forEach>
-
-          </div>
-        </div>
-
-        <hr class="bannerCutLine">
-
-
+        <br>
         <div class="row" id="banner4">
-          <div class="col-12 hotelInfo">
-            <h3>${hotelList.hotelName}</h3>
-            <p>${hotelList.hotelDetail}</p>
+          <div class="col-6">
+            <h2 class="hotelinfoName">${hotelList.hotelName}</h2>
+            <div class="hotelInfo">
+              <p>${hotelList.hotelDetail}</p>
+            </div>
+          </div>
+          <div class="col-6 hotelInfossBr">
             <br>
-            <p>주소 : ${hotelList.hotelRoadAddress}</p>
-            <p>전화번호 : ${hotelList.hotelPhone}</p>
-            <br>
-            <p>제휴 문의는 아래의 전화번호로 연락 바랍니다.</p>
-            <p>:${hotelList.hotelPhone}</p>
+            <span class="hotelInfoss">호텔주소 : </span><span>${hotelList.hotelRoadAddress}</span><br>
+            <span class="hotelInfoss">전화번호 : </span><span>${hotelList.hotelPhone}</span>
+            <br> <input type=button value="고객센터에 문의하기" id="inquiry" onclick="openInquiry()"><br>
+            <!-- ***** 현우 수정 : 문의하기 버튼 -->
+            <span class="hotelInfoss">Location</span>
+            <div id="map" style="width: 500px; height: 320px;"></div>
           </div>
         </div>
 
         <!-- 비슷한 상품 -->
-        <div class="row">
+        <div class="row moreHotels">
+          <h4>More Hotels</h4>
           <div class="col-12 slideBox">
 
             <c:forEach var="cardHotel" items="${hotelListAll}">
               <div class="card">
                 <form action="/goods.room" method="get">
                   <div id="cardImgBox">
-                    <img src=${cardHotel.hotelImg} class="card-img-top" alt="...">
+                    <img src=${cardHotel.hotelImg } class="card-img-top" alt="...">
                   </div>
                   <div class="card-body">
                     <h5 class="card-title">${cardHotel.hotelName}</h5>
@@ -417,16 +389,13 @@
                     <a href="index.jsp" class="fot_logo"></a>
 
                   </div>
-                  <div class="col-3 footer-center">
-
-                  </div>
+                  <div class="col-3 footer-center"></div>
                   <div class="col-6 footer-right">
                     <ul class="foot-ul-blog">
                       <li><a href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0"
                           target='_blank'>블로그</a></li>
-                      <li><a href="">이용약관</a></li>
-                      <li><a href="">개인정보처리방침</a></li>
-                      <li><a href="">운영 정책</a></li>
+                      <li><a href="footer.jsp">이용약관</a></li>
+                      <li><a href="footer2.jsp">개인정보처리방침</a></li>
                       <li><a href="">고객 문의</a></li>
                     </ul>
                   </div>
@@ -468,11 +437,12 @@
                 <hr>
                 <div class="row">
                   <div class="col-9">
-                    <p class="foot_caution">PlaceHolder는 통신판매중개자이자 통신판매 당사자 입니다. 따라서 PlaceHolder는 공간 거래정보 및 거래내역을 소유할 수
-                      있습니다.</p>
+                    <p class="foot_caution">PlaceHolder는 통신판매중개자이자 통신판매 당사자 입니다.
+                      따라서 PlaceHolder는 공간 거래정보 및 거래내역을 소유할 수 있습니다.</p>
                   </div>
                   <div class="col-3">
-                    <p class="foot_caution">Copyright PLACEHOLDER Corp. All Rights Reserved.</p>
+                    <p class="foot_caution">Copyright PLACEHOLDER Corp. All
+                      Rights Reserved.</p>
                   </div>
                 </div>
               </div>
@@ -481,22 +451,35 @@
         </div>
 
         <script>
-
-
           // 사이드바 관련 스크립트 시작
+          $("#loginBtn").on("click", () => {
+            let logId = $("#inputId").val();
+            let logPw = $("#inputPw").val();
+            $.ajax({
+              type: "POST",
+              url: "/login.user",
+              data: {
+                "id": logId,
+                "pw": logPw
+              }
+            }).done(function (res) {
+              if (res == 'true') {
+                if (logId == 'admin00') {
+                  console.log("어드민 로그인");
+                  location.href = "/user.admin";
+                } else {
+                  alert(`\${logId}님 환영합니다.`);
+                  location.reload();
+                }
+              } else if (res == 'false') {
+                alert("아이디와 비밀번호를 확인해주세요.");
+              }
+            })
+          })
+
           $(".signUp").on("click", function () {
             location.href = "/signupPage.user";
           })
-
-          if ("${loginId}" == '') {
-            document.getElementById("loginBtn").addEventListener("click", () => {
-              let inputId = document.getElementById("inputId").value;
-              let inputPw = document.getElementById("inputPw").value;
-              if (inputId == '' || inputPw == '') {
-                alert("ID와 PW를 입력해주세요.");
-              }
-            })
-          }
 
           // 빠른 예약 select box 함수 ***** 현우 : 호텔 select box
           let selectBoxChange = function (value) {
@@ -547,10 +530,48 @@
             }
           })
 
+          // 관리자 이동버튼
+          $("#adminBtn").on("click", () => {
+            location.href = "/user.admin";
+          })
+
           // 사이드바 관련 스크립트 끝
 
 
+          // 본 예약창
 
+          function bookCheck(index) {
+            let hotelId = document.getElementById("hotelId" + index).value;
+            let checkIn = document.getElementById("checkIn" + index).value;
+            let checkOut = document.getElementById("checkOut" + index).value;
+            let revRoomType = document.getElementById("revRoomType" + index).value;
+            let revQuantity = document.getElementById("revQuantity" + index).value;
+            let addPrice = document.getElementById("addPrice" + index).value;
+
+            console.log(checkIn + checkOut + revRoomType + revQuantity + addPrice);
+
+            if (checkIn == '' || checkOut == '') {
+              alert("체크인, 체크아웃 날짜를 입력해주세요");
+              return false;
+            } else if (checkIn >= checkOut) {
+              alert("체크아웃 날짜는 체크인 다음날부터 가능합니다.");
+              return false;
+            } else if (revRoomType == '') {
+              alert("방 타입을 선택해주세요.");
+              return false;
+            } else if (revQuantity == '') {
+              alert("방 개수를 선택해주세요.");
+              return false;
+            } else if (addPrice == '') {
+              alert("방 1개 당 인원을 선택해주세요.");
+              return false;
+            } else {
+              if (confirm("예약 하시겠습니까?")) {
+                alert("예약이 완료되었습니다.");
+                document.getElementById("form" + index).submit();
+              }
+            }
+          }
 
 
           $(function () {
@@ -605,7 +626,11 @@
           //   location.href="/";
           // })
           document.getElementById("mypageGobar").addEventListener("click", () => {
-            location.href = "/userInfo.user";
+            if ('${loginId}' == '') {
+              alert("로그인을 해주세요.");
+            } else {
+              location.href = "/userInfo.user";
+            }
           })
 
 
@@ -655,12 +680,82 @@
             location.href = "/listSearch.hotel?option=이름" + "&Keyword=" + keyword;
           })
 
+          ///////////////////// 카카오맵API ////////////////////
+          let latitude = '${hotelList.hotelLatitude}';
+          console.log("래티" + latitude);
+          let longitude = '${hotelList.hotelLongitude}';
+          console.log("롱티" + longitude);
+
+          var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+            mapOption = {
+              center: new kakao.maps.LatLng(latitude, longitude), // ***** 지도의 중심좌표(latitude, longitude)
+              level: 5 // 지도의 확대 레벨
+            };
+
+          var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+          // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성
+          var mapTypeControl = new kakao.maps.MapTypeControl();
+
+          // 지도에 컨트롤을 추가해야 지도위에 표시
+          // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미
+          map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+          // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성
+          var zoomControl = new kakao.maps.ZoomControl();
+          map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+          var marker = new kakao.maps.Marker({
+            map: map,
+            position: new kakao.maps.LatLng(latitude, longitude) // ***** 마커 위치 생성(latitude, longitude)
+          });
+
+          var iwContent =
+            // ***** RoomController에서 받은 HotelDTO 객체에서 hotelName, 좌표(latitude, longitude)을 뽑아서 삽입
+            // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능
+            `<div id="infoWin"> ${hotelList.hotelName} <br><a href="https://map.kakao.com/link/map/${hotelList.hotelName},${hotelList.hotelLatitude}, ${hotelList.hotelLongitude}" target="_blank">큰지도보기</a>  <a href="https://map.kakao.com/link/to/${hotelList.hotelName},${hotelList.hotelLatitude}, ${hotelList.hotelLongitude}" target="_blank">길찾기</a></div>`,
+
+            iwPosition = new kakao.maps.LatLng(latitude, longitude); //인포윈도우 표시 위치(latitude, longitude)
+
+          // 인포윈도우를 생성
+          var infowindow = new kakao.maps.InfoWindow({
+            position: iwPosition,
+            content: iwContent
+          });
+
+          // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+          infowindow.open(map, marker);
+
+					// 인포윈도우 설정
+          var infoTitle = document.querySelectorAll('#infoWin');
+          infoTitle.forEach(function (e) {
+            var w = e.offsetWidth + 10;
+            var ml = w / 2;
+            e.parentElement.style.top = "112px";
+            e.parentElement.style.left = "50%";
+            e.parentElement.style.marginLeft = -ml + "px";
+            e.parentElement.style.width = w + "px";
+            e.parentElement.previousSibling.style.display = "none";
+            e.parentElement.parentElement.style.border = "0px";
+            e.parentElement.parentElement.style.background = "unset";
+          });
 
 
+          // **** 현우 수정 팝업창  띄워서 문의하기
+          function openInquiry() {
+            let openWin;
+            // 부모창 이름
+            window.name = "parentForm";
 
+            //window.open("open할 window", "자식창 이름", "팝업창 옵션")
+            openWin = window.open("/views/inquiry/inquiryWrite.jsp", "inquiryForm", "width=500px,height=300px,resizable=no,scrollbars=no,left=250,top250");
+
+          }
+
+          function setChileText() {
+            openWin.document.getElementById("cHotelId").value = doucment.getElementById("pHotelId").value;
+            openWin.document.getElementById("cUserId").value = doucment.getElementById("${loginId}").value;
+          }        
         </script>
-
-
     </body>
 
     </html>

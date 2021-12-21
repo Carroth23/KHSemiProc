@@ -14,7 +14,7 @@ import dao.PaymentDAO;
 import dao.ReservationDAO;
 import dao.RoomDAO;
 import dao.UserDAO;
-import dto.PaymentDTO;
+import dto.ReservationDTO;
 
 @WebServlet("*.pay")
 public class PaymentController extends HttpServlet {
@@ -46,15 +46,16 @@ public class PaymentController extends HttpServlet {
 		String loginId = (String) request.getSession().getAttribute("loginId");
 
 		try {
-			if(cmd.equals("/reservation.pay")) {
-				// Session 값 활용해서 User의 예약 현황 조회하기
-				List<PaymentDTO> paymentDto = paymentDao.viewCurrentReservation(loginId); // session 값 활용하기
-
-				// ReservationDTO 객체를 request에 담기
-				request.setAttribute("paymentDto",paymentDto);
-
+		if(cmd.equals("/reservation.pay")) {
+				
+				String revId = request.getParameter("revId");
+				System.out.println("예약번호 받기 : " + revId);
+				
+				List<ReservationDTO> list = reservDao.payInformation(revId);
+				
+				request.setAttribute("paymentInfo",list);
 				// 마이페이지로 request를 전송
-				request.getRequestDispatcher("/myReservation.jsp").forward(request, response);
+				request.getRequestDispatcher("/views/hotel/payment.jsp").forward(request, response);
 			}
 
 		}catch(Exception e) {

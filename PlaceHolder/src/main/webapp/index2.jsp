@@ -93,6 +93,10 @@
                             </div>
                           </li>
 
+                          <c:if test="${loginId == 'admin00'}">
+                            <button id="adminBtn">관리자 창으로</button>
+                          </c:if>
+
                           <!-- 빠른예약 -->
                           <li class="nav-item" id="speedRevMargin">
                             <form action="/confirm.book" method="get" id="form">
@@ -170,7 +174,7 @@
                                 </div>
                                 <div class="row">
                                   <div class="col-6 sign">
-                                    <button class="signBtns" id="loginBtn">로그인</button>
+                                    <button type="button" class="signBtns" id="loginBtn">로그인</button>
                                   </div>
                                   <div class="col-6 sign">
                                     <a href="/signupPage.user"><button type="button"
@@ -282,9 +286,8 @@
                     <ul class="foot-ul-blog">
                       <li><a href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0"
                           target='_blank'>블로그</a></li>
-                      <li><a href="">이용약관</a></li>
-                      <li><a href="">개인정보처리방침</a></li>
-                      <li><a href="">운영 정책</a></li>
+                      <li><a href="footer.jsp" target='_blank'>이용약관</a></li>
+                      <li><a href="footer2.jsp" target='_blank'>개인정보처리방침</a></li>
                       <li><a href="">고객 문의</a></li>
                     </ul>
                   </div>
@@ -344,19 +347,34 @@
       <script>
 
         // 사이드바 관련 스크립트 시작
+        $("#loginBtn").on("click", () => {
+          let logId = $("#inputId").val();
+          let logPw = $("#inputPw").val();
+          $.ajax({
+            type: "POST",
+            url: "/login.user",
+            data: {
+              "id": logId,
+              "pw": logPw
+            }
+          }).done(function (res) {
+            if (res == 'true') {
+              if (logId == 'admin00') {
+                console.log("어드민 로그인");
+                location.href = "/user.admin";
+              } else {
+                alert(`\${logId}님 환영합니다.`);
+                location.reload();
+              }
+            } else if (res == 'false') {
+              alert("아이디와 비밀번호를 확인해주세요.");
+            }
+          })
+        })
+
         $(".signUp").on("click", function () {
           location.href = "/signupPage.user";
         })
-
-        if ("${loginId}" == '') {
-          document.getElementById("loginBtn").addEventListener("click", () => {
-            let inputId = document.getElementById("inputId").value;
-            let inputPw = document.getElementById("inputPw").value;
-            if (inputId == '' || inputPw == '') {
-              alert("ID와 PW를 입력해주세요.");
-            }
-          })
-        }
 
         // 빠른 예약 select box 함수 ***** 현우 : 호텔 select box
         let selectBoxChange = function (value) {
@@ -407,17 +425,17 @@
           }
         })
 
+        // 관리자 이동버튼
+        $("#adminBtn").on("click", () => {
+          location.href = "/user.admin";
+        })
+
         // 사이드바 관련 스크립트 끝
-
-
 
         document.getElementById("topSearchBtn").addEventListener("click", () => {
           let keyword = document.getElementById("topSearch").value;
           location.href = "/listSearch.hotel?option=이름" + "&Keyword=" + keyword;
         })
-
-
-
       </script>
     </body>
 

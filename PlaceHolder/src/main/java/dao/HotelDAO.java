@@ -11,6 +11,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import dto.HotelDTO;
+import dto.HotelFullDTO;
 import dto.HotelLikeImgDTO;
 
 public class HotelDAO {
@@ -83,7 +84,7 @@ public class HotelDAO {
    
    // 진규 12.20추가
    public List<HotelLikeImgDTO> selectHotelA(int start, int end) throws Exception{
-	      String sql = "select distinct * from (select hotel.*, row_number() over(order by hotelId asc)rn from hotel) join hotelimg using(hotelid) where rn between ? and ?";
+	      String sql = "select distinct * from (select hotel.*, row_number() over(order by hotelId asc)rn from hotel)full outer join hotelimg using(hotelid) where rn between ? and ?";
 	      try(Connection con = this.getConnection();
 	            PreparedStatement pstat = con.prepareStatement(sql);){
 	         pstat.setInt(1, start);
@@ -239,13 +240,13 @@ public class HotelDAO {
    
    // 진규 추가
    // Like에서 쓰일 것.
-   public HotelLikeImgDTO getLikeHotelOne(String hotelId) throws Exception{
-	   String sql = "select * from hotel join hotelimg using(hotelid) where hotelid = ?";
+   public HotelFullDTO getLikeHotelOne(String hotelId) throws Exception{
+	   String sql = "select * from hotel full outer join hotelimg using(hotelid) where hotelid = ?";
 	   try(Connection con = this.getConnection();
 			   PreparedStatement pstat = con.prepareStatement(sql)){
 		   pstat.setString(1, hotelId);
 		   try(ResultSet rs = pstat.executeQuery()){
-			   HotelLikeImgDTO dto = new HotelLikeImgDTO();
+			   HotelFullDTO dto = new HotelFullDTO();
 			   rs.next();
                dto.setHotelId(rs.getString("hotelID"));
                dto.setHotelInfo(rs.getString("hotelInfo"));
@@ -260,6 +261,29 @@ public class HotelDAO {
                return dto;
 		   }
 	   }
+   }
+   
+// 소현 수정 그냥 조회
+   public List<HotelLikeImgDTO> hotelList() throws Exception{
+      String sql = "select * from hotel";
+      try(Connection con = this.getConnection();
+            PreparedStatement pstat = con.prepareStatement(sql);
+            ResultSet rs = pstat.executeQuery();){
+         List<HotelLikeImgDTO> list = new ArrayList<>();
+         while(rs.next()) {
+            HotelLikeImgDTO dto = new HotelLikeImgDTO();
+            dto.setHotelId(rs.getString("hotelID"));
+            dto.setHotelInfo(rs.getString("hotelInfo"));
+            dto.setHotelName(rs.getString("hotelName"));
+            dto.setHotelPhone(rs.getString("hotelPhone"));
+            dto.setHotelRoadAddress(rs.getString("hotelRoadAddress"));
+            dto.setHotelLongitude(rs.getString("hotelLongitude"));
+            dto.setHotelLatitude(rs.getString("hotelLatitude"));
+            dto.setHotelScore(rs.getString("hotelScore"));
+            dto.setHotelDetail(rs.getString("hotelDetail"));
+            list.add(dto);
+         }return list;
+      }
    }
 
 }

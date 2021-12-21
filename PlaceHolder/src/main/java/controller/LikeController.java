@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import dao.HotelDAO;
 import dao.LikeDAO;
-import dto.HotelDTO;
+import dto.HotelFullDTO;
 import dto.HotelLikeImgDTO;
 import dto.LikeDTO;
 
@@ -52,9 +52,13 @@ public class LikeController extends HttpServlet {
 
 				
 			} else if (cmd.equals("/likeList.like")) { // 찜목록 뽑아오기
+				// 빠른예약 기능 모든 호텔 정보 넣어주기 진규추가
+	            List<HotelLikeImgDTO> hotelListS = hdao.selectHotel();
+	            request.setAttribute("hotelListS", hotelListS);
+				
 				String loginId = request.getParameter("loginId");
 				List<LikeDTO> list = ldao.likeList(loginId);
-				List<HotelLikeImgDTO> hotelList = new ArrayList<>();
+				List<HotelFullDTO> hotelList = new ArrayList<>();
 				
 				for(LikeDTO dto : list) {
 					hotelList.add(hdao.getLikeHotelOne(dto.getHotelId()));
@@ -62,7 +66,7 @@ public class LikeController extends HttpServlet {
 				
 				System.out.println("로그인된 사용자의 ID : " + loginId);
 				List<LikeDTO> dto = new ArrayList<>();
-	            for (HotelLikeImgDTO d : hotelList) {
+	            for (HotelFullDTO d : hotelList) {
 	            	String hotelId = d.getHotelId();
 	            	boolean likeCheck = ldao.likeCheck(loginId, hotelId);
 	            	dto.add(new LikeDTO(0, hotelId, loginId, likeCheck));

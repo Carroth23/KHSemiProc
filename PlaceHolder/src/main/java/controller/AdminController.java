@@ -103,7 +103,7 @@ public class AdminController extends HttpServlet {
 				request.getRequestDispatcher("views/admin/articleList.jsp").forward(request, response);
 
 				// 4-1.아티클관리페이지에서 검색(아티클 제목으로/유저로)
-			} else if (cmd.equals("articleSearch.admin")) {
+			} else if (cmd.equals("/articleSearch.admin")) {
 				String option = request.getParameter("option");
 				String keyword = request.getParameter("Keyword");
 				if (option.equals("유저ID")) {

@@ -16,154 +16,250 @@
         width:90%;
       }
   
-      /* 헤더부분 시작 */
-      .header{
-        margin-bottom:30px;
-        margin-top:20px;
-      }
-      #logo {
-          width: 140px;
-          height: 80px;
-      }
-    
-      #sidebtn {
-          height: 50px;
-      }
-    
-    
-      .navar-up {
-          margin-top: 30px;
-          right: 5%;
-      }
-    
-      #offcanvasNavbarLabel {
-          font-size: 34px;
-      }
-    
-      .signBox {
-          height: 200px;
-          text-align: center;
-      }
-    
-      .signBox div a {
-          color: gray;
-          width: 50%;
-          height: 100%;
-          text-decoration: none;
-      }
-    .top-search{
-      width:40px;
-      height:40px;
-      border-radius: 10px;
-      background-color: #c6e2ff;
-      border:none;
-      transition:all 0.3s;
-    }
-    .top-search:hover{
-      border:1px solid #c6e2ff;
-    }
-    
-      /* 로그인 */
+  /* 헤더부분 시작 */
+  /* header */
+  .header{
+    margin-bottom:30px;
+    margin-top:20px;
+  }
+  #logo {
+      width: 140px;
+      height: 84px;
+  }
+
+  /* 아마 햄버거는 여기부터 */
+  #sidebtn {
+      height: 50px;
+  }
+
+
+  .navar-up {
+      margin-top: 30px;
+      right: 5%;
+  }
+
+  #offcanvasNavbarLabel {
+      font-size: 34px;
+  }
+
+  .signBox {
+      height: 200px;
+      text-align: center;
+  }
+
+  .signBox div a {
+      color: gray;
+      width: 50%;
+      height: 100%;
+      text-decoration: none;
+  }
+  .form-control{
+    width:80%;
+  }
+  #topSearch{
+    width:80%;
+    height:40px;
+    padding-left:20px;
+    border-radius: 10px;
+    background-color: white;
+    border:1px solid gray;
+    transition:all 0.3s;
+    margin-right:10px;
+  }
+  #topSearch:hover{
+    border:1px solid #e8f3ff;
+  }
+  #topSearchBtn{
+    width:37px;
+    height:37px;
+    border-radius: 5px;
+    background-color: white;
+    border:1px solid gray;
+    transition: all 0.3s;
+  }
+  #topSearchBtn:hover{
+    border-radius: 15px;
+  }
+  /* 로그인 */
   .signInput input {
-    margin-top: 12px;
-    width: 90%;
-    height: 40px;
+      margin-top: 12px;
+      width: 90%;
+      height: 40px;
+      border-radius: 5px;
+      border: 2px solid #b6fcd5;
+      padding-left: 10px;
+      box-shadow: 2px 2px 1px 1px #e0e0e0;
+  }
+
+  .signBtns {
+      width: 120px;
+      height: 40px;
+      margin-top: 15px;
+      border: none;
+      font-weight: bold;
+      border-radius: 5px;
+      background-color: #b6fcd5;
+      box-shadow: 1px 2px 3px 1px #e0e0e0;
+      transition: all 0.5s;
+  }
+
+  .signBtns:hover {
+      border: 1px solid #b6fcd5;
+      box-shadow: none;
+  }
+
+  .logOut{
+    width:80px;
+    height:40px;
+    background-color:lavender;
     border-radius: 5px;
-    border: 2px solid #b6fcd5;
-    padding-left: 10px;
-    box-shadow: 2px 2px 1px 1px #e0e0e0;
-
-}
-
-.signBtns {
-    width: 120px;
-    height: 40px;
-    margin-top: 15px;
-    border: none;
-    font-weight: bold;
-    border-radius: 5px;
-    background-color: #b6fcd5;
-    box-shadow: 1px 2px 3px 1px #e0e0e0;
-    transition: all 0.5s;
-
-}
-
-.signBtns:hover {
-    border: 1px solid #b6fcd5;
-    box-shadow: none;
-}
-
-/* 예약 후기 찜목록 버튼 */
-.loginAccBannerH{
-  height:90px;
-  width:100%;
-}
-.loginAccBanner{
-  width:80px;
-  height:40px;
-  display:inline-block;
-  background-color:#edffeb;
-  border-radius: 3px;
-  margin:1px;
-  border:none;
-  box-shadow: 1px 1px 2px 2px #eaeef1;
-  margin-top:15px;
-  transition: all 0.3s;
-}
-.loginAccBanner:hover{
-  opacity: 0.8;
-}
-
-/* 로그인 밑 이벤트배너 */
-.sideBanner {
-    font-weight: bold;
-    width: 100%;
-    height: 50px;
-    font-size: 18px;
-    background-color: #c6e2ff;
-    border-radius: 5px;
-    color: #323232;
-    border: none;
-    transition: all 1s;
-    box-shadow: 1px 2px 3px 1px #e0e0e0;
-    text-shadow: 1px 1px 3px white;
-    text-align: left;
-    padding-left: 10px;
-    margin-bottom: 7px;
-}
-
-.sideBanner:hover {
+    border:none;
+  }
+  /* 예약 후기 찜목록 버튼 */
+  .loginAccBannerH{
+    height:90px;
+    width:100%;
+  }
+  .loginAccBanner{
+    width:80px;
+    height:40px;
+    display:inline-block;
+    background-color:#edffeb;
+    border-radius: 3px;
+    margin:1px;
+    border:none;
+    box-shadow: 1px 1px 2px 2px #eaeef1;
+    margin-top:15px;
+    transition: all 0.3s;
+  }
+  .loginAccBanner:hover{
     opacity: 0.8;
-}
+  }
+
+  /* 관리자 이동 버튼 */
+  #adminBtn{
+    width:100%;
+    height:50px;
+    background-color: honeydew;
+    border-radius: 5px;
+    border:1px solid gray;
+    transition: all 0.3s;
+  }
+  #adminBtn:hover{
+    opacity: 0.8;
+    box-shadow: 1px 1px 2px 2px rgb(224, 224, 224);
+  }
+
+  /* 로그인 밑 이벤트배너 */
+  .sideBanner {
+      font-weight: bold;
+      width: 100%;
+      height: 50px;
+      font-size: 18px;
+      background-color: #c6e2ff;
+      border-radius: 5px;
+      color: #323232;
+      border: none;
+      transition: all 1s;
+      box-shadow: 1px 2px 3px 1px #e0e0e0;
+      text-shadow: 1px 1px 3px white;
+      text-align: left;
+      padding-left: 10px;
+      margin-bottom: 7px;
+  }
+  .sideBanner:hover {
+      opacity: 0.8;
+  }
 
 
-/* 로그인 후 바뀔 css */
-#loginAcc {
-    width: 100%;
-    height: 250px;
-}
+  /* 로그인 후 바뀔 css */
+  #loginAcc {
+      width: 100%;
+      height: 250px;
+      margin-bottom:10px;
+  }
 
-.loginAcc {
-    margin: auto;
-    width: 150px;
-    height: 150px;
-    background-image: url(/semi-img/face.jpg);
-    background-size: cover;
-    border-radius: 50%;
-}
+  .loginAcc {
+      margin: auto;
+      width: 150px;
+      height: 150px;
+      background-image: url(/semi-img/face.jpg);
+      background-size: cover;
+      border-radius: 50%;
+  }
 
-.loginMent {
+  .loginMent {
+      text-align: center;
+      margin-top: 10px;
+  }
+
+
+
+  /* 모든 사이드바에 빠른예약 기능 추가 */
+  /* 호텔id값 빼오는 입력안 */
+  #sideHotelId{
+    display:none;
+  }
+  #revRoomType{
+    display:none;
+  }
+  .sidetxt{
     text-align: center;
-    margin-top: 10px;
-}
-.logOut{
-  width:80px;
-  height:40px;
-  background-color:lavender;
-  border-radius: 5px;
-  border:none;
-}
-/* 로그인사이드바 끝 */
+  }
+  #sideHotelSelect{
+    width:100%;
+    height:40px;
+    font-size:18px;
+    border-radius: 5px;
+    margin-bottom:10px;
+  }
+  .sideRoomTypeBox{
+    margin-top:10px;
+  }
+  #sideRoomTypeBox{
+    width:180px;
+    height:30px;
+  }
+  #sideReserveBtn{
+    margin-top:10px;
+    width:100%;
+    height:40px;
+    background-color:white;
+    font-size:18px;
+    line-height: 40px;
+    border:solid 1px gray;
+    border-radius: 3px;
+    transition:all 0.3s;
+    margin-top:20px;
+  }
+  #sideReserveBtn:hover{
+    background-color: whitesmoke;
+  }
+  #speedRevMargin{
+    margin-top:15px;
+    margin-bottom:20px;
+  }
+  .sideCBackBox{
+    position:relative;
+  }
+  .sideCBack{
+    position:absolute;
+    text-align: center;
+    width:100%;
+    height:50px;
+    margin-top:100px;
+    line-height: 50px;
+    background-color: rgb(51, 51, 51);
+    opacity: 0.7;
+    z-index: 9998;
+    color: white;
+    font-size:32px;
+    cursor:default;
+  }
+  #sideC{
+    margin-bottom:20px;
+  }
+  /* 로그인사이드바 끝 */
 
       /* 위 배너 */
       #banner{
@@ -561,9 +657,6 @@
     color:white;
   }
 @media screen and (max-width: 800px) { /* 모바일 전용 */
-    body {
-        
-    }
     .bannerIn{
       width:100%;
     }

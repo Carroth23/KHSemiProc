@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
+import dao.HotelDAO;
 import dao.UserDAO;
+import dto.HotelLikeImgDTO;
 import dto.UserDTO;
 import tool.Encryption;
 
@@ -28,6 +33,7 @@ public class UserController extends HttpServlet {
 
 		// 미리 세팅
 		UserDAO dao = UserDAO.getInstance();
+		HotelDAO hdao = HotelDAO.getInstance();
 
 		// 들어오는 경로값에 따라 보내주는 곳
 		try {
@@ -72,15 +78,17 @@ public class UserController extends HttpServlet {
 				String User_id = request.getParameter("id");
 				String User_pw = Encryption.getSHA512(request.getParameter("pw"));
 				boolean result = dao.login(User_id, User_pw);
+				System.out.println("로그인 아이디: " + User_id + " 불린값 : " + result);
+				Gson g = new Gson();
 				if (result) {
 					HttpSession session = request.getSession();
 					session.setAttribute("loginId", User_id);
 					// 제대로 로그인이 되었나 확인(*)
 					System.out.println(User_id + "님 로그인");
 				}
-//				response.sendRedirect("/views/hotel/hotelMain.jsp");
-				response.sendRedirect(request.getHeader("referer")); // 로그인 후 현재페이지 남아있기
-				// 로그아웃
+				String loginC = g.toJson(result);
+				response.getWriter().append(loginC);
+
 			} else if (cmd.equals("/logout.user")) {
 				request.getSession().removeAttribute("loginId");
 				response.sendRedirect(request.getHeader("referer"));
@@ -94,8 +102,14 @@ public class UserController extends HttpServlet {
 
 				// 회원정보 열람
 			} else if (cmd.equals("/userInfo.user")) {
+
 				String User_id = (String) request.getSession().getAttribute("loginId");
 				UserDTO dto = dao.info(User_id);
+
+				// 빠른예약 기능 모든 호텔 정보 넣어주기 진규추가
+				List<HotelLikeImgDTO> hotelListS = hdao.selectHotel();
+				request.setAttribute("hotelListS", hotelListS);
+
 				request.setAttribute("dto", dto);
 				request.getRequestDispatcher("/views/member/mypage.jsp").forward(request, response);
 

@@ -7,8 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Placeholder 회원정보수정</title>
-<!-- 파비콘 -->
-<link rel="shortcut icon" type="image/x-icon" href="/semi-img/favicon.ico" />
 <!-- 지도 API -->
 <script
    src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -76,7 +74,7 @@
                      <input type=password placeholder="비밀번호 입력" id="bpw" name="bpw">
                   </div>
                   <div class="bpwVal2">
-                     <input type=button value="이전 비밀번호확인" id="bpwBtn">
+                     <input type=button value="확인" id="bpwBtn">
                   </div>
                </div>
                <span class=signupRegex id="bpwRegex"></span>
@@ -242,17 +240,12 @@
              }).done(function(resp){
                 console.log(resp);
                 if(resp==beforePw){                   
-                   $("#bpwRegex").html("예전 비밀번호와 동일합니다.")
-                       $("#bpwRegex").css("color", "Blue");
-                       $("#signup-btn").attr("type", "submit");                                         
+                   $("#bpwRegex").html("예전 비밀번호와 동일합니다.");
+                       $("#bpwRegex").css("color", "Blue");                                           
                 }else{
-                   $("#bpwRegex").html("예전 비밀번호와 불일치.")
-                       $("#bpwRegex").css("color", "red");
-                       $("#signup-btn").attr("type", "button");
-                       $("#signup-btn").on("click",function(){
-                          alert("이전 비밀번호를 확인바랍니다");
-                       })
-                      }                   
+                   $("#bpwRegex").html("예전 비밀번호와 불일치.");
+                       $("#bpwRegex").css("color", "red");                                            
+                   }                   
                })
         });
           
@@ -368,6 +361,21 @@
                 name.focus();
                 return false;
             }
+            
+            $.ajax({
+                url:"/pw.user",
+                data:{pw:$("#bpw").val()}
+                }).done(function(resp){
+                   console.log(resp);
+                   if(resp!=beforePw){
+                	   alert("이전비밀번호를 확인해주세요")
+                	   $("#bpwRegex").html("");
+                	   $("#bpwRegex").focus();
+                	   return false;
+                   }else{
+                	   confirm("정말 수정하시겠습니까?")
+                   }
+               	})
            
 
             let pwRegex = /[a-z0-9]{4,12}/g;

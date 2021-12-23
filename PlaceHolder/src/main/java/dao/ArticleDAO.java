@@ -384,7 +384,7 @@ public class ArticleDAO {
 
 	// 게시글 조회(전체 조회) 소현
 	public List<ArticleDTO> selectArticle() throws Exception {
-		String sql = "select * from article";
+		String sql = "select * from article order by postId desc";
 		try (Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);
 				ResultSet rs = pstat.executeQuery();) {

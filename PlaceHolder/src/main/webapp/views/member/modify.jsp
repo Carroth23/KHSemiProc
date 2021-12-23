@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Placeholder 회원정보수정</title>
+<link rel="shortcut icon" type="image/x-icon" href="/semi-img/favicon.ico" />
 <!-- 지도 API -->
 <script
    src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -42,7 +43,7 @@
       <hr>
       <div class="title">
          <br>
-         <h1 style="font-weight: 600;">회원가입</h1>
+         <h1 style="font-weight: 600;">회원정보 수정</h1>
          <br>
       </div>
 
@@ -165,8 +166,12 @@
 
             <!-- 가입하기  -->
             <div class="signupBox">
+               <input type=button value="수정완료" id="signup2-btn">
+            </div>
+            <div class="signupBox">
                <input type=submit value="수정완료" id="signup-btn">
             </div>
+            
             <div class="signupBox">
                <input type=button value="회원탈퇴" id="lieve-btn">
             </div>
@@ -241,16 +246,17 @@
                 console.log(resp);
                 if(resp==beforePw){                   
                    $("#bpwRegex").html("예전 비밀번호와 동일합니다.");
-                       $("#bpwRegex").css("color", "Blue");                                           
+                       $("#bpwRegex").css("color", "Blue");
+                       $("#signup-btn").css("display","inline");
+                    $("#signup2-btn").css("display","none");
                 }else{
                    $("#bpwRegex").html("예전 비밀번호와 불일치.");
-                       $("#bpwRegex").css("color", "red");                                            
-                   }                   
+                       $("#bpwRegex").css("color", "red");
+                    $("#signup-btn").css("display","none");
+                       $("#signup2-btn").css("display","inline");                      
+                   }
                })
         });
-          
-             
-      
 
         // 패스워드 검사
         rpw.on("input", function () {
@@ -319,7 +325,7 @@
         // 생년월일 검사
       // *** 윤년 관련해 보완 필요
         $("#birth").on("input", function () {
-           let birthRegex = /\d{2}[0,1]\d([0,1,2]\d)$|([3][0,1])$/;
+           let birthRegex = /\d{2}([0]\d|[1][0-2])([0][1-9]|[1-2]\d|[3][0-1])$/;
             let birthResult = birthRegex.test($("#birth").val());
             if (!birthResult) {
                 $("#birthRegex").html("유효한 생년월일(주민번호 앞자리)을 입력해주세요");
@@ -349,6 +355,12 @@
                 phone_Result.html("");
             }
         })
+        
+        $("#signup2-btn").on("click",function(){
+        	alert("이전 비밀번호를 확인해주세요")
+        	$("#bpw").val("");
+        	$("#bpw").focus();
+        })
 
         // <FORM> 태그 페이지 이동 막기
         form.on("submit", function () {            
@@ -361,27 +373,11 @@
                 name.focus();
                 return false;
             }
-            
-            $.ajax({
-                url:"/pw.user",
-                data:{pw:$("#bpw").val()}
-                }).done(function(resp){
-                   console.log(resp);
-                   if(resp!=beforePw){
-                	   alert("이전비밀번호를 확인해주세요")
-                	   $("#bpwRegex").html("");
-                	   $("#bpwRegex").focus();
-                	   return false;
-                   }else{
-                	   confirm("정말 수정하시겠습니까?")
-                   }
-               	})
-           
 
             let pwRegex = /[a-z0-9]{4,12}/g;
             let pwResult = pwRegex.test(pw.val());
             if (!pwResult) {
-                alert("패스워드를 8자리로입력해주세요.")
+                alert("패스워드를 4~12자리로입력해주세요.")
                 pw.val("");
                 pw.focus();
                 return false;
@@ -389,7 +385,7 @@
             let rpwRegex = /[a-z0-9]{4,12}/g;
             let rpwResult = rpwRegex.test(rpw.val());
             if (!rpwResult) {
-                alert("패스워드확인을 제대로 입력해주세요.")
+                alert("패스워드확인을 입력해주세요.")
                 rpw.val("");
                 rpw.focus();
                 return false;
@@ -398,7 +394,7 @@
             let emailRegex = /.+?@.+?\.com/g;
             let emailResult = emailRegex.test(email.val());
             if (!emailResult) {
-                alert("이메일을 제대로 입력하세요.")
+                alert("이메일을 확인해주세요.")
                 email.val("");
                 email.focus();
                 return false;
@@ -416,11 +412,42 @@
             let phoneRegex = /010[0-9]{8}$/;
             let phoneResult = phoneRegex.test(phone.val());
             if (!phoneResult) {
-                alert("전화번호를 제대로 입력해주세요.")
+                alert("전화번호를 확인해 주세요.")
                 phone.val("");
                 phone.focus();
                 return false;
             }
+
+            if(document.getElementById("nickname").value == ''){
+               alert("닉네임을 입력해 주세요.");
+               return false;
+            }
+
+            if(document.getElementById("ad").value == ''){
+               alert("주소를 입력해 주세요.");
+               return false;
+            }
+
+            if(document.getElementById("ad1").value == ''){
+               alert("주소를 입력해 주세요.");
+               return false;
+            }
+
+            if(document.getElementById("ad2").value == ''){
+               alert("주소를 입력해 주세요.");
+               return false;
+            }
+            
+            
+            $.ajax({
+                url:"/pw.user",
+                data:{pw:$("#bpw").val()}
+                }).done(function(resp){
+                   console.log(resp);
+                   if(resp==beforePw){
+                	   alert("수정이 완료되었습니다.")                	   
+                   }
+               	})
         })
 
         document.getElementById("find").onclick = function () {
@@ -433,8 +460,10 @@
         }
         
         $("#lieve-btn").on("click",function(){
-           confirm("정말로 탈퇴하시겠습니까?")
-         location.href="/secession.user"
+           if(confirm("정말로 탈퇴하시겠습니까?")){
+              alert("탈퇴되었습니다.");
+              location.href="/secession.user"
+           }
         })
     </script>
 </body>

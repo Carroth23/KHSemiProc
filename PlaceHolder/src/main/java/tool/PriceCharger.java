@@ -52,8 +52,8 @@ public class PriceCharger {
 	public void setCheckOut(Date checkOut) {
 		this.checkOut = checkOut;
 	}
-
-	public static String charger(String room, int quantity, String add, Date in, Date out ) {
+	
+	public static String charger(String room, int quantity, String add, Date in, Date out) {
 		
 		int roomPrice = Integer.parseInt(room);
 		
@@ -69,8 +69,8 @@ public class PriceCharger {
 		int nights = (int) difference;
 		System.out.println(nights);
 		
-		String totalCharge = Integer.toString((roomPrice + addPrice) * nights * quantity);
-		
-		return totalCharge;
+		int totalCharge = (roomPrice + addPrice) * nights * quantity;
+		String money = String.format("%,d", totalCharge);
+		return money;
 	}
 }

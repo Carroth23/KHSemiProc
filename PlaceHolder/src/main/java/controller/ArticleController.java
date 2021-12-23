@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import dao.ArticleDAO;
 import dao.HotelDAO;
@@ -104,7 +105,7 @@ public class ArticleController extends HttpServlet {
 					end = adao.getHotelCount();
 				}
 				List<ArticleDTO> articleList = adao.selectArticleB(start, end);
-				Gson g = new Gson();
+				Gson g = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 				String result = g.toJson(articleList);
 				response.getWriter().append(result);
 
@@ -147,6 +148,10 @@ public class ArticleController extends HttpServlet {
 	            List<HotelLikeImgDTO> hotelListS = hdao.selectHotel();
 	            request.setAttribute("hotelListS", hotelListS);
 				
+	         // 현우 추가
+				List<HotelLikeImgDTO> hotelListAll = hdao.selectHotel();
+				request.setAttribute("hotelListAll", hotelListAll); // 현우추가
+	            
 				List<ArticleDTO> articleList = adao.selectUserArticle(userId);
 				request.setAttribute("articleList", articleList);
 				request.getRequestDispatcher("/views/member/mypage.jsp").forward(request, response);

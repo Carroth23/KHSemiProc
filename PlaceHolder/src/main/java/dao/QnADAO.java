@@ -11,6 +11,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import dto.ArticleDTO;
 import dto.QnADTO;
 import dto.QnADTO;
 
@@ -33,7 +34,8 @@ public class QnADAO {
 		DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/oracle");
 		return ds.getConnection();
 	}
-
+	
+	// 1. Q & A insert 
 	public int insert(QnADTO dto) throws Exception {
 		String sql = "insert into qna values(inquiry_seq.nextval, ?, ?, '답변 대기', ?, default)";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
@@ -47,7 +49,7 @@ public class QnADAO {
 		}
 	}
 
-	// **** 현우 수정 : pstat.setString 으로 검색할 수 있게 수정
+	// 2. hotelId로 검색할 수 있게 수정
 	public List<QnADTO> selectAll(String hotelId) throws Exception {
 		String sql = "select * from qna where hotelId=?";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
@@ -71,7 +73,7 @@ public class QnADAO {
 	}
 
 	public QnADTO selectBySeq(int inquiry_seq) throws Exception {
-		String sql = "select * from qna where inquiry_seq=?";
+		String sql = "select * from qna where inquiry=?";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
 			pstat.setInt(1, inquiry_seq);
 			try (ResultSet rs = pstat.executeQuery();) {
@@ -92,22 +94,24 @@ public class QnADAO {
 			}
 		}
 	}
-
-	public int delete(String userId) throws Exception {
-		String sql = "delete from qna where userId=?";
-		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
-			pstat.setString(1, userId);
+	// 2. Q & A 삭제
+	public int delete(int inquiry) throws Exception {
+		String sql = "delete from qna where inquiry=?";
+		try (Connection con = this.getConnection(); 
+			PreparedStatement pstat = con.prepareStatement(sql);) {
+			pstat.setInt(1, inquiry);
 			int result = pstat.executeUpdate();
 			con.commit();
 			return result;
 		}
 	}
-
+	
+	// 2. Q & A 수정
 	public int modify(QnADTO dto) throws Exception {
 		String sql = "update qna set inquiryContent=? where inquiry=?";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
-			pstat.setInt(1, dto.getInquiry());
-			pstat.setString(2, dto.getInquiryContent());
+			pstat.setString(1, dto.getInquiryContent());
+			pstat.setInt(2, dto.getInquiry());
 			int result = pstat.executeUpdate();
 			con.commit();
 			return result;
@@ -138,7 +142,7 @@ public class QnADAO {
 
 	// QNA 전체 조회하기(소현)
 	public List<QnADTO> qnaList() throws Exception {
-		String sql = "select * from qna";
+		String sql = "select * from qna order by inquiry desc";
 		try (Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);
 				ResultSet rs = pstat.executeQuery();) {
@@ -156,10 +160,10 @@ public class QnADAO {
 			return list;
 		}
 	}
-
+	
 	// 유저명으로 검색(소현)
 	public List<QnADTO> selectQnA(String keyword) throws Exception {
-		String sql = "select * from qna where userId = ?";
+		String sql = "select * from qna where userId = ? order by inquiry desc";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
 			pstat.setString(1, keyword);
 			try (ResultSet rs = pstat.executeQuery();) {

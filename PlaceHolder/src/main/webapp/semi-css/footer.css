@@ -9,4 +9,8 @@
 	text-align:left;
 	font-size:14px;
 	padding-left:8px;
+	width:60%;
+	margin:auto;
+	border:1px solid gray;
+	padding:10px;
 }

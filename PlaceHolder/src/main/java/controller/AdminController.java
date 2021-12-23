@@ -71,11 +71,11 @@ public class AdminController extends HttpServlet {
 				request.setAttribute("hotelList", hotelList);
 				request.getRequestDispatcher("/views/admin/hotelList.jsp").forward(request, response);
 
-				// 2-2.유저관리페이지에서 삭제(호텔아이디로 삭제)
-			} else if (cmd.equals("/hotelDelete.admin")) {
-				String hotelId = request.getParameter("hotelId");
-				hdao.deleteHotel(hotelId);
-				response.sendRedirect("/hotel.admin");
+				// 2-2.큐앤에이관리페이지에서 삭제(유저아이디로 삭제)
+	         } else if (cmd.equals("/qnaDelete.admin")) {
+	            int inquiry = Integer.parseInt(request.getParameter("inquiry"));
+	            qdao.delete(inquiry);
+	            response.sendRedirect("/qna.admin");
 
 				// 3.큐앤에이 관리(큐앤에이 전체 조회)
 			} else if (cmd.equals("/qna.admin")) {
@@ -86,7 +86,8 @@ public class AdminController extends HttpServlet {
 				// 3-1.큐앤에이관리페이지에서 검색(유저아이디로 검색)
 			} else if (cmd.equals("/qnaSearch.admin")) {
 				String keyword = request.getParameter("Keyword");
-				List<QnADTO> qnaList = qdao.selectAll(keyword);
+				System.out.println(keyword);
+				List<QnADTO> qnaList = qdao.selectQnA(keyword);
 				request.setAttribute("qnaList", qnaList);
 				request.getRequestDispatcher("/views/admin/qnaList.jsp").forward(request, response);
 
@@ -106,14 +107,15 @@ public class AdminController extends HttpServlet {
 			} else if (cmd.equals("/articleSearch.admin")) {
 				String option = request.getParameter("option");
 				String keyword = request.getParameter("Keyword");
+				System.out.println(option + " : " + keyword);
 				if (option.equals("유저ID")) {
 					List<ArticleDTO> articleList = adao.selectUserArticle(keyword);
-					request.setAttribute("articlelist", articleList);
+					request.setAttribute("articleList", articleList);
 					request.getRequestDispatcher("/views/admin/articleList.jsp").forward(request, response);
 
 				} else if (option.equals("제목")) {
 					List<ArticleDTO> articleList = adao.selectTitleArticle(keyword);
-					request.setAttribute("articlelist", articleList);
+					request.setAttribute("articleList", articleList);
 					request.getRequestDispatcher("/views/admin/articleList.jsp").forward(request, response);
 				}
 

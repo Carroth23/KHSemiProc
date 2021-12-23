@@ -59,7 +59,7 @@ public class ReservationDAO {
 		String sql = "insert into reservation values(revId_seq.nextval,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
-//				pstat.setString(1, dto.getRevId());
+			//				pstat.setString(1, dto.getRevId());
 			pstat.setString(1, dto.getUserId());
 			pstat.setString(2, dto.getHotelId());
 			pstat.setString(3, dto.getHotelName());
@@ -122,25 +122,25 @@ public class ReservationDAO {
 	}
 
 	// 3. 예약 수정하기 기능(Hotel Controller와 통신) **** 현우 수정
-		public int modifyReservation(ReservationDTO dto) throws Exception {
+	public int modifyReservation(ReservationDTO dto) throws Exception {
 
-			String sql = "update reservation set checkIn = ?, checkOut = ?, revRoomType = ?, revQuantity = ?, revPrice = ?, revStat =? where revId = ?";
+		String sql = "update reservation set checkIn = ?, checkOut = ?, revRoomType = ?, revQuantity = ?, revPrice = ?, revStat =? where revId = ?";
 
-			try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
+		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
 
-				pstat.setDate(1, dto.getCheckIn());
-				pstat.setDate(2, dto.getCheckOut());
-				pstat.setString(3, dto.getRevRoomType());
-				pstat.setInt(4, dto.getRevQuantity());
-				pstat.setString(5, dto.getRevPrice());
-				pstat.setString(6, dto.getRevStat());
-				pstat.setString(7, dto.getRevId());
+			pstat.setDate(1, dto.getCheckIn());
+			pstat.setDate(2, dto.getCheckOut());
+			pstat.setString(3, dto.getRevRoomType());
+			pstat.setInt(4, dto.getRevQuantity());
+			pstat.setString(5, dto.getRevPrice());
+			pstat.setString(6, dto.getRevStat());
+			pstat.setString(7, dto.getRevId());
 
-				int result = pstat.executeUpdate();
+			int result = pstat.executeUpdate();
 
-				return result;
-			}
+			return result;
 		}
+	}
 	// 4. 예약 삭제하기 기능(Hotel Controller와 통신)
 
 	public int cancelReservation(String revId) throws Exception {
@@ -153,7 +153,7 @@ public class ReservationDAO {
 			return result;
 		}
 	}
-	
+
 	// 6. User 리뷰 남기기 기능- 1 (글쓰기 게시판으로 이동해서 남김) -> 데이터 리뷰 테이블로 전송
 	// 어떤 예약건에 대한 리뷰를 남길 수 있는지 봐야 함
 	public List<ReservationDTO> selectAllUserHistory(String loginId) throws Exception {
@@ -192,55 +192,67 @@ public class ReservationDAO {
 			}
 		}
 	}
-	// 현우 추가: 결제정보 제공용 함수(예약번호 입력했을 때 결과 조회됨)
-		public List<ReservationDTO> payInformation(String reservationId)throws Exception{
-			String sql = "select * from reservation where revId = ?";
+	public List<ReservationDTO> payInformation(String reservationId)throws Exception{
+		String sql = "select * from reservation where revId = ?";
 
-			try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
-				pstat.setString(1, reservationId);
-				try (ResultSet rs = pstat.executeQuery();) {
+		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
+			pstat.setString(1, reservationId);
+			try (ResultSet rs = pstat.executeQuery();) {
 
-					List<ReservationDTO> list = new ArrayList<>();
-					
-					rs.next();
-					
-					String revId = rs.getString("revId");
-					String userId = rs.getString("userId");
-					String hotelId = rs.getString("hotelId");
-					String hotelName = rs.getString("hotelName");
-					String hotelPhone = rs.getString("hotelPhone");
-					String hotelRoadAddress = rs.getString("hotelRoadAddress");
-					Date checkIn = rs.getDate("checkIn");
-					Date checkOut = rs.getDate("checkOut");
-					Date revDay = rs.getDate("revDay");
-					String revRoomType = rs.getString("revRoomType");
-					int revQuantity = rs.getInt("revQuantity");
-					String revRoomInfo = rs.getString("revRoomInfo");
-					String revStat = rs.getString("revStat");
-					String revPrice = rs.getString("revPrice");
-					
-					ReservationDTO reservDto = new ReservationDTO(revId, userId, hotelId, hotelName, hotelPhone,
-							hotelRoadAddress, checkIn, checkOut, revDay, revRoomType, revQuantity, revRoomInfo, revStat,
-							revPrice);
+				List<ReservationDTO> list = new ArrayList<>();
 
-					list.add(reservDto);
-					return list;
-				}
+				rs.next();
+
+				String revId = rs.getString("revId");
+				String userId = rs.getString("userId");
+				String hotelId = rs.getString("hotelId");
+				String hotelName = rs.getString("hotelName");
+				String hotelPhone = rs.getString("hotelPhone");
+				String hotelRoadAddress = rs.getString("hotelRoadAddress");
+				Date checkIn = rs.getDate("checkIn");
+				Date checkOut = rs.getDate("checkOut");
+				Date revDay = rs.getDate("revDay");
+				String revRoomType = rs.getString("revRoomType");
+				int revQuantity = rs.getInt("revQuantity");
+				String revRoomInfo = rs.getString("revRoomInfo");
+				String revStat = rs.getString("revStat");
+				String revPrice = rs.getString("revPrice");
+
+				ReservationDTO reservDto = new ReservationDTO(revId, userId, hotelId, hotelName, hotelPhone,
+						hotelRoadAddress, checkIn, checkOut, revDay, revRoomType, revQuantity, revRoomInfo, revStat,
+						revPrice);
+
+				list.add(reservDto);
+				return list;
 			}
 		}
-		
-		// 현우 추가 : 예약 상태 바꿔주는 함수
-		public int completeBooking(String reservationId) throws Exception{
-			String sql = "update reservation set revStat = ? where revId =?";
-			
-			try (Connection con = this.getConnection(); 
-					PreparedStatement pstat = con.prepareStatement(sql);) {
-				pstat.setString(1, "확정");
-				pstat.setString(2, reservationId);
-				
-				int result = pstat.executeUpdate();
-				System.out.println(result);
-				return result;
-				}
+	}
+	// 현우 추가 : 예약 상태 바꿔주는 함수
+	public int completeBooking(String reservationId) throws Exception{
+		String sql = "update reservation set revStat = ? where revId =?";
+
+		try (Connection con = this.getConnection(); 
+				PreparedStatement pstat = con.prepareStatement(sql);) {
+			pstat.setString(1, "확정");
+			pstat.setString(2, reservationId);
+
+			int result = pstat.executeUpdate();
+			System.out.println(result);
+			return result;
 		}
+	}
+	// 현우 추가 : 현재까지 예약 건수 조회해주는 함수
+	public int countVisit(String loginId) throws Exception {
+
+		String sql = "select count(*) from reservation where userId = ? and checkOut <= sysdate";
+		try (Connection con = this.getConnection(); 
+				PreparedStatement pstat = con.prepareStatement(sql);) {
+			pstat.setString(1, loginId);
+			try(ResultSet rs = pstat.executeQuery()){
+				rs.next();
+				int count = rs.getInt(1);
+				return count;		
+			}
+		}
+	}
 }

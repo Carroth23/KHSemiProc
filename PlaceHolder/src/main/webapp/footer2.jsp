@@ -1,10 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>PlaceHolder</title>
+<link rel="shortcut icon" type="image/x-icon" href="/semi-img/favicon.ico" />
 <link rel="stylesheet" href="/semi-css/footer2.css">
 </head>
 <body>

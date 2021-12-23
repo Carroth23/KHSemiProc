@@ -35,7 +35,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap"
 	rel="stylesheet">
-<link rel="stylesheet" href="/semi-css/hotelList.css">
+<link rel="stylesheet" href="/semi-css/articleDetail.css">
 </head>
 
 <body>
@@ -84,7 +84,7 @@
                               <div class="col-12 loginAcc"></div>
                             </div>
                             <div class="row">
-                              <div class="col-8 loginMent">${loginId}님안녕하세요.</div>
+                              <div class="col-8 loginMent">${loginId}님, 안녕하세요.</div>
                               <div class="col-4"><a href="/logout.user"><button class="logOut">로그아웃</button></a></div>
                             </div>
                             <div class="row loginAccBannerH">
@@ -92,7 +92,7 @@
                                 <a href="/list.hotel"><button class="loginAccBanner">Hotels</button></a>
                               </div>
                               <div class="col-3">
-                                <a href=""><button class="loginAccBanner">후기</button></a>
+                                <a href="/inquiryList.qna"><button class="loginAccBanner">고객센터</button></a>
                               </div>
                               <div class="col-3">
                                 <a href="/likeList.like?loginId=${loginId}"><button
@@ -116,6 +116,7 @@
                                 <p class="sidetxt">빠른 예약</p>
                                 <div class="nav3 col-12">
                                   <select id="sideHotelSelect" onchange="selectBoxChange(this.value);">
+                                        <option >----- 호텔 선택 -----</option>
                                     <c:forEach var="list" items="${hotelListS }">
                                       <option value=${list.hotelId}>${list.hotelName}</option>
                                     </c:forEach>
@@ -129,13 +130,15 @@
                                   </div>
                                   <div class="col-6 speedRevOut">
                                     CheckOut
-                                    <input type=date name="checkOut" id="speedRevOut" min="2021-12-26" max="2022-12-31">
+                                    <input type=date name="checkOut" id="speedRevOut" min="2021-12-26" max="2022-12-31" onchange="onChange()">
                                   </div>
                                 </div>
 
                                 <div class="row sideRoomTypeBox">
                                   <div calss="col-8" id="sideRoomTypeBox">
+                                  <span class="sideFontS">RoomType</span>
                                     <select id="selectRoomType" onchange="selectRoomChange(this.value);">
+                                      <option >----- 방 선택 -----</option>   
                                       <option value="스탠다드룸">스탠다드룸</option>
                                       <option value="더블룸">더블룸</option>
                                       <option value="디럭스룸">디럭스룸</option>
@@ -145,6 +148,7 @@
                                     <input type="text" name="revRoomType" id="revRoomType" display="none">
                                   </div>
                                   <div class="col-2">
+                                  <span class="sideFontS">방갯수</span>
                                     <select name="revQuantity" id="revQuantity">
                                       <option value="1">1 개</option>
                                       <option value="2">2 개</option>
@@ -154,6 +158,7 @@
                                     </select>
                                   </div>
                                   <div class="col-2 align-self-right">
+                                  <span class="sideFontS">객실당</span>
                                     <select name="addPrice" id="addPrice">
                                       <option value="1">1 명</option>
                                       <option value="2">2 명</option>
@@ -242,12 +247,10 @@
 						<p id="community">커뮤니티</p>
 					</div>
 					<div class="col-2 qna bannerIn">
-						<p>고객센터</p>
+						<p class="inquiryList">고객센터</p>
 					</div>
 					<div class="col-2 mypage bannerIn">
-						<a href="/mypage.home">
-							<p>마이페이지</p>
-						</a>
+						<p id="mypageGo">마이페이지</p>
 					</div>
 				</div>
 				<!-- 내용물 -->
@@ -256,8 +259,7 @@
 						<div class="row title">
 							<div class="col title">
 								<br> <br> <input type=hidden
-									value="${articleList.postId }" name=postId id=postId> <label>제목
-									: </label> <input type="text" name="postTitle" style="width: 90%;"
+									value="${articleList.postId }" name=postId id=postId><input type="text" name="postTitle" style="width: 97%;"
 									value="${articleList.postTitle }" id="title" readonly>
 							</div>
 						</div>
@@ -265,31 +267,29 @@
 							<div class="col-6 sub">
 								<label>작성자 : </label> ${articleList.userId}
 							</div>
-							<div class="col-3 sub" style="text-align: center">
+							<div class="col-3 sub writeRun" style="text-align: center">
 								<label>작성일 : </label> ${articleList.postCreated}
 							</div>
-							<div class="col-3 sub" style="text-align: center">
+							<div class="col-3 sub writeRun" style="text-align: center">
 								<label>최종수정일 : </label> ${articleList.postModified}
 							</div>
 						</div>
 						<br>
 						<div class="row content">
 							<div class="col content">
-								<textarea rows="30" cols="117" name="postContent" id="content"
+								<textarea rows="25" cols="117" name="postContent" id="content"
 									readonly>${articleList.postContent }</textarea>
 							</div>
 						</div>
 						<div class="row button">
 							<div class="col button" style="text-align: right;">
-								<a href="javascript:history.back()"> <input type="button"
-									value="목록으로">
-								</a>
+								<a href="javascript:history.back()"> <input type="button" class="writeBtns" value="목록으로"></a>
 								<c:if test="${articleList.userId == loginId }">
-									<input type=button value="삭제" style="width: 60px;" id="del">
-									<input type=button value="수정" style="width: 60px;" id="mod">
-									<input type=button id="modOk" style="display: none;"
+									<input type=button value="삭제" class="writeBtns" style="width: 60px;" id="del">
+									<input type=button value="수정" class="writeBtns" style="width: 60px;" id="mod">
+									<input type=button id="modOk" class="writeBtns" style="display: none;"
 										value="수정완료">
-									<input type=button id="modCancel" style="display: none;"
+									<input type=button id="modCancel" class="writeBtns" style="display: none;"
 										value="취소">
 								</c:if>
 							</div>
@@ -312,11 +312,11 @@
 									<div class="col-6 footer-right">
 										<ul class="foot-ul-blog">
 											<li><a
-												href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0">블로그</a>
+												href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0" target='_blank'>블로그</a>
 											</li>
-											<li><a href="footer.jsp">이용약관</a></li>
-											<li><a href="footer2.jsp">개인정보처리방침</a></li>
-											<li><a href="">고객 문의</a></li>
+											<li><a href="/footer.jsp" target='_blank'>이용약관</a></li>
+											<li><a href="/footer2.jsp" target='_blank'>개인정보처리방침</a></li>
+											<li><a href="/inquiryList.qna">고객 문의</a></li>
 										</ul>
 									</div>
 								</div>
@@ -421,7 +421,19 @@
           alert("로그아웃 되었습니다.");
         })
 
-        // 사이드 바 예약 확인
+        // 체크인 체크아웃 날짜 확인
+        function onChange(){
+        	
+        	let checkIn = new Date(document.getElementById("speedRevIn").value);
+        	let checkOut = new Date(document.getElementById("speedRevOut").value);
+        	console.log(checkIn + '' +checkOut);
+        	if(checkOut <= checkIn){
+        		alert("체크아웃은 체크인 날짜 다음날부터 가능합니다.");
+        		$("#speedRevOut").val("");
+        	}
+        }
+        
+        // 예약 제출 전
         $("#sideReserveBtn").on("click", function () {
           let hotelId = document.getElementById("sideHotelId").value;
           let checkIn = document.getElementById("speedRevIn").value;
@@ -431,8 +443,9 @@
           let addPrice = document.getElementById("addPrice").value;
 
           console.log(checkIn + checkOut + revRoomType + revQuantity + addPrice);
-
-          if (checkIn == '' || checkOut == '') {
+			if(hotelId == ''){
+				alert("호텔을 선택해주세요");
+        }else if (checkIn == '' || checkOut == '') {
             alert("체크인, 체크아웃 날짜를 입력해주세요");
             return false;
           } else if (checkIn >= checkOut) {
@@ -470,6 +483,11 @@
           readMore.style.display = "none";
         }
       });
+
+      // 고객센터
+      document.querySelector(".inquiryList").addEventListener("click", function(){
+        	location.href="/inquiryList.qna";
+        })
       
       //예약으로 이동
       document.querySelector("#pagereload").addEventListener("click", function () {
@@ -485,6 +503,14 @@
         document.querySelector("#community").addEventListener("click", function () {
           location.href = "/articleList.article";
         })
+
+        $("#mypageGo").on("click", () => {
+					if ('${loginId}' == ''){
+						alert("로그인을 해주세요.");
+					} else {
+						location.href="/mypage.home";
+					}
+				})
      //수정+취소
      
      $("#del").on("click",function(){
@@ -512,6 +538,7 @@
 	$("#modOk").on("click",function(){
 		if(confirm("이대로 수정하시겠습니까?")){
 			$("#frmDetail").submit();
+      alert("수정되었습니다.");
 		}
 	})
 	$("#modCancel").on("click",function(){

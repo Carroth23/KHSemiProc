@@ -49,7 +49,7 @@
             <div class="col-3 align-self-center">
               <a href="index.jsp"><img src="/semi-img/logos.png" id="logo"></a>
             </div>
-            <div class="col-8 align-self-center">
+            <div class="col-8 align-self-center throwE">
 
               <input type="text" placeholder="HotelName" id="topSearch">
               <button type="button" class="top-search" id="topSearchBtn">
@@ -84,7 +84,7 @@
                               <div class="col-12 loginAcc"></div>
                             </div>
                             <div class="row">
-                              <div class="col-8 loginMent">${loginId}님안녕하세요.</div>
+                              <div class="col-8 loginMent">${loginId}님, 안녕하세요.</div>
                               <div class="col-4"><a href="/logout.user"><button class="logOut">로그아웃</button></a></div>
                             </div>
                             <div class="row loginAccBannerH">
@@ -92,7 +92,7 @@
                                 <a href="/list.hotel"><button class="loginAccBanner">Hotels</button></a>
                               </div>
                               <div class="col-3">
-                                <a href=""><button class="loginAccBanner">후기</button></a>
+                                <a href="/inquiryList.qna"><button class="loginAccBanner">고객센터</button></a>
                               </div>
                               <div class="col-3">
                                 <a href="/likeList.like?loginId=${loginId}"><button
@@ -116,6 +116,7 @@
                                 <p class="sidetxt">빠른 예약</p>
                                 <div class="nav3 col-12">
                                   <select id="sideHotelSelect" onchange="selectBoxChange(this.value);">
+                                        <option >----- 호텔 선택 -----</option>
                                     <c:forEach var="list" items="${hotelListS }">
                                       <option value=${list.hotelId}>${list.hotelName}</option>
                                     </c:forEach>
@@ -129,13 +130,15 @@
                                   </div>
                                   <div class="col-6 speedRevOut">
                                     CheckOut
-                                    <input type=date name="checkOut" id="speedRevOut" min="2021-12-26" max="2022-12-31">
+                                    <input type=date name="checkOut" id="speedRevOut" min="2021-12-26" max="2022-12-31" onchange="onChange()">
                                   </div>
                                 </div>
 
                                 <div class="row sideRoomTypeBox">
                                   <div calss="col-8" id="sideRoomTypeBox">
+                                  <span class="sideFontS">RoomType</span>
                                     <select id="selectRoomType" onchange="selectRoomChange(this.value);">
+                                      <option >----- 방 선택 -----</option>   
                                       <option value="스탠다드룸">스탠다드룸</option>
                                       <option value="더블룸">더블룸</option>
                                       <option value="디럭스룸">디럭스룸</option>
@@ -145,6 +148,7 @@
                                     <input type="text" name="revRoomType" id="revRoomType" display="none">
                                   </div>
                                   <div class="col-2">
+                                  <span class="sideFontS">방갯수</span>
                                     <select name="revQuantity" id="revQuantity">
                                       <option value="1">1 개</option>
                                       <option value="2">2 개</option>
@@ -154,6 +158,7 @@
                                     </select>
                                   </div>
                                   <div class="col-2 align-self-right">
+                                  <span class="sideFontS">객실당</span>
                                     <select name="addPrice" id="addPrice">
                                       <option value="1">1 명</option>
                                       <option value="2">2 명</option>
@@ -242,12 +247,10 @@
 						<p class="boardGo">커뮤니티</p>
 					</div>
 					<div class="col-2 qna bannerIn">
-						<p>고객센터</p>
+						<p class="inquiryList">고객센터</p>
 					</div>
 					<div class="col-2 mypage bannerIn" id="mypageGo">
-						
 							<p>마이페이지</p>
-						
 					</div>
 				</div>
 
@@ -324,7 +327,7 @@
 										</div>
 									</div>
 
-									<div class="row">
+									<div class="row" id="detailtxt">
 										<div class="col-12">
 											<p class="detailtxt">${list.hotelInfo }</p>
 										</div>
@@ -367,9 +370,9 @@
 										<li><a
 											href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0">블로그</a>
 										</li>
-										<li><a href="footer.jsp">이용약관</a></li>
-										<li><a href="footer2.jsp">개인정보처리방침</a></li>
-										<li><a href="">고객 문의</a></li>
+										<li><a href="/footer.jsp" target='_blank'>이용약관</a></li>
+										<li><a href="/footer2.jsp" target='_blank'>개인정보처리방침</a></li>
+										<li><a href="/inquiryList.qna">고객 문의</a></li>
 									</ul>
 								</div>
 							</div>
@@ -476,7 +479,19 @@
           alert("로그아웃 되었습니다.");
         })
 
-        // 사이드 바 예약 확인
+        // 체크인 체크아웃 날짜 확인
+        function onChange(){
+        	
+        	let checkIn = new Date(document.getElementById("speedRevIn").value);
+        	let checkOut = new Date(document.getElementById("speedRevOut").value);
+        	console.log(checkIn + '' +checkOut);
+        	if(checkOut <= checkIn){
+        		alert("체크아웃은 체크인 날짜 다음날부터 가능합니다.");
+        		$("#speedRevOut").val("");
+        	}
+        }
+        
+        // 예약 제출 전
         $("#sideReserveBtn").on("click", function () {
           let hotelId = document.getElementById("sideHotelId").value;
           let checkIn = document.getElementById("speedRevIn").value;
@@ -486,8 +501,9 @@
           let addPrice = document.getElementById("addPrice").value;
 
           console.log(checkIn + checkOut + revRoomType + revQuantity + addPrice);
-
-          if (checkIn == '' || checkOut == '') {
+			if(hotelId == ''){
+				alert("호텔을 선택해주세요");
+        }else if (checkIn == '' || checkOut == '') {
             alert("체크인, 체크아웃 날짜를 입력해주세요");
             return false;
           } else if (checkIn >= checkOut) {
@@ -595,7 +611,7 @@
                         </div>
                       </div>
 
-                      <div class="row">
+                      <div class="row" id="detailtxt">
                         <div class="col-12">
                           <p class="detailtxt">\${result[i].hotelInfo }</p>
                         </div>
@@ -607,7 +623,7 @@
               </div>`
               inner.innerHTML = div;
             }
-            if (result.length < 9) { // 넘어올 호텔 목록이 10보다 작다면 더보기 삭제
+            if (result.length < 10) { // 넘어올 호텔 목록이 10보다 작다면 더보기 삭제
               readMore.style.display = "none";
             }
           })
@@ -695,14 +711,19 @@
           location.href = "/articleList.article";
         })
 
-				// 마이페이지 로그인시에만 이동
+        // 마이페이지 로그인시에만 이동
 				$("#mypageGo").on("click", () => {
 					if ('${loginId}' == ''){
 						alert("로그인을 해주세요.");
 					} else {
-						location.href="/userInfo.user";
+						location.href="/mypage.home";
 					}
 				})
+				
+		 // *** 현우 추가 : 고객센터
+        document.querySelector(".inquiryList").addEventListener("click", function(){
+        	location.href="/inquiryList.qna";
+        })		
 
         // 좋아요 기능
         $(document).on("click", ".heartBox", function () {

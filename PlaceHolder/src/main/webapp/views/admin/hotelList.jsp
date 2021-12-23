@@ -35,7 +35,7 @@
 	href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap"
 	rel="stylesheet">
 
-<link rel="stylesheet" href="/semi-css/hotelList.css">
+<link rel="stylesheet" href="/semi-css/admin.css">
 </head>
 
 <body>
@@ -43,98 +43,145 @@
 	<div class="container">
 		<div class="containerIn">
 			<div class="container">
-				<div class="row header">
-					<div class="col-3 align-self-center">
-						<a href="/index.jsp"><img src="/semi-img/logos.png" id="logo"></a>
-					</div>
-					<div class="col-8 align-self-center"></div>
-					<!-- 햄버거메뉴 -->
-					<div class="col-1  align-self-center justify-content-end">
-						<nav class="navbar navbar-light">
-							<button class="navbar-toggler" type="button"
-								data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-							<div class="offcanvas offcanvas-end" tabindex="-1"
-								id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-								<div class="offcanvas-header">
-									<h5 class="offcanvas-title" id="offcanvasNavbarLabel">PlaceHolder</h5>
 
-									<button type="button" class="btn-close text-reset"
-										data-bs-dismiss="offcanvas" aria-label="Close"></button>
-								</div>
-								<hr>
-								<div class="offcanvas-body">
+				<!-- 사이드바 코드 시작 -->
+          <div class="row header">
+            <div class="col-3 align-self-center">
+              <a href="index.jsp"><img src="/semi-img/logos.png" id="logo"></a>
+            </div>
+            <div class="col-8 align-self-center">
 
-									<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-										<c:choose>
-											<c:when test="${loginId != null}">
-												<!-- 로그인 이후 보일 내용 -->
-												<li class="nav-item" id="loginAcc">
-													<div class="row">
-														<div class="col-12 loginAcc"></div>
-													</div>
-													<div class="row">
-														<div class="col-8 loginMent">${loginId}님안녕하세요.</div>
-														<div class="col-4">
-															<a href="/logout.user"><button class="logOut">로그아웃</button></a>
-														</div>
-													</div>
-													<div class="row loginAccBannerH">
-														<div class="col-3">
-															<a href="/list.hotel"><button class="loginAccBanner">예약</button></a>
-														</div>
-														<div class="col-3">
-															<a href=""><button class="loginAccBanner">후기</button></a>
-														</div>
-														<div class="col-3">
-															<a href=""><button class="loginAccBanner">찜목록</button></a>
-														</div>
-														<div class="col-3">
-															<a href="/mypage.home"><button class="loginAccBanner">MyPage</button></a>
-														</div>
-													</div>
-												</li>
-											</c:when>
-											<c:otherwise>
-												<!-- 로그인 폼 -->
-												<li class="nav-item">
-													<div class="row signBox">
-														<form action="/login.user" method="post">
-															<div class="col-12 signInput">
-																<input type="text" placeholder="Input ID"
-																	class="inputId" name="id"> <input
-																	type="password" placeholder="Input PW" class="inputPw"
-																	name="pw">
-															</div>
-															<div class="row">
-																<div class="col-6 sign">
-																	<button class="signBtns">로그인</button>
-																</div>
-																<div class="col-6 sign">
-																	<a href="/signupPage.user"><button type="button"
-																			class="signBtns signUp">회원가입</button></a>
-																</div>
-															</div>
-														</form>
-													</div>
+              <input type="text" placeholder="HotelName" id="topSearch">
+              <button type="button" class="top-search" id="topSearchBtn">
+                <i class="fas fa-search"></i>
+              </button>
 
+            </div>
+            <!-- 햄버거메뉴 -->
+            <div class="col-1  align-self-center justify-content-end">
+              <nav class="navbar navbar-light">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasNavbar">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                  aria-labelledby="offcanvasNavbarLabel">
+                  <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">PlaceHolder</h5>
 
-												</li>
-											</c:otherwise>
-										</c:choose>
-										<li class="nav-item"><a href="/main.home"><button
-													type="button" class="sideBanner">메인으로</button></a></li>
-										<li class="nav-item">
-											<button type="button" class="sideBanner">자유게시판</button>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</nav>
-					</div>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                      aria-label="Close"></button>
+                  </div>
+                  <hr>
+                  <div class="offcanvas-body">
 
-				</div>
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                      <c:choose>
+                        <c:when test="${loginId != null}">
+                          <!-- 로그인 이후 보일 내용 -->
+                          <li class="nav-item" id="loginAcc">
+                            <div class="row">
+                              <div class="col-12 loginAcc"></div>
+                            </div>
+                            <div class="row">
+                              <div class="col-8 loginMent">${loginId}님, 안녕하세요.</div>
+                              <div class="col-4"><a href="/logout.user"><button class="logOut">로그아웃</button></a></div>
+                            </div>
+                            <div class="row loginAccBannerH">
+                              <div class="col-3">
+                                <a href="/list.hotel"><button class="loginAccBanner">Hotels</button></a>
+                              </div>
+                              <div class="col-3">
+                                <a href="/inquiryList.qna"><button class="loginAccBanner">고객센터</button></a>
+                              </div>
+                              <div class="col-3">
+                                <a href="/likeList.like?loginId=${loginId}"><button
+                                    class="loginAccBanner">찜목록</button></a>
+                              </div>
+                              <div class="col-3">
+                                <a href="/mypage.home"><button class="loginAccBanner">MyPage</button></a>
+                              </div>
+                            </div>
+                          </li>
+
+                          <c:if test="${loginId == 'admin00'}">
+                            <button id="adminBtn">관리자 창으로</button>
+                          </c:if>
+
+                          <li class="nav-item" id="sideC">
+                            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                              <div class="carousel-inner sideCBackBox">
+                                <div class="sideCBack">PlaceHolder</div>
+                                <div class="carousel-item active">
+                                  <img src="/semi-img/sideC1.jpg" class="d-block w-100" alt="여행을 해보세요">
+                                </div>
+                                <div class="carousel-item">
+                                  <img src="/semi-img/sideC2.jpg" class="d-block w-100" alt="나만의 공간">
+                                </div>
+                                <div class="carousel-item">
+                                  <img src="/semi-img/sideC3.jpg" class="d-block w-100" alt="PlaceHolder">
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+
+                        </c:when>
+                        <c:otherwise>
+                          <!-- 로그인 폼 -->
+                          <li class="nav-item">
+                            <div class="row signBox">
+                              <form action="/login.user" method="post">
+                                <div class="col-12 signInput">
+                                  <input type="text" placeholder="Input ID" class="inputId" name="id" id="inputId">
+                                  <input type="password" placeholder="Input PW" class="inputPw" name="pw" id="inputPw">
+                                </div>
+                                <div class="row">
+                                  <div class="col-6 sign">
+                                    <button type="button" class="signBtns" id="loginBtn">로그인</button>
+                                  </div>
+                                  <div class="col-6 sign">
+                                    <a href="/signupPage.user"><button type="button"
+                                        class="signBtns signUp">회원가입</button></a>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                          </li>
+
+                          <!-- 로그인 밑 캐러셀 -->
+
+                          <li class="nav-item" id="sideC">
+                            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                              <div class="carousel-inner sideCBackBox">
+                                <div class="sideCBack">PlaceHolder</div>
+                                <div class="carousel-item active">
+                                  <img src="/semi-img/sideC1.jpg" class="d-block w-100" alt="여행을 해보세요">
+                                </div>
+                                <div class="carousel-item">
+                                  <img src="/semi-img/sideC2.jpg" class="d-block w-100" alt="나만의 공간">
+                                </div>
+                                <div class="carousel-item">
+                                  <img src="/semi-img/sideC3.jpg" class="d-block w-100" alt="PlaceHolder">
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+
+                        </c:otherwise>
+                      </c:choose>
+                      <li class="nav-item nav-banner">
+                        <a href="/main.home"><button type="button" class="sideBanner">처음으로</button></a>
+                      </li>
+                      <li class="nav-item nav-banner">
+                        <a href="/articleList.article"><button type="button" class="sideBanner">자유게시판</button></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+          <!-- 사이드바 코드 끝 -->
 
 				<div class="row" id="banner">
 					<div class="col-2 goHome bannerIn">
@@ -180,32 +227,32 @@
 				<div class="container" style="text-align: center;">
 					<div class="row top"
 						style="text-align: center; line-height: 40px; width: 100%; background-color: rgb(226, 242, 255);">
-						<div class="col-3">
+						<span style = "width: 35%;">
 							<b>이름</b>
-						</div>
-						<div class="col-3">
+						</span>
+						<span style = "width:15%">
 							<b>전화번호</b>
-						</div>
-						<div class="col-4">
+						</span>
+						<span style = "width: 35%;">
 							<b>위치</b>
-						</div>
-						<div class="col-2">
+						</span>
+						<span style = "width: 15%;">
 							<b>별점</b>
-						</div>
+						</span>
 					</div>
 
 					<c:forEach var="list" items="${hotelList}">
 						<div class="row"
 							style="text-align: center; line-height: 30px; width: 100%;">
-							<div class="col-3" style="overflow: hidden;">${list.hotelName}</div>
-							<div class="col-3">${list.hotelPhone}</div>
-							<div class="col-4">${list.hotelRoadAddress}</div>
-							<div class="col-2">${list.hotelScore}
+							<span style = "width: 35%;">${list.hotelName}</span>
+							<span style = "width: 15%;">${list.hotelPhone}</span>
+							<span style = "width: 35%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">${list.hotelRoadAddress}</span>
+							<span style = "width: 15%;">${list.hotelScore}
 								<a href="/hotelDelete.admin?hotelId=${list.hotelId}"
 									style="text-decoration-line: none;"> <input type="button"
 									value="추방" class="btn"
 									style="background-color: rgb(236, 249, 255);"></a>
-							</div>
+							</span>
 						</div>
 					</c:forEach>
 					<hr class="bannerHr">
@@ -225,11 +272,11 @@
 									<div class="col-6 footer-right">
 										<ul class="foot-ul-blog">
 											<li><a
-												href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0">블로그</a>
+												href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0" target='_blank'>블로그</a>
 											</li>
-											<li><a href="footer.jsp">이용약관</a></li>
-											<li><a href="footer2.jsp">개인정보처리방침</a></li>
-											<li><a href="">고객 문의</a></li>
+											<li><a href="/footer.jsp" target='_blank'>이용약관</a></li>
+											<li><a href="/footer2.jsp" target='_blank'>개인정보처리방침</a></li>
+											<li><a href="/inquiryList.qna">고객 문의</a></li>
 										</ul>
 									</div>
 								</div>
@@ -289,6 +336,107 @@
 		</div>
 
 		<script> 
+			// 사이드바 관련 스크립트 시작
+        $("#loginBtn").on("click", () => {
+          let logId = $("#inputId").val();
+          let logPw = $("#inputPw").val();
+          $.ajax({
+            type: "POST",
+            url: "/login.user",
+            data: {
+              "id": logId,
+              "pw": logPw
+            }
+          }).done(function (res) {
+            if (res == 'true') {
+              if (logId == 'admin00') {
+                console.log("어드민 로그인");
+                location.href = "/user.admin";
+              } else {
+                alert(`\${logId}님 환영합니다.`);
+                location.reload();
+              }
+            } else if (res == 'false') {
+              alert("아이디와 비밀번호를 확인해주세요.");
+            }
+          })
+        })
+
+        $(".signUp").on("click", function () {
+          location.href = "/signupPage.user";
+        })
+
+        // 빠른 예약 select box 함수 ***** 현우 : 호텔 select box
+        let selectBoxChange = function (value) {
+          console.log(value);
+          $("#sideHotelId").val(value);
+        }
+        // 룸 타입 selectbox 함수
+        let selectRoomChange = function (value) {
+          console.log(value);
+          $("#revRoomType").val(value);
+        }
+
+        $(".logOut").on("click", () => {
+          alert("로그아웃 되었습니다.");
+        })
+
+        // 체크인 체크아웃 날짜 확인
+        function onChange(){
+        	
+        	let checkIn = new Date(document.getElementById("speedRevIn").value);
+        	let checkOut = new Date(document.getElementById("speedRevOut").value);
+        	console.log(checkIn + '' +checkOut);
+        	if(checkOut <= checkIn){
+        		alert("체크아웃은 체크인 날짜 다음날부터 가능합니다.");
+        		$("#speedRevOut").val("");
+        	}
+        }
+        
+        // 예약 제출 전
+        $("#sideReserveBtn").on("click", function () {
+          let hotelId = document.getElementById("sideHotelId").value;
+          let checkIn = document.getElementById("speedRevIn").value;
+          let checkOut = document.getElementById("speedRevOut").value;
+          let revRoomType = document.getElementById("revRoomType").value;
+          let revQuantity = document.getElementById("revQuantity").value;
+          let addPrice = document.getElementById("addPrice").value;
+
+          console.log(checkIn + checkOut + revRoomType + revQuantity + addPrice);
+			if(hotelId == ''){
+				alert("호텔을 선택해주세요");
+        }else if (checkIn == '' || checkOut == '') {
+            alert("체크인, 체크아웃 날짜를 입력해주세요");
+            return false;
+          } else if (checkIn >= checkOut) {
+            alert("체크아웃 날짜는 체크인 다음날부터 가능합니다.");
+            return false;
+          } else if (revRoomType == '') {
+            alert("방 타입을 선택해주세요.");
+            return false;
+          } else if (revQuantity == '') {
+            alert("방 개수를 선택해주세요.");
+            return false;
+          } else if (addPrice == '') {
+            alert("방 1개 당 인원을 선택해주세요.");
+            return false;
+          } else {
+            if (confirm("예약 하시겠습니까?")) {
+              alert("예약이 완료되었습니다.");
+              $("#form").submit();
+            }
+          }
+        })
+
+        // 관리자 이동버튼
+        $("#adminBtn").on("click", () => {
+          location.href = "/user.admin";
+        })
+
+        // 사이드바 관련 스크립트 끝
+
+
+
       //유저관리로 이동
       document.querySelector("#goUser").addEventListener("click", function () {
           location.href = "/user.admin";
@@ -321,6 +469,11 @@
         searchBtn.addEventListener("click", function () { // 검색버튼을 누를때 option의 값을 빼냄
           let searchTxt = document.querySelector(".detailSearch").value; // 검색창 value값 추출
           location.href = "/hotelSearch.admin?Keyword=" + searchTxt; // get으로 검색값 전달
+        })
+
+        document.getElementById("topSearchBtn").addEventListener("click", () => {
+          let keyword = document.getElementById("topSearch").value;
+          location.href = "/listSearch.hotel?option=이름" + "&Keyword=" + keyword;
         })
     
       </script>

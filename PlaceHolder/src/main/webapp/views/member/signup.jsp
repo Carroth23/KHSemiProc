@@ -9,6 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PlaceHolder회원가입</title>
+<link rel="shortcut icon" type="image/x-icon" href="/semi-img/favicon.ico" />
 <!-- 지도 API -->
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -163,6 +164,8 @@
 				<!-- 가입하기  -->
 				<div class="signupBox">
 					<input type=submit value="가입하기" id="signup-btn">
+                    <input type=button value="ID를 확인해주세요" id="signup2-btn">
+                    <input type=button value="가입하기" id="signup3-btn">
 				</div>
 				<br>
 		</form>
@@ -171,16 +174,16 @@
 		<div class="signupBox" id="footer-background">
 			<div class="row">
 				<div class="col-2 footers">
-					<a href="">이용약관</a>
+					<a href="/footer.jsp">이용약관</a>
 				</div>
 				<div class="col-3 footers">
-					<a href="">개인정보처리방침</a>
+					<a href="/footer2.jsp">개인정보처리방침</a>
 				</div>
 				<div class="col-4 footers">
-					<a href="">책임의 한계와 법적고지</a>
+					<a href="/footer2.jsp">책임의 한계와 법적고지</a>
 				</div>
 				<div class="col-3 footers">
-					<a href="">회원정보 고객센터</a>
+					<a href="/inquiryList.qna">고객센터</a>
 				</div>
 			</div>
 			<br>
@@ -220,21 +223,35 @@
  					if(resp=="true"){ 						
  						$("#idRegex").html("사용할 수 없는 ID입니다.");
  		                $("#idRegex").css("color", "red");
-                        // 버튼 타입 버튼 만들고
-                        // alert(아이디를 다시 입력해주세요)		                 						
+                        $("#signup-btn").css("display","none");
+                        $("#signup2-btn").css("display","inline");
+                        $("#signup3-btn").css("display","none");		                 						
  					}else{
  						let idRegex = /^[a-z][a-zA-Z\d]{4,9}$/;
 				        let idResult = idRegex.test($("#id").val());
  						if (!idResult) { 							
  			                $("#idRegex").html("첫글자 : 영어소문자 / 영어,숫자(5~10글자)로 입력바랍니다.");
  			                $("#idRegex").css("color", "red");
+                            $("#signup-btn").css("display","none");
+                            $("#signup2-btn").css("display","inline");
+                            $("#signup3-btn").css("display","none");
  			            } else {
  			            	$("#idRegex").html("사용가능한 ID입니다.")
  	 		                $("#idRegex").css("color", "blue");
-                            // 버튼 타입 서브밋으로 변경
+                            $("#signup-btn").css("display","inline");
+                            $("#signup2-btn").css("display","none");
+                            $("#signup3-btn").css("display","none");
  			            } 						
  					}
  				});
+      })
+
+      $("#signup2-btn").on("click", () => {
+          alert("ID를 확인해주세요.");
+      })
+
+      $("#signup3-btn").on("click", () => {
+          alert("양식을 작성해주세요.");
       })
         
 
@@ -265,12 +282,16 @@
                 $("#nameRegex").html("한글 또는 영어 2글자 이상 필요합니다");
                 $("#nameRegex").css("color", "red");
             } else {
-                $("#nameRegex").html("ID 양식[확인완료]")
+                $("#nameRegex").html("이름 [확인완료]")
                 $("#nameRegex").css("color", "green");
             }
             if ($("#name").val() == "") {
                 $("#nameRegex").html("");
             }
+        })
+
+        $("#footer-img").on("click", () => {
+            location.href="/main.home";
         })
 
         // 패스워드 검사
@@ -374,7 +395,7 @@
         // <FORM> 태그 페이지 이동 막기
         form.on("submit", function () {  	        	
 
-            let idRegex = /^[a-z][a-z0-9]{5,9}$/g;
+            let idRegex = /^[a-z][a-z0-9]{4,9}$/g;
             let idResult = idRegex.test(id.val());
             if (!idResult) {
                 alert("첫글자 : 영어소문자 / 영어,숫자(5~10글자)로 입력바랍니다.")
@@ -403,7 +424,7 @@
             let rpwRegex = /[a-z0-9]{4,12}/g;
             let rpwResult = rpwRegex.test(rpw.val());
             if (!rpwResult) {
-                alert("패스워드확인을 제대로 입력해주세요.")
+                alert("패스워드확인을 입력해주세요.")
                 rpw.val("");
                 rpw.focus();
                 return false;
@@ -412,7 +433,7 @@
             let emailRegex = /.+?@.+?\.com/g;
             let emailResult = emailRegex.test(email.val());
             if (!emailResult) {
-                alert("이메일을 제대로 입력하세요.")
+                alert("이메일을 확인해 주세요.")
                 email.val("");
                 email.focus();
                 return false;
@@ -430,11 +451,33 @@
             let phoneRegex = /010[0-9]{8}$/;
             let phoneResult = phoneRegex.test(phone.val());
             if (!phoneResult) {
-                alert("전화번호를 제대로 입력해주세요.")
+                alert("전화번호를 확인해 주세요.")
                 phone.val("");
                 phone.focus();
                 return false;
             }
+
+            if(document.getElementById("nickname").value == ''){
+               alert("닉네임을 입력해 주세요.");
+               return false;
+            }
+
+            if(document.getElementById("ad").value == ''){
+               alert("주소를 입력해 주세요.");
+               return false;
+            }
+
+            if(document.getElementById("ad1").value == ''){
+               alert("주소를 입력해 주세요.");
+               return false;
+            }
+
+            if(document.getElementById("ad2").value == ''){
+               alert("주소를 입력해 주세요.");
+               return false;
+            }
+            
+            alert("PLACEHOLDER 회원이 되신것을 환영합니다!")
         })
 
         document.getElementById("find").onclick = function () {

@@ -190,9 +190,12 @@
   }
 
   .loginMent {
-      text-align: center;
-      margin-top: 10px;
-  }
+    text-align: center;
+    margin-top: 10px;
+    font-size:16;
+    font-weight: bold;
+    color:rgb(114, 114, 114);
+}
 
 
 
@@ -260,41 +263,70 @@
   #sideC{
     margin-bottom:20px;
   }
+  .sideFontS{
+    font-size:11px;
+    font-weight: bold;
+    color:gray;
+  }
+
   /* 로그인사이드바 끝 */
       
   
       /* 위 배너 */
       #banner{
         width:100%;
-        height:60px;
       }
       .bannerIn{
         width:20%;
-        height:100%;
-        background-color:#C6E2FF;
-        border-radius: 5px;
-        border:1px solid white;
-        transition:all 0.5s;
-        box-shadow: 1px 1px 3px 1px #e0e0e0;
+        background:#C6E2FF;
+        color:#fff;
+        border:none;
+        position:relative;
+        height:50px;
+        line-height: 50px;
+        font-size:16px;
+        padding:0 2em;
+        cursor:pointer;
+        transition:800ms ease all;
+        outline:none;
       }
+      .bannerIn:first-child{border-radius: 5px 0 0 5px;}
+      .bannerIn:last-child{border-radius: 0 5px 5px 0;}
+      .bannerIn:hover{
+        background:#fff;
+        color:#C6E2FF;
+      }
+      .bannerIn:before,.bannerIn:after{
+        content:'';
+        position:absolute;
+        top:0;
+        right:0;
+        height:2px;
+        width:0;
+        background: #C6E2FF;
+        transition:400ms ease all;
+      }
+      .bannerIn:after{
+        right:inherit;
+        top:inherit;
+        left:0;
+        bottom:0;
+      }
+      .bannerIn:hover:before,.bannerIn:hover:after{
+        width:100%;
+        transition:800ms ease all;
+      }
+
       .bannerIn p{
         color:	#4f5a66;
         font-weight:bold;
         font-size:18px;
         text-align: center;
-        line-height:60px;
+        line-height:50px;
         transition:all 0.5s;
       }
       .bannerIn a {
         text-decoration: none;
-      }
-      .bannerIn:hover{
-        border:1px solid gray;
-        cursor: pointer;
-        background-color: #0a75ad;
-      }
-      .bannerIn:hover p{
-        color:white;
       }
 
       /* 배너 밑 검색박스 */
@@ -342,8 +374,8 @@
         height:45px;
         border-radius: 5px;
         background-color: #ffffff;
-        border:1px solid rgb(185, 185, 185);
-        box-shadow: 1px 1px 2px 1px rgb(238, 238, 238);
+        border:1px solid rgb(212, 212, 212);
+        box-shadow: 1px 1px 2px 1px rgb(243, 243, 243);
         color:#333333;
         font-weight: bold;
         font-size:18px;
@@ -351,9 +383,7 @@
       }
 
       .detailSearchBtn:hover{
-        background-color:#8392e4;
-        border:none;
-        color:white;
+        box-shadow: 1px 1px 1px 1px rgb(212, 212, 212);
       }
 
       /* 리스트 콘텐츠 시작 */
@@ -451,7 +481,7 @@
         width:100%;
         height:120px;
         font-size:13px;
-        overflow: hidden;
+        overflow: auto;
         display: -webkit-box;
         -webkit-line-clamp: 6;
         -webkit-box-orient: vertical; 
@@ -596,6 +626,19 @@
       margin:10px;
     }
 
+    @media screen and (max-width: 1400px){
+      .detailBox{
+        width:100%;
+        height:320px;
+        background-color:white;
+        margin:0 auto;
+        border-radius: 5px;
+        margin-bottom:10px;
+        border:1px solid rgb(201, 201, 201);
+        transition: all 0.3s;
+      }
+    }
+
     @media screen and (max-width: 1200px){
 
       .detailBox{
@@ -606,6 +649,11 @@
       hr{
         width:70%;
       }
+
+      .detailtxt{
+        height:70px;
+      }
+
       /* 호텔사진 */
       .hotelDetailPhoto{
         width:200px;
@@ -642,52 +690,95 @@
         top:100px;
         right:0px;
       }
+      .bannerIn p{
+        font-size:15px;
+      }
+
+      .reservationGo{
+        right:-20px;
+      }
       /* 예약하기버튼 */
+    }
+    @media screen and (max-width: 1000px){
+      /* 별점 */
+      .bannerIn p{
+        font-size:12px;
+        width:68px;
+      }
+      #detailBox{
+        position:relative;
+      }
+      .star{
+        position:absolute;
+        bottom:0px;
+        left:300px;
+      }
+      .zzimUp{
+        position:absolute;
+        bottom:15px;
+        right:50px;
+      }
+
+      #detailtxt{
+        display:none;
+      }
     }
 
 @media screen and (max-width: 800px) { /* 모바일 전용 */
     .bannerIn{
       width:100%;
     }
+    .bannerIn p{
+      font-size:12px;
+      width:100%;
+    }
     .bannerSearch{
-      margin-top:250px;
+      margin-top:30px;
     }
     .searchInput {
-
       width:100%;
-
+    }
+    .zzimUp{
+      position:absolute;
+      bottom:60px;
+      right:50px;
+    }
+    .navbar-toggler{
+      position: absolute;
+      left:0;
+    }
+    .navbar-toggler{
+      margin-left:250px;
     }
 
     .detailBox{
-      width:100%;
+      width:450px;
+      height:450px;
+    }
+    .detailCaption{
+      position:absolute;
+      top:210px;
+      left:-50px;
     }
 
     /* 호텔사진 */
     .hotelDetailPhoto{
-      width:200px;
+      width:300px;
       height:200px;
       margin-top:30px;
     }
 
      /* 호텔옵션창 */
      .hotelOption{
-      width:60%;
+      width:40%;
     }
-
-    /* 좋아요 */
-    #heart {
-      position:absolute;
-      text-align: left;
-      right:30px;
-    }
-
 
     /* 호텔설명 */
     .detailtxt{
       width:90%;
       display:none;
     }
-
+    .throwE{display:none;}
     .resBtn{
       position:absolute;
       bottom:10px;
@@ -696,9 +787,25 @@
     /* 예약하기버튼 */
     .reservationGo{
       position: absolute;
-      bottom:10px;
-      right:80px;
+      top:-30px;
+      bottom:70px;
+      right:10px;
+    }
+    .star{
+      position:absolute;
+      bottom:44px;
+      left:210px;
+    }
+    .detailSearch{
+      width:80%;
+      margin-left:25px;
     }
 
 
+}
+
+@media screen and (max-width: 500px) {
+  .navbar-toggler{
+    margin-left:170px;
+  }
 }

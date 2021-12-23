@@ -1,5 +1,3 @@
-@charset "UTF-8";
-
 @charset "utf-8";
 
     /* 기본 설정 사항 */
@@ -19,7 +17,7 @@
         width:90%;
       }
   
-      /* 헤더부분 시작 */
+ /* 헤더부분 시작 */
   /* header */
   .header{
     margin-bottom:30px;
@@ -265,7 +263,6 @@
   #sideC{
     margin-bottom:20px;
   }
-
   .sideFontS{
     font-size:11px;
     font-weight: bold;
@@ -274,89 +271,123 @@
 
 
   /* 로그인사이드바 끝 */
-	
-		/* 	title bar */
-		.title{text-align:center; height:150px;}
-		#title1{font-size: xx-large; font-weight: 800; border:1px solid black;}
-		#title2{font-size: x-large; font-weight: 600;}
       
+  
       /* 위 배너 */
-      #banner{width:100%; height:60px; margin:0px;}
+      #banner{
+        width:100%;
+        height:60px;
+      }
       .bannerIn{
-        width:20%;        
+        width:20%;
         height:100%;
         background-color:#C6E2FF;
         border-radius: 5px;
         border:1px solid white;
         transition:all 0.5s;
-        box-shadow: 1px 1px 3px 1px #e0e0e0;}
+        box-shadow: 1px 1px 3px 1px #e0e0e0;
+      }
       .bannerIn p{
         color:	#4f5a66;
         font-weight:bold;
         font-size:18px;
         text-align: center;
         line-height:60px;
-        transition:all 0.5s;}
-      .bannerIn a {text-decoration: none;}
+        transition:all 0.5s;
+      }
+      .bannerIn a {
+        text-decoration: none;
+      }
       .bannerIn:hover{
         border:1px solid gray;
         cursor: pointer;
-        background-color: #0a75ad;}
-      .bannerIn:hover p{color:white;}
+        background-color: #0a75ad;
+      }
+      .bannerIn:hover p{
+        color:white;
+      }
 
       /* 배너 밑 검색박스 */
       #searchOption{
-        width: 80px;
-        height:40px;
-        margin-left:45px;
-        margin-top:5px;
+        width: 70px;
+        height:43px;
+        margin-left:10px;
+        margin-top:3px;
         border-radius: 3px;
-        text-align:center;
-        transition: all 0.3s;}
+        transition: all 0.3s;
+      }
       #searchOption:hover{
         cursor:pointer;
-        background-color: rgb(240, 240, 247);}
+        border:1px solid blue;
+      }
 
-      /* 찜목록 */
-      #likeListBtn{
-        width:60px;
-        height:40px;
-        border:1px solid gray;
-        background-color: white;
-        border-radius: 3px;
-        margin-left: 10px;
-        transition: all 0.3s;}
-      #likeListBtn:hover{background-color: snow;}
+      .bannerSearch{
+        margin-top:20px;
+        margin-bottom:30px;
+      }
 
-      .bannerSearch{margin-top:20px; margin-bottom:30px;}
       .detailSearch{
         width:100%;
         padding-left:15px;
         height:45px;
         border-radius: 5px;
-        border:2px solid #0a75ad;}
+        border:2px solid #0a75ad;
+      }
+
+      /* 보드 전체 */
+      .middle{
+        text-align: center;
+        transition: all 0.1s;
+        width:100%;
+        height:30px;
+        padding:0;
+        margin:0;
+        line-height: 30px;
+      }
+      .middle:hover{
+        background-color: rgb(248, 248, 248);
+      }
+
+      .title{text-align: left;}
+      .titles{text-align: center;}
+      /* 중간라인 좁히기 */
+      .bannerHr{
+        margin:0;
+        padding:0;
+      }
+      .postTitles{
+        text-decoration: none;
+        color:rgb(100, 100, 100);
+      }
+      .postTitles:hover{
+        border-bottom:1px solid gray;
+        color:rgb(100, 100, 100);
+      }
+
+      /* 글쓰기버튼 옆으로 밀기 */
+      .searchBtnBar{
+        margin-right: 50px;
+      }
 
       .detailSearchBtn{
         width:75px;
-        height:42px;
+        height:45px;
         border-radius: 5px;
-        background-color: #deebf3;
-        border:none;
-        box-shadow: 1px 1px 3px 1px gray;
+        background-color: #ffffff;
+        border:1px solid rgb(212, 212, 212);
+        box-shadow: 1px 1px 2px 1px rgb(243, 243, 243);
         color:#333333;
         font-weight: bold;
-        font-size:18px;
-        transition:all 0.3s;}
+        font-size:17px;
+        transition:all 0.3s;
+      }
 
       .detailSearchBtn:hover{
-        background-color:#8392e4;
-        border:none;
-        color:white;}
+        box-shadow: 1px 1px 1px 1px rgb(212, 212, 212);
+      }
+
 
       /* 리스트 콘텐츠 시작 */
-      /* 호텔아이디 안보이게 */
-      #hotelId{display: none;}
-      .hotelId{display: none;}
 
       .detailBox{
         width:90%;
@@ -366,129 +397,35 @@
         border-radius: 5px;
         margin-bottom:10px;
         border:1px solid rgb(201, 201, 201);
-        transition: all 0.3s;}
-      .detailBox:hover{background-color:rgb(249, 253, 255);}
-
-      /* 호텔사진 */
-      .hotelDetailPhoto{
-        width:280px;
-        height:250px;
-        margin-top:30px;}
-
-
-      /* 호텔설명칸 */
-      .detailCaption{
-        width:600px;
-        height:300px;
-        margin-left:70px;
-        margin-top:10px;}
-      
-      /* 별점 */
-      .star{padding-top:20px;}
-      .star img{width:20px; height:20px;}
-
-      /* 좋아요 */
-      .heartBox {
-        width: 30px;
-        height: 30px;
-        border:none;
-        margin-top:20px;
-        transition: all 0.5s;
-        cursor: pointer;}
-      /* 좋아요 값 전달을 위한 none */
-      .heartNone{display:none;}
-
-
-
-      /* 호텔이름 */
-      .hotelName p:first-child{font-size:20px;}
-      .hotelName{margin-top:20px;}
-      hr{margin:0;}
-      .detailBox{margin-top:30px;}
-
-      /* 호텔옵션창 */
-      .hotelOption{
-        margin-top:10px;
-        width:80%;
-        height:40px;
-        border:1px solid #E6E6FA;
-        background-color: white;
-        transition:all 0.3s;
-        border-radius: 3px;
-        box-shadow: 1px 1px 1px 1px white;
-        margin-bottom: 10px;}
-      .hotelOption:hover{
-        background-color:#f2f2fc;
-        cursor:pointer;}
-
-      /* 호텔설명 */
-      .detailtxt{
-        width:100%;
-        height:120px;
-        font-size:13px;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 6;
-        -webkit-box-orient: vertical;}
-
-      .resBtn{text-align: right;}
-      .zzimUp{position:relative;}
-      
-      
-      
-      /* 예약하기버튼 */
-      .reservationGo{
-        border-radius: 8px;
-        width:80px;
-        height:35px;
-        background-color: #fbefdf;
-        border:1px solid white;
-        box-shadow: 1px 1px 2px 1px #DDDDDD;
         transition: all 0.3s;
-        position:absolute;
-        top: 17px;
-        right:0;}
+      }
+      .detailBox:hover{
+        background-color:rgb(251, 253, 255);
+        box-shadow: 1px 1px 3px 1px rgb(247, 247, 247);
+      }
 
-      .reservationGo:hover{
-        border:1px solid #e5c4a6;
-        background-color: #ffddc0;
-        color:#133337;}
-        
-		/* 고객센터 board */
-		#writeTitle{
-      background-color:#c6e1ff6b;
-      height: 50px;
-      line-height: 50px;
-      border-radius: 3px;
-/*       border:1px solid rgba(0, 0, 0, 0.445); */}
-/*       .writeTitle{ */
-/*       background-color:#c6e1ff6b; */
-/*       height: 50px; */
-/*       line-height: 50px; */
-/*       border-radius: 5px; */
-/*       border:1px solid rgba(0, 0, 0, 0.445);      }  */
-      
-      .writeContents{
-      height:70px;
-      line-height:70px;
-      background-color: rgba(5, 20, 105, 0.205);}    
 
       /* 더보기 버튼 */
       #readMore{
-        width:80px;
-        height:40px;
+        width:70px;
+        height:35px;
         border:none;
+        margin:auto;
+        color:rgb(90, 90, 90);
         border-radius: 5px;
         background-color: white;
         transition: all 0.3s;
-        margin-top:10px;}
-      #readMore:hover{background-color: ivory;}      
+        margin-top:10px;
+      }
+      #readMore:hover{
+        background-color:whitesmoke;
+      }
 
 
       /* 푸터 시작 */
-    #footerIn {margin: auto;}
-    
-    
+    #footerIn {
+      margin: auto;
+    }
 
     /* 푸터 placeholder 로고 */
     .fot_logo {
@@ -499,139 +436,157 @@
       background-image: url(/semi-img/logos.png);
       display: block;
       background-size: cover;
-      top: 50px;}
-    
-    
+      top: 50px;
+    }
 
     /* place로고 오른쪽 블로그 글씨들 */
     .foot-ul-blog li {
       float: left;
       margin: 5px;
-      margin-top: 30px;}
+      margin-top: 30px;
+    }
 
     .foot-ul-blog li a {
       text-decoration: none;
       color: #666666;
       font-weight: 700;
-      font-size: 14px;}
-    .foot-ul-blog li a:hover{color: #333333;}
-    
-    
+      font-size: 14px;
+    }
+    .foot-ul-blog li a:hover{
+      color: #333333;
+    }
 
     /* 푸터 로고들 */
-    .foot-logos>li {float: left; margin: 3px;}
+    .foot-logos>li {
+      float: left;
+      margin: 3px;
+    }
     .foot-logos>li a{transition:all 0.3s}
-    .foot-logos>li a:hover{opacity: 0.9;}
+    .foot-logos>li a:hover{
+      opacity: 0.9;
+    }
 
     .nblog {
       width: 30px;
       height: 30px;
       background-image: url(/semi-img/nblog.png);
       background-size: cover;
-      display: block;}
+      display: block;
+    }
 
     .twitter {
       width: 30px;
       height: 30px;
       background-image: url(/semi-img/twitter.png);
       background-size: cover;
-      display: block;}
+      display: block;
+    }
 
     .instargram {
       width: 30px;
       height: 30px;
       background-image: url(/semi-img/instargram.png);
       background-size: cover;
-      display: block;}
+      display: block;
+    }
 
     .facebook {
       width: 30px;
       height: 30px;
       background-image: url(/semi-img/facebook.png);
       background-size: cover;
-      display: block;}
+      display: block;
+    }
 
     /* 푸터 상호명등 */
     .foot-sangho li {
       font-size: 13px;
-      color: #696969;}
+      color: #696969;
+    }
 
     .foot-sangho-a {
       text-decoration: none;
       font-weight: 700;
-      color: #545454;}
+      color: #545454;
+    }
 
     /* 푸터 Copyright */
-    .foot_caution {font-size: 9px;}
-    .bottomHr{margin:10px;}
+    .foot_caution {
+      font-size: 9px;
+    }
+
+    .bottomHr{
+      margin:10px;
+    }
 
     @media screen and (max-width: 1200px){
+
       .detailBox{
         width:100%;
         height:270px;
-        position:relative;}
-      hr{width:70%;}
-      /* 호텔사진 */
-      .hotelDetailPhoto{
-        width:200px;
-        height:200px;
-        margin-top:30px;}
-
-      /* 호텔설명칸 */
-      .detailCaption{width:450px; height:250px;}
-
-      /* 호텔이름 */
-      .hotelName p{font-size:20px;}
-      .hotelName{margin-top:20px;}
-
-      /* 호텔옵션창 */
-      .hotelOption{width:80%;}
-
-      /* 호텔설명 */
-      .detailtxt{width:90%;}
-
+        position:relative;
+      }
+      
       .resBtn{
         position:absolute;
         top:100px;
         right:0px;
       }
-      /* 예약하기버튼 */
+      .detailSearch{
+        margin-left:50px;
+        width:400px;
+      }
     }
 
+@media screen and (max-width: 1000px) {
+  .detailSearch{
+    margin-left:50px;
+    width:320px;
+  }
+  .date{
+    display:none;
+  }
+}
+
 @media screen and (max-width: 800px) { /* 모바일 전용 */
-    .bannerIn{width:100%;}
-    .bannerSearch{margin-top:250px;}
-    .searchInput {width:100%;}
+    .bannerIn{
+      width:100%;
+    }
+    .bannerSearch{
+      margin-top:250px;
+    }
+    .searchInput {
+      width:100%;
+    }
 
-    .detailBox{width:100%;}
+    .detailBox{
+      width:100%;
+    }
+    @media screen and (max-width: 758px) {
+      #topSearch{
+        margin-left:50px;
+        width:160px;
+      }
+      .detailSearch{
+        width:230px;
+      }
+      .container{
+        width:758px;
+      }
+    }
+    @media screen and (max-width: 576px) {
+      .container{
+        width:406px;
+      }
+      .detailSearch{
+        width:200px;
+      }
+      .throwE{display:none;}
+      .navbar-toggler{
+        margin-left:200px;
+      }
+    }
+    
 
-    /* 호텔사진 */
-    .hotelDetailPhoto{
-      width:200px;
-      height:200px;
-      margin-top:30px;}
 
-     /* 호텔옵션창 */
-     .hotelOption{width:60%;}
-
-    /* 좋아요 */
-    #heart {
-      position:absolute;
-      text-align: left;
-      right:30px;}
-
-
-    /* 호텔설명 */
-    .detailtxt{width:90%; display:none;}
-
-    .resBtn{
-      position:absolute;
-      bottom:10px;
-      right:0px;}
-      
-    /* 예약하기버튼 */
-    .reservationGo{
-      position: absolute;
-      bottom:10px;
-      right:80px;}
 }

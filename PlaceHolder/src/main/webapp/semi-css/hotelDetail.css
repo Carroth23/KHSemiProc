@@ -28,7 +28,7 @@
   }
   #logo {
       width: 140px;
-      height: 80px;
+      height: 84px;
   }
 
   /* 아마 햄버거는 여기부터 */
@@ -193,9 +193,12 @@
   }
 
   .loginMent {
-      text-align: center;
-      margin-top: 10px;
-  }
+    text-align: center;
+    margin-top: 10px;
+    font-size:16;
+    font-weight: bold;
+    color:rgb(114, 114, 114);
+}
 
 
 
@@ -263,6 +266,12 @@
   #sideC{
     margin-bottom:20px;
   }
+  .sideFontS{
+    font-size:11px;
+    font-weight: bold;
+    color:gray;
+  }
+
   /* 로그인사이드바 끝 */
 
 
@@ -505,6 +514,10 @@
   }
 
   /* 카카오 지도 */
+  #map{
+    width: 500px;
+    height: 320px;
+  }
   #infoWin{
     padding:5px;
     display: block;
@@ -760,7 +773,6 @@
       width:510px;
       height:350px;
       margin-left:40px;
-      background-color: #f3f9ff;
       border-radius: 5px;
       padding-top:30px;
       padding-left: 30px;
@@ -817,11 +829,84 @@
     .roomInfoBox{
       height:450px;
     }
+    #map{
+      width: 360px;
+      height: 270px;
+    }
   }
 
-  @media screen and (max-width: 800px){
-
+  @media screen and (max-width: 768px){
+    .bannerIn{
+      width:100%;
+    }
+    .mainPhoto{
+      margin-top: 260px;
+    }
     .stickyBanner{
       width:100%;
     }
+    .slick-prev{
+      bottom:40px;
+      right:220px;
+
+    }
+    .slick-next{
+      bottom:40px;
+      left:220px;
+    }
+
+    .bannerIn>p{
+      font-size:18px;
+    }
+    #topSearch{
+      width:70%;
+      margin-left:20px;
+    }
+    .roomInfoBox{width:500px;}
+    .roomInfo{
+      font-size:14px;
+    }
+    .roomDate{
+      font-size: 14px;
+      width:270px;
+    }
+    .bannerIn{
+      display: block;
+    }
+    #map{
+      width: 260px;
+      height: 210px;
+    }
   }
+  @media screen and (max-width: 580px){
+    .slick-prev{
+      bottom:20px;
+      right:180px;
+
+    }
+    .slick-next{
+      bottom:20px;
+      left:180px;
+    }
+  }
+
+  @media screen and (max-width: 558px){
+    #topSearch{
+      width:60%;
+      margin-left:40px;
+    }
+    #share{display:none;}
+    .mainInfo{
+      height:400px;
+    }
+    .slick-prev{
+      bottom:30px;
+      right:160px;
+
+    }
+    .slick-next{
+      bottom:30px;
+      left:160px;
+    }
+  }
+

@@ -1,6 +1,7 @@
 package dto;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class ArticleDTO {
 	private int postId;
@@ -61,5 +62,4 @@ public class ArticleDTO {
 	public void setPostModified(Date postModified) {
 		this.postModified = postModified;
 	}
-	
 }

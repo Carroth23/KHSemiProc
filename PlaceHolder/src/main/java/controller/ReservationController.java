@@ -13,10 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import dao.HotelDAO;
+import dao.ImgFileDAO;
 import dao.ReservationDAO;
 import dao.RoomDAO;
 import dao.UserDAO;
 import dto.HotelDTO;
+import dto.HotelImgDTO;
+import dto.HotelLikeImgDTO;
 import dto.ReservationDTO;
 import dto.RoomDTO;
 import tool.DateChangerToSql;
@@ -46,6 +49,11 @@ public class ReservationController extends HttpServlet {
 
 		// Import HotelDAO
 		HotelDAO hotelDao = HotelDAO.getInstance();
+
+		// Import imgFileDAO
+		ImgFileDAO idao = ImgFileDAO.getInstance();
+
+		HotelDAO hdao = HotelDAO.getInstance();
 
 		// Import Gson
 		Gson g = new Gson();
@@ -122,7 +130,10 @@ public class ReservationController extends HttpServlet {
 
 				// 2. User가 요청했을 때 확정된 예약 정보를 불러오는 기능	
 			}else if(cmd.equals("/viewReservationList.book")) {
-
+				// 빠른예약 기능 모든 호텔 정보 넣어주기 진규추가
+	            List<HotelLikeImgDTO> hotelListS = hdao.selectHotel();
+	            request.setAttribute("hotelListS", hotelListS);
+	            
 				// Session 값 활용해서 User의 예약 현황 조회하기
 				List<ReservationDTO> reservDto = reservDao.viewCurrentReservation(loginId); // session 값 활용하기
 
@@ -133,7 +144,14 @@ public class ReservationController extends HttpServlet {
 				String result = g.toJson(reservDto);
 				response.getWriter().append(result);
 
+				List<HotelImgDTO> hotelImgList = idao.imgList(reservDto);
+
+				// 현우 추가
+				List<HotelLikeImgDTO> hotelListAll = hdao.selectHotel();
+				request.setAttribute("hotelListAll", hotelListAll); // 현우추가
+
 				request.setAttribute("reserveList", reservDto);
+				request.setAttribute("hotelImgList", hotelImgList);
 				request.getRequestDispatcher("/views/member/mypage.jsp").forward(request, response);
 
 				// 3. 예약 수정하기 기능(Hotel Controller와 통신)	
@@ -188,7 +206,6 @@ public class ReservationController extends HttpServlet {
 
 				// 예약코드 받아오기
 				String revId = request.getParameter("revId"); // revId(예약코드)
-
 				// Reservation DB에서 예약코드에 해당하는 예약 삭제하기
 				int result = reservDao.cancelReservation(revId);
 

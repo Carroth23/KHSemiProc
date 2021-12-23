@@ -88,7 +88,7 @@ public class UserController extends HttpServlet {
 				}
 				String loginC = g.toJson(result);
 				response.getWriter().append(loginC);
-
+				
 			} else if (cmd.equals("/logout.user")) {
 				request.getSession().removeAttribute("loginId");
 				response.sendRedirect(request.getHeader("referer"));
@@ -98,7 +98,7 @@ public class UserController extends HttpServlet {
 				String User_id = (String) request.getSession().getAttribute("loginId");
 				dao.delete(User_id);
 				request.getSession().invalidate();
-				response.sendRedirect("/views/hotel/hotelMain.jsp");
+				response.sendRedirect("/main.home");
 
 				// 회원정보 열람
 			} else if (cmd.equals("/userInfo.user")) {
@@ -107,8 +107,8 @@ public class UserController extends HttpServlet {
 				UserDTO dto = dao.info(User_id);
 
 				// 빠른예약 기능 모든 호텔 정보 넣어주기 진규추가
-				List<HotelLikeImgDTO> hotelListS = hdao.selectHotel();
-				request.setAttribute("hotelListS", hotelListS);
+	            List<HotelLikeImgDTO> hotelListS = hdao.selectHotel();
+	            request.setAttribute("hotelListS", hotelListS);
 
 				request.setAttribute("dto", dto);
 				request.getRequestDispatcher("/views/member/mypage.jsp").forward(request, response);
@@ -133,7 +133,7 @@ public class UserController extends HttpServlet {
 								+ userPhone + " | " + userPost + " | " + userRoadAddress + " | " + userRoadAddress2);
 				dao.update(new UserDTO(loginId, userName, userPw, userNickname, userEmail, userBirth, userPhone,
 						userPost, userRoadAddress, userRoadAddress2));
-				response.sendRedirect("/views/member/mypage.jsp");
+				response.sendRedirect("/mypage.home");
 
 			} else if (cmd.equals("/update.user")) {
 				String User_id = (String) request.getSession().getAttribute("loginId");

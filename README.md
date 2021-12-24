@@ -9,181 +9,86 @@
 - 틈틈히 최신의 main브랜치 소스 pull하기
 - push 전에는 main으로 push가 아닌 자신의 브랜치로 push 후, pull request요청
 
-## 아래의 내용들은 천천히 수정 예정입니다.
+# 프로젝트 제목 : Placeholder
 
-- Import a HTML file and watch it magically convert to Markdown
-- Drag and drop images (requires your Dropbox account be linked)
-- Import and save files from GitHub, Dropbox, Google Drive and One Drive
-- Drag and drop markdown and HTML files into Dillinger
-- Export documents as Markdown, HTML and PDF
+* 프로젝트 개요
+1. 요약 : Placeholder는 사용자에게 고급 호텔 정보 조회 및 예약 기능을 제공하는 웹서비스다.
+2. 핵심 서비스 : 위드 코로나, 2030 세대가 주도하는 트렌드를 고려해 간편하고(Comfortable), 사랑스러우면서(Adorable), 굉장한(Terrific) 호텔 예약 서비스를 제공한다.
+3. 사용자 특성
+ 2030대의 연령대로 PC, 모바일 환경에 익숙하다.
+실내 공간에서 모이는 것을 좋아하고 사람들과 어울리는 것을 좋아한다.
+4. 구현 방법 : Java / Javascript에 기반을 두고 MVC2의 형태로 웹서비스를 구현한다.
 
-Markdown is a lightweight markup language based on the formatting conventions
-that people naturally use in email.
-As [John Gruber] writes on the [Markdown site][df1]
 
-> The overriding design goal for Markdown's
-> formatting syntax is to make it as readable
-> as possible. The idea is that a
-> Markdown-formatted document should be
-> publishable as-is, as plain text, without
-> looking like it's been marked up with tags
-> or formatting instructions.
+# 주요 구현 기능 목록
 
-This text you see here is *actually- written in Markdown! To get a feel
-for Markdown's syntax, type some text into the left window and
-watch the results in the right.
+- 회원 가입 및 정보 수정 : 서비스 웹페이지에 방문한 사용자가 회원가입을 하고 정보를 수정할 수 있다.
+- 호텔 정보 제공 : 사용자에게 placeholder가 보유한 호텔 리스트를 보여주고 상세한 정보를 제공할 수 있다.
+- 검색 : 사용자가 검색창을 활용하여 이름 / 위치를 기준으로 호텔 리스트를 조회할 수 있다.
+- 예약 : 사용자가 각 호텔 상세 페이지에 접속해서 원하는 조건에 맞추어 호텔 객실을 예약할 수 있다.
+- 빠른 예약 : 모든 페이지에 존재하는 사이드바를 활용해서 원하는 호텔 객실을 빠르게 예약할 수 있다.
+- 찜 기능 : 사용자가 마음에 드는 호텔을 찜하고 목록을 따로 조회할 수 있다.
+- 커뮤니티 게시판 : 사용자가 자유 주제(호텔 후기 포함)로 게시글을 작성, 수정, 삭제할 수 있다.
+- 고객센터 게시판 : 고객센터에 글을 작성하여 관리자에게 호텔 등에 관해 질문할 수 있으며 글을 수정하고 삭제할 수 있다.
+- 관리자 페이지 : 사용자 / 등록된 호텔 / 게시글의 기본 정보를 조회하고 필요한 경우 사이트에서 삭제할 수 있다.
 
-## Tech
+## 설계의 주안점 ( 프로젝트를 제작하며 가장 신경 쓴 부분 )
 
-Dillinger uses a number of open source projects to work properly:
+1. 핵심 기능을 정확하게 구현한다
+- 핵심 기능인 호텔 정보제공 / 예약 / 회원가입 및 관리 기능이 정의서에 맞게 정확하게 동작하도록 구현한다.
 
-- [AngularJS] - HTML enhanced for web apps!
-- [Ace Editor] - awesome web-based text editor
-- [markdown-it] - Markdown parser done right. Fast and easy to extend.
-- [Twitter Bootstrap] - great UI boilerplate for modern web apps
-- [node.js] - evented I/O for the backend
-- [Express] - fast node.js network app framework [@tjholowaychuk]
-- [Gulp] - the streaming build system
-- [Breakdance](https://breakdance.github.io/breakdance/) - HTML
-to Markdown converter
-- [jQuery] - duh
+2. 서비스가 안정적으로 동작할 수 있게 구현한다
+- 웹서비스를 제공할 때 해당 기능에서 에러가 발생하지 않도록 안정적으로 설계한다.
+- 사용자가 서비스를 이용하면서 발생시킬 수 있는 논리적 예외 사항들을 고려하여 서버를 설계한다.
 
-And of course Dillinger itself is open source with a [public repository][dill]
- on GitHub.
+3. UI를 간편하고 직관적으로 구현한다
+- 처음 접속하는 사용자도 바로 웹서비스에 적응할 수 있도록 직관적인 UI를 구현한다.
+- 각각의 기능이 한 페이지 내에서 완벽히 실행하도록 하여 사용자가 서비스를 편리하게 이용하도록 한다.
 
-## Installation
+## 사용기술 및 개발환경
 
-Dillinger requires [Node.js](https://nodejs.org/) v10+ to run.
+HTML / CSS / JAVASCRIPT / JQUERY / BOOTSTRAP
+JAVA jdk 11 / ojdbc8
 
-Install the dependencies and devDependencies and start the server.
+## 개발환경
+eclipse / Visual Studio Code / Oracle 11g / AWS, Apache Tomcat 8.5
+ 
+## 협업툴
+Notion / ERDCloud
+<hr>
 
-```sh
-cd dillinger
-npm i
-node app
-```
+##  팀원별 이름 및 역할
 
-For production environments...
+○ 김동현(92) : 회원 / 디자인
+- 회원 담당 : 회원 가입 / 정보 수정 기능 (Javascript/정규표현식) 
+- 메인 페이지 : 호텔 정보 제공 / 추천상품 제공 (HTML/CSS/BOOTSTRAP)
+- UI 디자인 : 담당 페이지 디자인 (HTML/CSS/BOOTSTRAP)
+- 기획안 발표
 
-```sh
-npm install --production
-NODE_ENV=production node app
-```
+○ 박소현 : 게시판 / 와이어프레임 / 발표
+- 게시판 담당 : 호텔 리스트 게시판, 커뮤니티 게시판, 관리자 게시판의 CRUD, 페이징 (Java/ojdbc/Javascript/HTML/CSS/BOOTSTRAP)
+- UI 디자인 : 담당 페이지 디자인 (HTML/CSS/BOOTSTRAP)
+- 검색 기능 : 이름 / 위치 기준 호텔 검색 기능 (Java)
+- 와이어프레임 설계
+- 프로젝트 발표 및 웹서비스 시연
 
-## Plugins
+○ 유병주 : Database / ERD 설계
+- ERD 설계 : 프로젝트 전 데이터베이스 설계(ERDcloud)
+- DB 생성 및 관리 : ERD에 맞는 테이블 설계 및 데이터베이스 관리(sql developer/ojdbc/Java)
+- 게시판 : 고객센터 게시판 CRUD(Java)
 
-Dillinger is currently extended with the following plugins.
-Instructions on how to use them in your own application are linked below.
+○ 천현우 : 예약 / API / 기록 및 팀 운영
+- 예약 : 호텔 객실 예약, 결제, 수정, 취소 기능 (Java/ojdbc/Javascript)
+- 마이페이지 : 개인정보, 예약, 게시글 등 정보 조회 및 수정 (Java/ojdbc/Javascript/HTML/CSS/BOOTSTRAP)
+- API  : 데이터 크롤링 및 장소 정보 제공(Kakao Local API, Map API)
+- 기록관리 : 회의록 및 업무 기록 (Notion)
+- 팀 운영
 
-| Plugin | README |
-| ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
-| GitHub | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
-
-## Development
-
-Want to contribute? Great!
-
-Dillinger uses Gulp + Webpack for fast developing.
-Make a change in your file and instantaneously see your updates!
-
-Open your favorite Terminal and run these commands.
-
-First Tab:
-
-```sh
-node app
-```
-
-Second Tab:
-
-```sh
-gulp watch
-```
-
-(optional) Third:
-
-```sh
-karma test
-```
-
-#### Building for source
-
-For production release:
-
-```sh
-gulp build --prod
-```
-
-Generating pre-built zip archives for distribution:
-
-```sh
-gulp build dist --prod
-```
-
-## Docker
-
-Dillinger is very easy to install and deploy in a Docker container.
-
-By default, the Docker will expose port 8080, so change this within the
-Dockerfile if necessary. When ready, simply use the Dockerfile to
-build the image.
-
-```sh
-cd dillinger
-docker build -t <youruser>/dillinger:${package.json.version} .
-```
-
-This will create the dillinger image and pull in the necessary dependencies.
-Be sure to swap out `${package.json.version}` with the actual
-version of Dillinger.
-
-Once done, run the Docker image and map the port to whatever you wish on
-your host. In this example, we simply map port 8000 of the host to
-port 8080 of the Docker (or whatever port was exposed in the Dockerfile):
-
-```sh
-docker run -d -p 8000:8080 --restart=always --cap-add=SYS_ADMIN --name=dillinger <youruser>/dillinger:${package.json.version}
-```
-
-> Note: `--capt-add=SYS-ADMIN` is required for PDF rendering.
-
-Verify the deployment by navigating to your server address in
-your preferred browser.
-
-```sh
-127.0.0.1:8000
-```
-
-## License
-
-MIT
-
-**Free Software, Hell Yeah!**
-
-[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
-
-   [dill]: <https://github.com/joemccann/dillinger>
-   [git-repo-url]: <https://github.com/joemccann/dillinger.git>
-   [john gruber]: <http://daringfireball.net>
-   [df1]: <http://daringfireball.net/projects/markdown/>
-   [markdown-it]: <https://github.com/markdown-it/markdown-it>
-   [Ace Editor]: <http://ace.ajax.org>
-   [node.js]: <http://nodejs.org>
-   [Twitter Bootstrap]: <http://twitter.github.com/bootstrap/>
-   [jQuery]: <http://jquery.com>
-   [@tjholowaychuk]: <http://twitter.com/tjholowaychuk>
-   [express]: <http://expressjs.com>
-   [AngularJS]: <http://angularjs.org>
-   [Gulp]: <http://gulpjs.com>
-
-   [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
-   [PlGh]: <https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md>
-   [PlGd]: <https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md>
-   [PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
-   [PlMe]: <https://github.com/joemccann/dillinger/tree/master/plugins/medium/README.md>
-   [PlGa]: <https://github.com/RahulHP/dillinger/blob/master/plugins/googleanalytics/README.md>
+○ 홍진규 : Frontend / API / AWS
+- 예약 : 호텔 객실 예약, 결제, 수정, 취소 기능 (Javascript)
+- 검색 : 이름 / 위치 기준 호텔 검색 기능 (Javascript)
+- 상품 리스트 및 상세 페이지 : 호텔 리스트 / 상세 정보 제공 페이지 (Javascript/HTML/CSS/BOOTSTRAP)
+- 찜목록 : 회원이 찜한 호텔 조회 및 수정 (Javascript/Java/ojdbc)
+- UI 디자인 : 담당 페이지 디자인 (HTML/CSS/BOOTSTRAP)
+- AWS : Amazon Web Service 객체 생성 및 운영 (AWS)
+- API : 호텔 장소 정보 제공 (Kakao Map API)
